@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEO Ratings - Digest2 小行星轨道分类评估工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+        
+        .header .nav {
+            background: none;
+            padding: 0;
+            border-bottom: none;
+        }
+        
+        .header .nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header .nav ul li {
+            display: inline;
+        }
+        
+        .header .nav ul li a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .header .nav ul li a:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .header .nav ul li a.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        
+        .section p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group textarea {
+            width: 100%;
+            height: 180px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            resize: vertical;
+            background-color: #fafafa;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: normal;
+        }
+        
+        .radio-group input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4CAF50;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #45a049;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        .results-section {
+            overflow-x: auto;
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+        }
+        
+        .results-table th,
+        .results-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .results-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+            white-space: nowrap;
+        }
+        
+        .results-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .results-table tr.neo-highlight {
+            background-color: #FFD700;
+        }
+        
+        .results-table tr.neo-highlight:hover {
+            background-color: #FFC107;
+        }
+        
+        .status-bar {
+            background-color: #f8f9fa;
+            border-top: 1px solid #ddd;
+            padding: 10px 15px;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .file-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+        }
+        
+        .file-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .file-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .file-label {
+            font-size: 14px;
+            color: #333;
+            white-space: nowrap;
+        }
+        
+        .file-path-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: white;
+        }
+        
+        .browse-btn {
+            padding: 8px 20px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .browse-btn:hover {
+            background-color: #5a6268;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .nav ul {
+                gap: 15px;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+            
+            .file-input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .file-label {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Digest2小行星轨道分类评估工具</h1>
+        <div class="nav">
+            <ul>
+                <li><a href="/" class="active">类型评估</a></li>
+                <li><a href="/about">关于</a></li>
+                <li><a href="/types">类型说明</a></li>
+                <li><a href="/download">下载</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="section">
+            <h2>观测数据</h2>
+            
+            <p style="font-size: 15px; color: #666; margin-bottom: 15px;">选择文件或输入MPC 80列、ADES格式的数据，点击"开始分析"，程序将自动分析并评估轨道类型。</p>
+            
+            <h3 style="margin-bottom: 12px; font-size: 14px; font-weight: 600; color: #333;">文件选择</h3>
+            <div class="file-section">
+                <div class="file-input-group">
+                    <label for="file-input" class="file-label">观测文件：</label>
+                    <input type="text" id="file-path" class="file-path-input" readonly placeholder="选择观测文件...">
+                    <label for="file-input" class="browse-btn">浏览...</label>
+                    <input type="file" id="file-input" class="file-input" accept=".obs,.txt,.dat,.xml,.psv,.docx,.doc">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="observations" style="font-size: 14px;">输入 MPC 80列、ADES 格式的观测数据</label>
+                <textarea id="observations" placeholder="请在此粘贴或输入 MPC 80列、ADES 格式的观测数据..."></textarea>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" id="analyze-btn">开始分析</button>
+                <button class="btn btn-secondary" id="reset-btn">清空观测数据</button>
+            </div>
+        </div>
+        
+        <div class="section results-section" id="results-section">
+            <h2>分析结果</h2>
+            <table class="results-table" id="results-table">
+                <thead>
+                    <tr>
+                        <th>Desig.</th>
+                        <th>RMS</th>
+                        <th>Int</th>
+                        <th>NEO</th>
+                        <th>N22</th>
+                        <th>N18</th>
+                        <th>Other Possibilities</th>
+                    </tr>
+                </thead>
+                <tbody id="results-body">
+                    <tr>
+                        <td colspan="7" style="text-align: center; color: #999;">等待分析...</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="status" style="margin-top: 15px; color: #666; font-size: 14px;">
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const analyzeBtn = document.getElementById('analyze-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const observations = document.getElementById('observations');
+            const status = document.getElementById('status');
+            const resultsSection = document.getElementById('results-section');
+            const resultsBody = document.getElementById('results-body');
+            const fileInput = document.getElementById('file-input');
+            const filePath = document.getElementById('file-path');
+            
+            fileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    filePath.value = file.name;
+                    
+                    const ext = file.name.split('.').pop().toLowerCase();
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    
+                    const url = (ext === 'docx' || ext === 'doc') ? '/upload-docx' : '/upload-file';
+                    
+                    fetch(url, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            observations.value = result.content;
+                            status.innerHTML = `已加载文件: ${file.name}`;
+                        } else {
+                            status.innerHTML = `<span style="color: #dc3545;">错误: ${result.error}</span>`;
+                        }
+                    })
+                    .catch(error => {
+                        status.innerHTML = `<span style="color: #dc3545;">文件上传失败: ${error.message}</span>`;
+                    });
+                }
+            });
+            
+            analyzeBtn.addEventListener('click', function() {
+                const data = observations.value.trim();
+                
+                if (!data) {
+                    status.innerHTML = '<span style="color: #dc3545;">请输入观测数据</span>';
+                    return;
+                }
+                
+                analyzeBtn.disabled = true;
+                status.innerHTML = '<span class="loading"></span>处理中...';
+                
+                fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `observations=${encodeURIComponent(data)}&orbit_class=all`
+                })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        displayResults(result.results);
+                        status.innerHTML = `分析完成，共 ${result.results.length} 个天体，${result.total_observations} 条数据`;
+                    } else {
+                        status.innerHTML = `<span style="color: #dc3545;">错误: ${result.error}</span>`;
+                    }
+                    analyzeBtn.disabled = false;
+                })
+                .catch(error => {
+                    status.innerHTML = `<span style="color: #dc3545;">请求失败: ${error.message}</span>`;
+                    analyzeBtn.disabled = false;
+                });
+            });
+            
+            resetBtn.addEventListener('click', function() {
+                observations.value = '';
+                filePath.value = '';
+                fileInput.value = '';
+                resultsBody.innerHTML = '';
+                status.innerHTML = '就绪';
+            });
+            
+            function displayResults(results) {
+                resultsBody.innerHTML = '';
+                
+                if (results.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="7" style="text-align: center; color: #666;">没有找到有效的观测数据</td>';
+                    resultsBody.appendChild(row);
+                    resultsSection.style.display = 'block';
+                    return;
+                }
+                
+                results.forEach(function(result) {
+                    const row = document.createElement('tr');
+                    
+                    if (parseFloat(result.NEO) > 65) {
+                        row.classList.add('neo-highlight');
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${result.designation}</td>
+                        <td>${result.RMS}</td>
+                        <td>${result.Int}</td>
+                        <td>${result.NEO}</td>
+                        <td>${result.N22}</td>
+                        <td>${result.N18}</td>
+                        <td>${result.Other_Possibilities}</td>
+                    `;
+                    resultsBody.appendChild(row);
+                });
+                
+                resultsSection.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
