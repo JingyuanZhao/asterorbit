@@ -50,23 +50,24 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
-            padding: 8px;
-            border-radius: 4px;
+            padding: 10px;
+            border-radius: 6px;
             transition: background-color 0.3s;
             margin-left: 15px;
             flex-shrink: 0;
+            background-color: rgba(255, 255, 255, 0.15);
         }
         
         .menu-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.25);
         }
         
         .menu-toggle span {
-            width: 25px;
-            height: 3px;
+            width: 28px;
+            height: 4px;
             background-color: white;
             margin: 3px 0;
-            border-radius: 2px;
+            border-radius: 3px;
             transition: all 0.3s;
         }
         
@@ -352,13 +353,13 @@
             display: none;
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .header-content {
                 flex-wrap: nowrap;
             }
             
             .header h1 {
-                font-size: 15px;
+                font-size: 16px;
                 flex: 1;
                 min-width: 0;
                 margin-right: 10px;
@@ -396,8 +397,8 @@
             
             .header .nav ul li a {
                 display: block;
-                padding: 12px 15px;
-                font-size: 16px;
+                padding: 14px 15px;
+                font-size: 17px;
                 text-align: left;
                 border-radius: 6px;
             }
@@ -407,6 +408,18 @@
                 background-color: rgba(76, 175, 80, 0.9);
                 transform: none;
             }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 14px;
+            }
+            
+            .header .nav ul li a {
+                padding: 12px 15px;
+                font-size: 16px;
+            }
+        }
             
             .radio-group {
                 flex-direction: column;
