@@ -1,4 +1,4 @@
-run = "python3 app.py"
+run = "pip install flask==3.0.3 gunicorn==22.0.0 python-docx==1.1.2 lxml==5.2.2 && pip install digest2==2.8.0 && python3 app.py"
 entrypoint = "app.py"
 
 [env]
@@ -13,24 +13,13 @@ installsWith = "pip3"
 channel="stable-23_11"
 
 [[nix.systemDependencies]]
-name="python3"
+name="gcc"
 
-[[package]]
-name="flask"
-version="3.0.3"
+[[nix.systemDependencies]]
+name="python3-dev"
 
-[[package]]
-name="gunicorn"
-version="22.0.0"
+[[nix.systemDependencies]]
+name="libxml2-dev"
 
-[[package]]
-name="digest2"
-version="2.8.0"
-
-[[package]]
-name="python-docx"
-version="1.1.2"
-
-[[package]]
-name="lxml"
-version="5.2.2"
+[[nix.systemDependencies]]
+name="libxslt-dev"
