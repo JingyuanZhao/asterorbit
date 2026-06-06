@@ -1,1 +1,36 @@
 run = "python3 app.py"
+entrypoint = "app.py"
+
+[env]
+FLASK_ENV="development"
+
+[packager]
+language="python3"
+ignoredPaths = ["__pycache__", "*.pyc", "*.pyo", ".git", "venv"]
+installsWith = "pip3"
+
+[nix]
+channel="stable-23_11"
+
+[[nix.systemDependencies]]
+name="python3"
+
+[[package]]
+name="flask"
+version="3.0.3"
+
+[[package]]
+name="gunicorn"
+version="22.0.0"
+
+[[package]]
+name="digest2"
+version="2.8.0"
+
+[[package]]
+name="python-docx"
+version="1.1.2"
+
+[[package]]
+name="lxml"
+version="5.2.2"
