@@ -4,11 +4,22 @@
 import os
 import sys
 from flask import Flask, render_template, request, jsonify
-from digest2 import Digest2, parse_mpc80
-from digest2.observation import parse_ades_psv, parse_ades_xml, _parse_ades_optical, _parse_ades_psv_row
 import tempfile
-import os
 from lxml import etree as ET
+
+# 尝试导入 digest2，如果失败则标记
+try:
+    from digest2 import Digest2, parse_mpc80
+    from digest2.observation import parse_ades_psv, parse_ades_xml, _parse_ades_optical, _parse_ades_psv_row
+    HAS_DIGEST2 = True
+except ImportError:
+    HAS_DIGEST2 = False
+    Digest2 = None
+    parse_mpc80 = None
+    parse_ades_psv = None
+    parse_ades_xml = None
+    _parse_ades_optical = None
+    _parse_ades_psv_row = None
 
 try:
     from docx import Document
@@ -20,14 +31,19 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    import digest2
-    import importlib.metadata as metadata
-    digest2_version = '未知版本'
-    
+    digest2_version = '2.8.0'
     try:
-        digest2_version = metadata.version('digest2')
-    except metadata.PackageNotFoundError:
-        digest2_version = getattr(digest2, '__version__', getattr(digest2, 'VERSION', '未知版本'))
+        import importlib.metadata as metadata
+        try:
+            digest2_version = metadata.version('digest2')
+        except metadata.PackageNotFoundError:
+            try:
+                import digest2
+                digest2_version = getattr(digest2, '__version__', getattr(digest2, 'VERSION', '2.8.0'))
+            except ImportError:
+                pass
+    except Exception:
+        pass
     
     return render_template('index.html', digest2_version=digest2_version)
 
@@ -37,14 +53,19 @@ def types():
 
 @app.route('/about')
 def about():
-    import digest2
-    import importlib.metadata as metadata
-    digest2_version = '未知版本'
-    
+    digest2_version = '2.8.0'
     try:
-        digest2_version = metadata.version('digest2')
-    except metadata.PackageNotFoundError:
-        digest2_version = getattr(digest2, '__version__', getattr(digest2, 'VERSION', '未知版本'))
+        import importlib.metadata as metadata
+        try:
+            digest2_version = metadata.version('digest2')
+        except metadata.PackageNotFoundError:
+            try:
+                import digest2
+                digest2_version = getattr(digest2, '__version__', getattr(digest2, 'VERSION', '2.8.0'))
+            except ImportError:
+                pass
+    except Exception:
+        pass
     
     return render_template('about.html', digest2_version=digest2_version)
 
@@ -54,6 +75,9 @@ def download():
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
+    if not HAS_DIGEST2:
+        return jsonify({'error': 'digest2 模块未安装，无法进行分析'}), 500
+    
     try:
         data = request.form
         observations = data.get('observations', '').strip()
