@@ -454,7 +454,7 @@ class Digest2GUI:
         
         # 添加声明信息
         disclaimer_label = ttk.Label(content_frame, text="本软件由个人基于小行星中心（MPC）官方公开的Digest2源代码开发，非MPC官方项目。", 
-                               font=('微软雅黑', 10), foreground='#e65100', style='Transparent.TLabel', 
+                               font=('微软雅黑', 11), foreground='#333', style='Transparent.TLabel', 
                                wraplength=1150)
         disclaimer_label.pack(anchor=tk.W, pady=(0, 15))
         
