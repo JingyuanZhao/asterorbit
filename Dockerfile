@@ -8,6 +8,13 @@ ENV PORT=7860
 ENV FLASK_ENV=production
 ENV PYTHONUNBUFFERED=1
 
+# 安装编译工具和依赖
+RUN apt-get update && apt-get install -y \
+    gcc \
+    make \
+    libc-dev \
+    && rm -rf /var/lib/apt/lists/*
+
 # 复制依赖文件
 COPY requirements.txt .
 
