@@ -80,18 +80,24 @@
             font-weight: 500;
             padding: 8px 15px;
             border-radius: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s;
         }
         
         .header .nav ul li a:hover {
-            background-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.35);
             color: white;
+            border-color: rgba(76, 175, 80, 0.5);
         }
         
         .header .nav ul li a.active {
-            background-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.35);
             color: white;
+            border-color: rgba(76, 175, 80, 0.5);
         }
         
         .container {
@@ -180,7 +186,11 @@
                 font-size: 15px;
                 text-align: center;
                 border-radius: 8px;
+                background: rgba(255, 255, 255, 0.15);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
                 border: 1px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             }
             
             .results-table {
