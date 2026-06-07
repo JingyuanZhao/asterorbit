@@ -436,7 +436,8 @@
             
             <div class="form-group">
                 <label for="observations" style="font-size: 14px;">输入 MPC 80列、ADES 格式的观测数据</label>
-                <textarea id="observations" placeholder="请在此粘贴或输入 MPC 80列、ADES 格式的观测数据..." autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="text" contenteditable="true"></textarea>
+                <textarea id="observations" placeholder="请在此粘贴或输入 MPC 80列、ADES 格式的观测数据..."></textarea>
+                <button class="btn btn-secondary" id="paste-btn" style="margin-top: 10px;">📋 粘贴数据</button>
             </div>
             
             <div class="button-group">
@@ -479,12 +480,23 @@
         document.addEventListener('DOMContentLoaded', function() {
             const analyzeBtn = document.getElementById('analyze-btn');
             const resetBtn = document.getElementById('reset-btn');
+            const pasteBtn = document.getElementById('paste-btn');
             const observations = document.getElementById('observations');
             const status = document.getElementById('status');
             const resultsSection = document.getElementById('results-section');
             const resultsBody = document.getElementById('results-body');
             const fileInput = document.getElementById('file-input');
             const filePath = document.getElementById('file-path');
+            
+            pasteBtn.addEventListener('click', async function() {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    observations.value = text;
+                    status.innerHTML = '已从剪贴板粘贴数据';
+                } catch (err) {
+                    status.innerHTML = '<span style="color: #dc3545;">粘贴失败，请手动粘贴</span>';
+                }
+            });
             
             fileInput.addEventListener('change', function(e) {
                 const file = e.target.files[0];
