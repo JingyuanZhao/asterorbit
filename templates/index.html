@@ -480,22 +480,6 @@
             const resetBtn = document.getElementById('reset-btn');
             const observations = document.getElementById('observations');
             const status = document.getElementById('status');
-            
-            observations.addEventListener('focus', function() {
-                if (this.value === '') {
-                    this.value = '\u200B';
-                }
-            });
-            observations.addEventListener('input', function() {
-                if (this.value.startsWith('\u200B')) {
-                    this.value = this.value.slice(1);
-                }
-            });
-            observations.addEventListener('blur', function() {
-                if (this.value === '\u200B') {
-                    this.value = '';
-                }
-            });
             const resultsSection = document.getElementById('results-section');
             const resultsBody = document.getElementById('results-body');
             const fileInput = document.getElementById('file-input');
