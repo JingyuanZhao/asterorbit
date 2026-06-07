@@ -152,8 +152,8 @@
             font-family: 'Courier New', Courier, monospace;
             font-size: 13px;
             resize: vertical;
-            -webkit-user-modify: read-write;
-            touch-action: manipulation;
+            background-color: #fafafa;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
         
         .form-group textarea:focus {
@@ -436,7 +436,7 @@
             
             <div class="form-group">
                 <label for="observations" style="font-size: 14px;">输入 MPC 80列、ADES 格式的观测数据</label>
-                <textarea id="observations" placeholder="请在此粘贴或输入 MPC 80列、ADES 格式的观测数据..." autocomplete="off"></textarea>
+                <textarea id="observations" placeholder="请在此粘贴或输入 MPC 80列、ADES 格式的观测数据..."></textarea>
             </div>
             
             <div class="button-group">
