@@ -1,0 +1,10 @@
+{
+  "title": "Digest2 小行星轨道分类评估工具",
+  "emoji": "☄️",
+  "sdk": "docker",
+  "app_file": "app.py",
+  "dockerfile": "Dockerfile",
+  "license": "mit",
+  "tags": ["astronomy", "asteroid", "classification", "web-app"],
+  "模型": "Digest2"
+}
