@@ -1,0 +1,30 @@
+# Build outputs
+build/
+dist/
+*.exe
+*.pkg
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Spec files (PyInstaller)
+*.spec
