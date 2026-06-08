@@ -494,7 +494,7 @@ class Digest2GUI:
         ref_text_widget.insert(tk.END, "[1] KEYS S, VEREŠ P, PAYNE M J, et al. The digest2 NEO Classification Code[J]. Publications of the Astronomical Society of the Pacific, 2019, 131(1000): 1-18.\n")
         ref_text_widget.insert(tk.END, "[2] VEREŠ P, CLOETE R, WERYK R, et al. Improvement of Digest2 NEO Classification Code—utilizing the Astrometry Data Exchange Standard[J]. Publications of the Astronomical Society of the Pacific, 2023, 135(1052).\n")
         ref_text_widget.insert(tk.END, "[3] VEREŠ P, CLOETE R, PAYNE M J, et al. Improving the discovery of near-Earth objects with machine-learning methods[J]. Astronomy & Astrophysics, 2025, 698: A242.\n")
-        ref_text_widget.insert(tk.END, "[4] M. P. C. Staff. EDITORIAL NOTICE: digest2 population model update: M.P.E.C. 2026-E23[EB/OL]. Cambridge, MA: Minor Planet Center, 2026-03-05. ")
+        ref_text_widget.insert(tk.END, "[4] M. P. C. Staff. EDITORIAL NOTICE: New digest2 repository and package: M.P.E.C. 2026-E23[EB/OL]. Cambridge, MA: Minor Planet Center, 2026-03-05. ")
         ref_text_widget.insert(tk.END, "https://www.minorplanetcenter.net/mpec/K26/K26E23.html", 'link')
         ref_text_widget.insert(tk.END, "\n")
         ref_text_widget.insert(tk.END, "[5] M. P. C. Staff. EDITORIAL NOTICE: digest2 population model update: M.P.E.C. 2026-K125[EB/OL]. Cambridge, MA: Minor Planet Center, 2026-05-29. ")
