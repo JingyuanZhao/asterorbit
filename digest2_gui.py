@@ -136,13 +136,13 @@ class Digest2GUI:
         style = ttk.Style()
         style.configure('TNotebook.Tab', width=10, anchor='center')
         
-        # 分析结果表格样式（表头微软雅黑，内容宋体）
+        # 分析结果表格样式（表头微软雅黑加粗，内容宋体）
         style.configure('ResultTreeview.Treeview',
                        font=('宋体', 10))
         style.configure('ResultTreeview.Treeview.Heading', 
                        background='#f5f5f5', 
                        foreground='#333333',
-                       font=('微软雅黑', 10))
+                       font=('微软雅黑', 10, 'bold'))
         style.map('ResultTreeview.Treeview',
                   foreground=[('selected', '#333333')],
                   background=[('selected', '#e8f0fe'), ('active', '#f0f0f0')])
@@ -1643,14 +1643,20 @@ class Digest2GUI:
 
     def show_tree_context_menu(self, event):
         """显示树形视图的右键菜单"""
-        # 获取选中的项目
-        selected_items = self.tree.selection()
-        if not selected_items:
-            return
+        # 获取鼠标所在的行
+        row_id = self.tree.identify_row(event.y)
+        if row_id:
+            # 如果没有选中行，先选中鼠标所在的行
+            selected_items = self.tree.selection()
+            if not selected_items or row_id not in selected_items:
+                self.tree.selection_set(row_id)
         
         # 创建右键菜单
         context_menu = tk.Menu(self.root, tearoff=0)
-        context_menu.add_command(label="复制选中行", command=self.copy_selected_item)
+        # 只有当有选中行时才显示"复制选中行"
+        if self.tree.selection():
+            context_menu.add_command(label="复制选中行", command=self.copy_selected_item)
+        # 总是显示"复制全部数据"
         context_menu.add_command(label="复制全部数据", command=self.copy_all_data)
         
         # 在鼠标位置显示菜单
