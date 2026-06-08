@@ -341,6 +341,9 @@ class Digest2GUI:
                              borderwidth=0, highlightthickness=0)
         text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         
+        # Set tab stops for column alignment
+        text_widget.config(tabs=('1c', '8c'))
+        
         # Configure tag styles
         text_widget.tag_config('header', font=('Segoe UI', 10, 'bold'), background='#f5f5f5')
         text_widget.tag_config('abbrev', font=('Segoe UI', 10, 'bold'))
@@ -370,16 +373,16 @@ class Digest2GUI:
         ]
         
         # Add header
-        text_widget.insert(tk.END, '  Abbr\t\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, 'Full Name\t\t', ('header', 'row_bg1'))
+        text_widget.insert(tk.END, '  Abbr\t', ('header', 'row_bg1'))
+        text_widget.insert(tk.END, 'Full Name\t', ('header', 'row_bg1'))
         text_widget.insert(tk.END, 'Digest2 Definition\n', ('header', 'row_bg1'))
         
         # Add data rows
         for i, (abbrev, fullname, definition) in enumerate(orbit_types):
             bg_tag = 'row_bg1' if i % 2 == 0 else 'row_bg2'
             
-            text_widget.insert(tk.END, f'  {abbrev}\t\t', ('abbrev', bg_tag))
-            text_widget.insert(tk.END, f'{fullname}\t\t', ('fullname', bg_tag))
+            text_widget.insert(tk.END, f'  {abbrev}\t', ('abbrev', bg_tag))
+            text_widget.insert(tk.END, f'{fullname}\t', ('fullname', bg_tag))
             
             # Insert definition and mark italic parts
             self.insert_definition_with_italic(text_widget, definition, bg_tag)

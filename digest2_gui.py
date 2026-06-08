@@ -348,6 +348,9 @@ class Digest2GUI:
                              borderwidth=0, highlightthickness=0)
         text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         
+        # 设置制表符宽度，确保列对齐
+        text_widget.config(tabs=('1c', '8c', '18c'))
+        
         # 配置标签样式
         text_widget.tag_config('header', font=('微软雅黑', 10, 'bold'), background='#f5f5f5')
         text_widget.tag_config('abbrev', font=('微软雅黑', 10, 'bold'))
@@ -378,18 +381,18 @@ class Digest2GUI:
         ]
         
         # 添加表头
-        text_widget.insert(tk.END, '  缩写\t\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, '英文全称\t\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, '中文含义\t\t', ('header', 'row_bg1'))
+        text_widget.insert(tk.END, '  缩写\t', ('header', 'row_bg1'))
+        text_widget.insert(tk.END, '英文全称\t', ('header', 'row_bg1'))
+        text_widget.insert(tk.END, '中文含义\t', ('header', 'row_bg1'))
         text_widget.insert(tk.END, 'Digest2定义\n', ('header', 'row_bg1'))
         
         # 添加数据行
         for i, (abbrev, fullname, chinese, definition) in enumerate(orbit_types):
             bg_tag = 'row_bg1' if i % 2 == 0 else 'row_bg2'
             
-            text_widget.insert(tk.END, f'  {abbrev}\t\t', ('abbrev', bg_tag))
-            text_widget.insert(tk.END, f'{fullname}\t\t', ('fullname', bg_tag))
-            text_widget.insert(tk.END, f'{chinese}\t\t', ('chinese', bg_tag))
+            text_widget.insert(tk.END, f'  {abbrev}\t', ('abbrev', bg_tag))
+            text_widget.insert(tk.END, f'{fullname}\t', ('fullname', bg_tag))
+            text_widget.insert(tk.END, f'{chinese}\t', ('chinese', bg_tag))
             
             # 插入定义并标记需要斜体的部分
             self.insert_definition_with_italic(text_widget, definition, bg_tag)
