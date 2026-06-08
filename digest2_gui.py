@@ -266,12 +266,11 @@ class Digest2GUI:
             columns=columns,
             show='headings',
             height=10,
-            style='ResultTreeview.Treeview'
+            style='ResultTreeview.Treeview',
+            selectmode='extended'
         )
         # 为树形视图添加右键菜单（支持复制）
         self.tree.bind('<Button-3>', self.show_tree_context_menu)
-        # 绑定左键点击事件，实现点击切换选中
-        self.tree.bind('<Button-1>', self.on_tree_click)
 
         # 配置标签样式：NEO高亮（黄色背景）和加粗
         self.tree.tag_configure('neo_highlight', background='#FFD700')
@@ -1668,17 +1667,20 @@ class Digest2GUI:
         if not selected_items:
             return
         
-        # 获取选中行的数据
-        item = selected_items[0]
-        values = self.tree.item(item, 'values')
+        # 获取所有选中行的数据
+        rows = []
+        for item in selected_items:
+            values = self.tree.item(item, 'values')
+            rows.append('\t'.join(str(v) for v in values))
         
         # 格式化数据（制表符分隔，便于粘贴到表格）
-        text = '\t'.join(str(v) for v in values)
+        text = '\n'.join(rows)
         
         # 复制到剪贴板
         self.root.clipboard_clear()
         self.root.clipboard_append(text)
-        self.status_var.set("已复制选中行")
+        count = len(selected_items)
+        self.status_var.set(f"已复制{count}行")
 
     def copy_all_data(self):
         """复制所有结果数据到剪贴板"""
