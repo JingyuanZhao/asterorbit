@@ -136,13 +136,13 @@ class Digest2GUI:
         style = ttk.Style()
         style.configure('TNotebook.Tab', width=10, anchor='center')
         
-        # 分析结果表格样式（表头黑体，内容宋体）
+        # 分析结果表格样式（表头微软雅黑，内容宋体）
         style.configure('ResultTreeview.Treeview',
                        font=('宋体', 10))
         style.configure('ResultTreeview.Treeview.Heading', 
                        background='#f5f5f5', 
                        foreground='#333333',
-                       font=('黑体', 10))
+                       font=('微软雅黑', 10))
         style.map('ResultTreeview.Treeview',
                   foreground=[('selected', '#ffffff')],
                   background=[('selected', '#1a237e'), ('active', '#f0f0f0')])
