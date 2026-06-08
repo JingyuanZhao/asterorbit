@@ -72,6 +72,36 @@ def about():
 def download():
     return render_template('download.html')
 
+@app.route('/en/')
+def en_index():
+    return render_template('en/index.html')
+
+@app.route('/en/types')
+def en_types():
+    return render_template('en/types.html')
+
+@app.route('/en/about')
+def en_about():
+    digest2_version = '2.8.0'
+    try:
+        import importlib.metadata as metadata
+        try:
+            digest2_version = metadata.version('digest2')
+        except metadata.PackageNotFoundError:
+            try:
+                import digest2
+                digest2_version = getattr(digest2, '__version__', getattr(digest2, 'VERSION', '2.8.0'))
+            except ImportError:
+                pass
+    except Exception:
+        pass
+    
+    return render_template('en/about.html', digest2_version=digest2_version)
+
+@app.route('/en/download')
+def en_download():
+    return render_template('en/download.html')
+
 @app.route('/analyze', methods=['POST'])
 def analyze():
     if not HAS_DIGEST2:

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于 - Asterorbit 小行星轨道分类评估工具</title>
+    <title>Download - Asterorbit Asteroid Orbit Classification Tool</title>
     <link rel="icon" type="image/svg+xml" href="/static/digest2_icon.svg">
     <style>
         * {
@@ -120,44 +120,41 @@
             font-size: 14px;
         }
         
-        .section strong {
-            color: #333;
-            font-weight: 600;
-        }
-        
-        .reference-section {
-            background-color: #f5f5f5;
-            padding: 15px;
-            border: 1px solid #ddd;
-            font-size: 13px;
-            line-height: 1.6;
-            color: #444;
-            margin-top: 20px;
+        .download-btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
             border-radius: 4px;
-        }
-        
-        .reference-section h3 {
-            font-size: 14px;
             font-weight: 600;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 20px 0;
+        }
+        
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .screenshot {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin-top: 20px;
+        }
+        
+        .download-info {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .download-info p {
+            margin: 5px 0;
             color: #333;
-            margin: 0 0 12px 0;
-        }
-        
-        .reference-section p {
-            margin: 0 0 10px 0;
-        }
-        
-        .reference-section p:last-child {
-            margin-bottom: 0;
-        }
-        
-        .reference-section a {
-            color: #1a73e8;
-            text-decoration: underline;
-        }
-        
-        .reference-section a:hover {
-            color: #0d47a1;
         }
         
         .menu-toggle {
@@ -269,11 +266,6 @@
                 border-radius: 8px;
                 border: 1px solid rgba(255, 255, 255, 0.3);
             }
-            
-            .reference-section a {
-                word-break: break-all;
-                overflow-wrap: break-word;
-            }
 
             .footer-content {
                 flex-direction: column;
@@ -289,7 +281,7 @@
 </head>
 <body>
     <div class="header">
-        <h1><a href="/" style="color: inherit; text-decoration: none;">Asterorbit小行星轨道分类评估工具</a></h1>
+        <h1><a href="/en/" style="color: inherit; text-decoration: none;">Asterorbit Asteroid Orbit Classification Tool</a></h1>
         <div class="menu-toggle" id="menu-toggle" onclick="toggleMenu()">
             <span></span>
             <span></span>
@@ -297,55 +289,51 @@
         </div>
         <div class="nav" id="nav-menu">
             <ul>
-                <li><a href="/">类型评估</a></li>
-                <li><a href="/types">类型说明</a></li>
-                <li><a href="/download">下　载</a></li>
-                <li><a href="/about" class="active">关　于</a></li>
-                <li><a href="/en/about" class="lang-switch">EN</a></li>
+                <li><a href="/en/">Classification</a></li>
+                <li><a href="/en/types">Orbit Types</a></li>
+                <li><a href="/en/download" class="active">Download</a></li>
+                <li><a href="/en/about">About</a></li>
+                <li><a href="/download" class="lang-switch">中文</a></li>
             </ul>
         </div>
     </div>
     
     <div class="container">
         <div class="section">
-            <h2>关于</h2>
+            <h2>Download Desktop Edition</h2>
             <p>
-                本网站由星空下的守望者基于小行星中心（MPC）官方开源的Digest2源代码构建，非MPC官方项目。Digest2源代码作者：Sonia Keys、Carl Hergenrother、Robert McNaught、David Asher，源代码中的ADES支持由 Richard Cloete 和 Peter Vereš添加。
-            </p>
-            <p>
-                支持的数据格式：MPC 80列、ADES XML、ADES PSV
-            </p>
-            <p>
-                支持的文件格式：obs、txt、dat、docx、doc、xml、psv
-            </p>
-            <p>
-                Digest2 版本：{{ digest2_version }}
+                Download the Windows desktop application of Asterorbit to analyze and evaluate asteroid orbit types offline.
             </p>
             
-            <div class="reference-section">
-                <h3>参考资料</h3>
-                <p>[1] KEYS S, VEREŠ P, PAYNE M J, et al. The digest2 NEO Classification Code[J]. Publications of the Astronomical Society of the Pacific, 2019, 131(1000): 1-18.</p>
-                <p>[2] VEREŠ P, CLOETE R, WERYK R, et al. Improvement of Digest2 NEO Classification Code—utilizing the Astrometry Data Exchange Standard[J]. Publications of the Astronomical Society of the Pacific, 2023, 135(1052).</p>
-                <p>[3] VEREŠ P, CLOETE R, PAYNE M J, et al. Improving the discovery of near-Earth objects with machine-learning methods[J]. Astronomy & Astrophysics, 2025, 698: A242.</p>
-                <p>[4] M. P. C. Staff. EDITORIAL NOTICE: New digest2 repository and package: M.P.E.C. 2026-E23[EB/OL]. Cambridge, MA: Minor Planet Center, 2026-03-05. <a href="https://www.minorplanetcenter.net/mpec/K26/K26E23.html" target="_blank">https://www.minorplanetcenter.net/mpec/K26/K26E23.html</a>.</p>
-                <p>[5] M. P. C. Staff. EDITORIAL NOTICE: digest2 population model update: M.P.E.C. 2026-K125[EB/OL]. Cambridge, MA: Minor Planet Center, 2026-05-29. <a href="https://www.minorplanetcenter.net/mpec/K26/K26KC5.html" target="_blank">https://www.minorplanetcenter.net/mpec/K26/K26KC5.html</a>.</p>
-                <p>[6] GitHub. Digest2 source code[EB/OL]. <a href="https://github.com/Smithsonian/mpc-public/tree/main/digest2" target="_blank">https://github.com/Smithsonian/mpc-public/tree/main/digest2</a>.</p>
-                <p>[7] MPC Public Documentation Hub. Digest2 tutorials[EB/OL]. <a href="https://docs.minorplanetcenter.net/tutorials/iod_tutorials/?h=digest2" target="_blank">https://docs.minorplanetcenter.net/tutorials/iod_tutorials/?h=digest2</a>.</p>
+            <a href="https://pan.vma.cc/pan/d/43b17054f00c8fe569c9a4743437b4f6?ext=exe" class="download-btn" download>
+                Download Desktop Edition (Windows)
+            </a>
+            
+            <div class="download-info">
+                <p><strong>File Information:</strong></p>
+                <p>&bull; Filename: Asterorbit</p>
+                <p>&bull; Size: 28.3 MB</p>
+                <p>&bull; System Requirements: Windows 7/8/10/11 (64-bit)</p>
             </div>
+            
+            <h3 style="margin-top: 30px; margin-bottom: 15px; font-size: 16px; color: #333;">Software Preview</h3>
+            <img src="https://pan.vma.cc/pan/v/95960e73faad262099791b7715c7efd8?ext=png" alt="Software Interface Preview" class="screenshot">
+            
+
         </div>
     </div>
     
     <footer class="footer">
         <div class="footer-content">
             <nav class="footer-nav">
-                <a href="/">类型评估</a>
-                <a href="/types">类型说明</a>
-                <a href="/download">下载</a>
-                <a href="/about" class="active">关于</a>
-                <a href="/en/about" style="color: #FF9800;">EN</a>
+                <a href="/en/">Classification</a>
+                <a href="/en/types">Orbit Types</a>
+                <a href="/en/download" class="active">Download</a>
+                <a href="/en/about">About</a>
+                <a href="/download" style="color: #FF9800;">中文</a>
             </nav>
             <div class="footer-copyright">
-                © 2026 Asterorbit小行星轨道分类评估工具
+                &copy; 2026 Asterorbit Asteroid Orbit Classification Tool
             </div>
         </div>
     </footer>
