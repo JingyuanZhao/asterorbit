@@ -102,7 +102,7 @@ except ImportError:
 class Digest2GUI:
     def __init__(self, root):
         self.root = root
-        self.root.title("Digest2 小行星轨道分类评估工具")
+        self.root.title("Astreorbit 小行星轨道分类评估工具")
         self.root.minsize(800, 600)
         self.set_window_icon()
         
@@ -173,7 +173,7 @@ class Digest2GUI:
         # 标题
         title_label = ttk.Label(
             eval_frame, 
-            text="Digest2 小行星轨道分类评估工具", 
+            text="Astreorbit 小行星轨道分类评估工具", 
             style='Header.TLabel',
             font=('微软雅黑', 16, 'bold')
         )
