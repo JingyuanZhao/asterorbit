@@ -270,8 +270,9 @@ class Digest2GUI:
         # 绑定左键点击事件，实现点击切换选中
         self.tree.bind('<Button-1>', self.on_tree_click)
 
-        # 配置标签样式：NEO高亮（黄色背景）
+        # 配置标签样式：NEO高亮（黄色背景）和加粗
         self.tree.tag_configure('neo_highlight', background='#FFD700')
+        self.tree.tag_configure('neo_bold', font=('宋体', 10, 'bold'))
         
         # 设置列标题
         self.tree.heading('designation', text='天体名称')
@@ -1540,10 +1541,10 @@ class Digest2GUI:
             else:
                 desig = r.designation
 
-            # 判断是否需要高亮（NEO评分大于65）
+            # 判断是否需要高亮（NEO评分大于等于65）
             tags = ()
-            if scores.NEO > 65:
-                tags = ('neo_highlight',)
+            if scores.NEO >= 65:
+                tags = ('neo_highlight', 'neo_bold')
 
             self.tree.insert('', tk.END, values=(
                 desig,
