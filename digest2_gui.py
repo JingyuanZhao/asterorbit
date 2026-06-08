@@ -56,7 +56,7 @@ def show_error_with_link(title, message, link_text=None, link_url=None):
     if link_text and link_url:
         link_label = ttk.Label(frame, text=link_text, foreground='#1a73e8', cursor='hand2')
         link_label.pack(pady=(0, 15))
-        link_label.bind('< Button-1> ', lambda e: webbrowser.open(link_url))
+        link_label.bind('<Button-1> ', lambda e: webbrowser.open(link_url))
     
     # 确定按钮
     ok_btn = ttk.Button(frame, text="确定", command=lambda: (root.destroy(), sys.exit(1)))
@@ -225,7 +225,7 @@ class Digest2GUI:
         )
         self.input_text.grid(row=1, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         # 为观测数据输入框添加右键菜单
-        self.input_text.bind('< Button-3> ', self.show_text_context_menu)
+        self.input_text.bind('<Button-3> ', self.show_text_context_menu)
         
         # 按钮区域
         btn_frame = ttk.Frame(eval_frame)
@@ -272,9 +272,9 @@ class Digest2GUI:
             selectmode='extended'
         )
         # 为树形视图添加右键菜单（支持复制）
-        self.tree.bind('< Button-3> ', self.show_tree_context_menu)
+        self.tree.bind('<Button-3> ', self.show_tree_context_menu)
         # 绑定左键点击事件，实现点击切换选中
-        self.tree.bind('< Button-1> ', self.on_tree_click)
+        self.tree.bind('<Button-1> ', self.on_tree_click)
 
         # 配置标签样式：NEO高亮（黄色背景）和加粗
         self.tree.tag_configure('neo_highlight', background='#FFD700')
@@ -363,21 +363,21 @@ class Digest2GUI:
         
         # 轨道类型说明（使用 Digest2 官方定义及标准天文学参数）
         orbit_types = [
-            ('Int', 'MPC Interesting', 'MPC关注天体', '满足以下任一条件：q < 1.3 AU，Q > 10 AU，e ≥ 0.5，i ≥ 40°'),
-            ('NEO', 'Near-Earth Object', '近地天体', 'q < 1.3 AU'),
-            ('N22', 'Intermediate-size Near-Earth Object', '中等大小近地天体', 'D > 140 m。q < 1.3 AU，H < 22.5'),
-            ('N18', 'Large Near-Earth Object', '大型近地天体', 'D > 1.2 km。q < 1.3 AU，H < 18.5'),
+            ('Int', 'MPC Interesting', 'MPC关注天体', '满足以下任一条件：q <1.3 AU，Q > 10 AU，e ≥ 0.5，i ≥ 40°'),
+            ('NEO', 'Near-Earth Object', '近地天体', 'q <1.3 AU'),
+            ('N22', 'Intermediate-size Near-Earth Object', '中等大小近地天体', 'D > 140 m。q <1.3 AU，H < 22.5'),
+            ('N18', 'Large Near-Earth Object', '大型近地天体', 'D > 1.2 km。q <1.3 AU，H < 18.5'),
             ('MC', 'Mars Crosser', '越火小天体', '穿越火星轨道。1.3 AU < q < 1.67 AU，Q > 1.58 AU'),
-            ('Hun', 'Hungaria Group', '匈牙利群', '以434号小行星匈牙利星为代表的小行星群。1.78 AU < a < 2 AU，e < 0.18，16° < i < 34°'),
-            ('Pho', 'Phocaea Group', '福后星群', '以25号小行星福后星为代表的小行星群。q > 1.5 AU，2.2 AU < a < 2.45 AU，20° < i < 27°'),
-            ('MB1', 'Inner Main Belt', '内主带', 'q > 1.67 AU，2.1 AU < a < 2.5 AU，i < ((a-2.1)/0.4)*10+7'),
+            ('Hun', 'Hungaria Group', '匈牙利群', '以434号小行星匈牙利星为代表的小行星群。1.78 AU <a < 2 AU，e < 0.18，16° < i < 34°'),
+            ('Pho', 'Phocaea Group', '福后星群', '以25号小行星福后星为代表的小行星群。q > 1.5 AU，2.2 AU <a < 2.45 AU，20° < i < 27°'),
+            ('MB1', 'Inner Main Belt', '内主带', 'q > 1.67 AU，2.1 AU <a < 2.5 AU，i < ((a-2.1)/0.4)*10+7'),
             ('Pal', 'Pallas Group', '智神星群', '以2号小行星智神星为代表的小行星群。2.5 AU < a < 2.8 AU，e < 0.35，24° < i < 37°'),
             ('Han', 'Hansa Group', '汉萨群', '以480号小行星汉萨星为代表的小行星群。2.55 AU < a < 2.72 AU，e < 0.25，20° < i < 23.5°'),
             ('MB2', 'Middle Main Belt', '中主带', '2.5 AU < a < 2.8 AU，e < 0.45，i < 20°'),
             ('MB3', 'Outer Main Belt', '外主带', '2.8 AU < a < 3.25 AU，e < 0.4，i < ((a-2.8)/0.45)*16+20'),
             ('Hil', 'Hilda Group', '希尔达群', '以153号小行星希尔达星为代表的小行星群。3.9 AU < a < 4.02 AU，e < 0.4，i < 18°'),
             ('JTr', 'Jupiter Trojan', '木星特洛伊群', '位于木星 L4、L5 拉格朗日点的小行星群，5.05 AU < a < 5.35 AU，e < 0.22，i < 38°'),
-            ('JFC', 'Jupiter Family Comet', '木星族彗星', 'q > 1.3 AU，2 < TJ < 3'),
+            ('JFC', 'Jupiter Family Comet', '木星族彗星', 'q > 1.3 AU，2 <TJ < 3'),
         ]
         
         # 添加表头
@@ -476,7 +476,7 @@ class Digest2GUI:
         def open_web_link(event):
             webbrowser.open("https://asterorbit-digest2.hf.space/")
         
-        web_link_label.bind("< Button-1> ", open_web_link)
+        web_link_label.bind("<Button-1> ", open_web_link)
         
         # 添加版本信息
         import digest2
@@ -541,8 +541,8 @@ class Digest2GUI:
             else:
                 ref_text_widget.config(cursor='')
         
-        ref_text_widget.tag_bind('link', '< Button-1> ', open_link)
-        ref_text_widget.bind('< Motion> ', on_mouse_move)
+        ref_text_widget.tag_bind('link', '<Button-1> ', open_link)
+        ref_text_widget.bind('<Motion> ', on_mouse_move)
         ref_text_widget.config(state=tk.DISABLED)
         
         # 配置样式
@@ -639,7 +639,7 @@ class Digest2GUI:
                 content = f.read()
 
         # 检测是否为 ADES XML 格式
-        if content.strip().startswith('< ?xml') or content.strip().startswith('< ades> '):
+        if content.strip().startswith('<?xml') or content.strip().startswith('< ades> '):
             # 是 XML 格式，调用 XML 加载方法
             self._load_ades_xml_content(filename)
             return
@@ -663,7 +663,7 @@ class Digest2GUI:
                 break
             
             # 检查是否是数据行（包含多个 |）
-            if line.count('|') > = 2:
+            if line.count('|') >= 2:
                 has_data_with_pipes = True
                 # 额外检查：| 不是仅在第13列位置（MPC80 格式的项目代码位置）
                 if len(line) > 12 and line[12] == '|':
@@ -714,7 +714,7 @@ class Digest2GUI:
         # 只保留至少有两条观测的天体
         filtered = []
         for desig, obs_lines in tracklets.items():
-            if len(obs_lines) > = 2:
+            if len(obs_lines) >= 2:
                 filtered.extend(obs_lines)
 
         return filtered
@@ -722,14 +722,14 @@ class Digest2GUI:
     def _try_extract_designation(self, line):
         """尝试从行中提取天体名称，返回 None 如果不是 MPC80 格式"""
         # MPC80 格式：天体名称在前 12 列
-        if len(line) < 12:
+        if len(line) <12:
             return None
 
         # 提取前 12 列作为天体名称
         desig = line[:12].strip()
 
         # 检查是否看起来像 MPC80 格式
-        if len(line) > = 80:
+        if len(line) >= 80:
             # 标准 MPC80 格式：检查第14列或第15列是否有观测类型（C/S/B）
             note2 = line[14] if len(line) > 14 else ' '
             # 检查第14列或第15列是否包含观测类型
@@ -745,7 +745,7 @@ class Digest2GUI:
 
         # 尝试简化格式（空格分隔）
         parts = line.split()
-        if len(parts) > = 2:
+        if len(parts) >= 2:
             # 检查第二个字段是否包含年份（如 C2019, 4C2019）
             import re
             if re.search(r'C\d{4}', parts[1]):
@@ -765,7 +765,7 @@ class Digest2GUI:
         content = '\n'.join(text_lines)
 
         # 检测是否为 ADES XML 格式
-        if content.strip().startswith('< ?xml') or content.strip().startswith('< ades> '):
+        if content.strip().startswith('<?xml') or content.strip().startswith('< ades> '):
             # 是 XML 格式，保存到临时文件并调用 XML 加载方法
             import tempfile
             import os
@@ -909,7 +909,7 @@ class Digest2GUI:
             return None, None
 
         # 尝试标准 MPC80 格式
-        if len(line) > = 80:
+        if len(line) >= 80:
             # 修复 NEOCP 格式问题：某些行第14列是项目代码（如0、K、|等），第15列才是观测类型（C/S/B）
             # 根据 MPC 格式，第14列应该是 note2（观测类型），所以我们需要修复这种情况
             fixed_line = line
@@ -942,7 +942,7 @@ class Digest2GUI:
             line_clean_no_asterisk = line_clean.replace('*', ' ')
             
             # 从原始行末尾提取观测站代码（最后3个字符）
-            obscode = line_clean[-3:] if len(line_clean) > = 3 else '500'
+            obscode = line_clean[-3:] if len(line_clean) >= 3 else '500'
             
             # 修复可能缺少空格的情况
             import re
@@ -955,7 +955,7 @@ class Digest2GUI:
             # 分割字段
             parts = line_clean.split()
             # 接受至少10个字段（缺少星等和波段）或9个字段（缺少星等、波段和观测站）
-            if len(parts) < 9:
+            if len(parts) <9:
                 return None, None
             
             # 提取天体名称（第一个字段，可能包含发现标记）
@@ -997,14 +997,14 @@ class Digest2GUI:
             mag = None
             band = 'V'
             
-            if len(parts) > = 11:
+            if len(parts) >= 11:
                 # 检查第11个字段是否是星等（可能包含波段）
                 mag_field = parts[10]
                 # 先检查是否是纯数字星等（不包含字母）
-                if mag_field.replace('.', '', 1).isdigit() and mag_field.count('.') < = 1:
+                if mag_field.replace('.', '', 1).isdigit() and mag_field.count('.') <= 1:
                     # 纯数字星等
                     mag = float(mag_field)
-                    if len(parts) > = 12:
+                    if len(parts) >= 12:
                         # 检查第12个字段是否是波段（单字母或类似g1, i1的格式）
                         if len(parts[11]) == 1 and parts[11].isalpha():
                             band = parts[11].upper()
@@ -1121,7 +1121,7 @@ class Digest2GUI:
 
         try:
             # 检测输入格式
-            is_ades_xml = input_data.startswith('< ?xml') or input_data.startswith('< ades> ') or '< optical> ' in input_data[:1000]
+            is_ades_xml = input_data.startswith('<?xml') or input_data.startswith('< ades> ') or '<optical> ' in input_data[:1000]
             
             # 检测 ADES PSV 格式
             # PSV 格式的特征：
@@ -1143,7 +1143,7 @@ class Digest2GUI:
                     break
                 
                 # 检查是否是数据行（包含多个 |）
-                if stripped_line.count('|') > = 2:
+                if stripped_line.count('|') >= 2:
                     has_data_with_pipes = True
                     # 额外检查：| 不是仅在第13列位置（MPC80 格式的项目代码位置）
                     if len(stripped_line) > 12 and stripped_line[12] == '|':
@@ -1247,7 +1247,7 @@ class Digest2GUI:
                         self._desig_map[id(result)] = desig
                         results.append(result)
                     except Exception as e:
-                        if "need > =2 obs with motion and time span" in str(e):
+                        if "need >=2 obs with motion and time span" in str(e):
                             skipped_tracklets.append(desig)
                         else:
                             raise
@@ -1317,7 +1317,7 @@ class Digest2GUI:
                           'precTime', 'precRA', 'precDec', 'notes', 'remarks']
                 row_dict = {}
                 for i, part in enumerate(parts):
-                    if i < len(headers):
+                    if i <len(headers):
                         row_dict[headers[i]] = part
 
                 # 解析观测数据
@@ -1357,7 +1357,7 @@ class Digest2GUI:
                     self._desig_map[id(result)] = desig
                     results.append(result)
                 except Exception as e:
-                    if "need > =2 obs with motion and time span" in str(e):
+                    if "need >=2 obs with motion and time span" in str(e):
                         skipped_tracklets.append(desig)
                     else:
                         raise
@@ -1422,7 +1422,7 @@ class Digest2GUI:
                     self._desig_map[id(result)] = desig
                     results.append(result)
                 except Exception as e:
-                    if "need > =2 obs with motion and time span" in str(e):
+                    if "need >=2 obs with motion and time span" in str(e):
                         skipped_tracklets.append(desig)
                     else:
                         raise  # 重新抛出其他异常
@@ -1507,7 +1507,7 @@ class Digest2GUI:
 
             # 判断是否需要高亮（NEO评分大于等于65）
             tags = ()
-            if scores.NEO > = 65:
+            if scores.NEO >= 65:
                 tags = ('neo_highlight', 'neo_bold')
 
             self.tree.insert('', tk.END, values=(

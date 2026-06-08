@@ -56,7 +56,7 @@ def show_error_with_link(title, message, link_text=None, link_url=None):
     if link_text and link_url:
         link_label = ttk.Label(frame, text=link_text, foreground='#1a73e8', cursor='hand2')
         link_label.pack(pady=(0, 15))
-        link_label.bind('< Button-1> ', lambda e: webbrowser.open(link_url))
+        link_label.bind('<Button-1> ', lambda e: webbrowser.open(link_url))
     
     # OK button
     ok_btn = ttk.Button(frame, text="OK", command=lambda: (root.destroy(), sys.exit(1)))
@@ -218,7 +218,7 @@ class Digest2GUI:
         )
         self.input_text.grid(row=1, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         # Add right-click menu for input text
-        self.input_text.bind('< Button-3> ', self.show_text_context_menu)
+        self.input_text.bind('<Button-3> ', self.show_text_context_menu)
         
         # Button area
         btn_frame = ttk.Frame(eval_frame)
@@ -265,9 +265,9 @@ class Digest2GUI:
             selectmode='extended'
         )
         # Add right-click menu for treeview (supports copying)
-        self.tree.bind('< Button-3> ', self.show_tree_context_menu)
+        self.tree.bind('<Button-3> ', self.show_tree_context_menu)
         # Bind left-click event to toggle selection
-        self.tree.bind('< Button-1> ', self.on_tree_click)
+        self.tree.bind('<Button-1> ', self.on_tree_click)
 
         # Configure tag styles: NEO highlight (yellow background) and bold
         self.tree.tag_configure('neo_highlight', background='#FFD700')
@@ -355,21 +355,21 @@ class Digest2GUI:
         
         # Orbit type descriptions (using Digest2 official definitions and standard astronomical parameters)
         orbit_types = [
-            ('Int', 'MPC Interesting', 'Meets any of: q < 1.3 AU, Q > 10 AU, e > = 0.5, i > = 40°'),
-            ('NEO', 'Near-Earth Object', 'q < 1.3 AU'),
-            ('N22', 'Intermediate-size Near-Earth Object', 'D > 140 m. q < 1.3 AU, H < 22.5'),
-            ('N18', 'Large Near-Earth Object', 'D > 1.2 km. q < 1.3 AU, H < 18.5'),
+            ('Int', 'MPC Interesting', 'Meets any of: q <1.3 AU, Q > 10 AU, e >= 0.5, i >= 40°'),
+            ('NEO', 'Near-Earth Object', 'q <1.3 AU'),
+            ('N22', 'Intermediate-size Near-Earth Object', 'D > 140 m. q <1.3 AU, H < 22.5'),
+            ('N18', 'Large Near-Earth Object', 'D > 1.2 km. q <1.3 AU, H < 18.5'),
             ('MC', 'Mars Crosser', 'Crosses Mars orbit. 1.3 AU < q < 1.67 AU, Q > 1.58 AU'),
-            ('Hun', 'Hungaria Group', 'Group represented by 434 Hungaria. 1.78 AU < a < 2 AU, e < 0.18, 16° < i < 34°'),
-            ('Pho', 'Phocaea Group', 'Group represented by 25 Phocaea. q > 1.5 AU, 2.2 AU < a < 2.45 AU, 20° < i < 27°'),
-            ('MB1', 'Inner Main Belt', 'q > 1.67 AU, 2.1 AU < a < 2.5 AU, i < ((a-2.1)/0.4)*10+7'),
+            ('Hun', 'Hungaria Group', 'Group represented by 434 Hungaria. 1.78 AU <a < 2 AU, e < 0.18, 16° < i < 34°'),
+            ('Pho', 'Phocaea Group', 'Group represented by 25 Phocaea. q > 1.5 AU, 2.2 AU <a < 2.45 AU, 20° < i < 27°'),
+            ('MB1', 'Inner Main Belt', 'q > 1.67 AU, 2.1 AU <a < 2.5 AU, i < ((a-2.1)/0.4)*10+7'),
             ('Pal', 'Pallas Group', 'Group represented by 2 Pallas. 2.5 AU < a < 2.8 AU, e < 0.35, 24° < i < 37°'),
             ('Han', 'Hansa Group', 'Group represented by 480 Hansa. 2.55 AU < a < 2.72 AU, e < 0.25, 20° < i < 23.5°'),
             ('MB2', 'Middle Main Belt', '2.5 AU < a < 2.8 AU, e < 0.45, i < 20°'),
             ('MB3', 'Outer Main Belt', '2.8 AU < a < 3.25 AU, e < 0.4, i < ((a-2.8)/0.45)*16+20'),
             ('Hil', 'Hilda Group', 'Group represented by 153 Hilda. 3.9 AU < a < 4.02 AU, e < 0.4, i < 18°'),
             ('JTr', 'Jupiter Trojan', 'Asteroids in Jupiter\'s L4/L5 Lagrange points. 5.05 AU < a < 5.35 AU, e < 0.22, i < 38°'),
-            ('JFC', 'Jupiter Family Comet', 'q > 1.3 AU, 2 < TJ < 3'),
+            ('JFC', 'Jupiter Family Comet', 'q > 1.3 AU, 2 <TJ < 3'),
         ]
         
         # Add header
@@ -466,7 +466,7 @@ class Digest2GUI:
         def open_web_link(event):
             webbrowser.open("https://asterorbit-digest2.hf.space/en/")
         
-        web_link_label.bind("< Button-1> ", open_web_link)
+        web_link_label.bind("<Button-1> ", open_web_link)
         
         # Add version info
         import digest2
@@ -531,8 +531,8 @@ class Digest2GUI:
             else:
                 ref_text_widget.config(cursor='')
         
-        ref_text_widget.tag_bind('link', '< Button-1> ', open_link)
-        ref_text_widget.bind('< Motion> ', on_mouse_move)
+        ref_text_widget.tag_bind('link', '<Button-1> ', open_link)
+        ref_text_widget.bind('<Motion> ', on_mouse_move)
         ref_text_widget.config(state=tk.DISABLED)
         
         # Configure styles
@@ -629,7 +629,7 @@ class Digest2GUI:
                 content = f.read()
 
         # Check if ADES XML format
-        if content.strip().startswith('< ?xml') or content.strip().startswith('< ades'):
+        if content.strip().startswith('<?xml') or content.strip().startswith('< ades'):
             # XML format, call XML loading method
             self._load_ades_xml_content(filename)
             return
@@ -653,7 +653,7 @@ class Digest2GUI:
                 break
             
             # Check if data line (contains multiple |)
-            if line.count('|') > = 2:
+            if line.count('|') >= 2:
                 has_data_with_pipes = True
                 # Extra check: | not only at column 13 (MPC80 format program code position)
                 if len(line) > 12 and line[12] == '|':
@@ -704,7 +704,7 @@ class Digest2GUI:
         # Keep only objects with at least 2 observations
         filtered = []
         for desig, obs_lines in tracklets.items():
-            if len(obs_lines) > = 2:
+            if len(obs_lines) >= 2:
                 filtered.extend(obs_lines)
 
         return filtered
@@ -712,14 +712,14 @@ class Digest2GUI:
     def _try_extract_designation(self, line):
         """Try to extract designation from line, return None if not MPC80 format"""
         # MPC80 format: designation in first 12 columns
-        if len(line) < 12:
+        if len(line) <12:
             return None
 
         # Extract first 12 columns as designation
         desig = line[:12].strip()
 
         # Check if looks like MPC80 format
-        if len(line) > = 80:
+        if len(line) >= 80:
             # Standard MPC80 format: check if column 14 or 15 has observation type (C/S/B)
             note2 = line[14] if len(line) > 14 else ' '
             # Check if column 14 or 15 contains observation type
@@ -735,7 +735,7 @@ class Digest2GUI:
 
         # Try simplified format (space-separated)
         parts = line.split()
-        if len(parts) > = 2:
+        if len(parts) >= 2:
             # Check if second part contains year (like C2019, 4C2019)
             import re
             if re.search(r'C\d{4}', parts[1]):
@@ -755,7 +755,7 @@ class Digest2GUI:
         content = '\n'.join(text_lines)
 
         # Check if ADES XML format
-        if content.strip().startswith('< ?xml') or content.strip().startswith('< ades'):
+        if content.strip().startswith('<?xml') or content.strip().startswith('< ades'):
             # XML format, save to temp file and call XML loading method
             import tempfile
             import os
@@ -899,7 +899,7 @@ class Digest2GUI:
             return None, None
 
         # Try standard MPC80 format
-        if len(line) > = 80:
+        if len(line) >= 80:
             # Fix NEOCP format issue: some lines have program code at column 14 (like 0, K, |, etc.), observation type at column 15 (C/S/B)
             # According to MPC format, column 14 should be note2 (observation type), so we need to fix this case
             fixed_line = line
@@ -932,7 +932,7 @@ class Digest2GUI:
             line_clean_no_asterisk = line_clean.replace('*', ' ')
             
             # Extract observatory code from original line end (last 3 characters)
-            obscode = line_clean[-3:] if len(line_clean) > = 3 else '500'
+            obscode = line_clean[-3:] if len(line_clean) >= 3 else '500'
             
             # Fix possible missing spaces
             import re
@@ -945,7 +945,7 @@ class Digest2GUI:
             # Split fields
             parts = line_clean.split()
             # Accept at least 10 fields (missing magnitude and band) or 9 fields (missing magnitude, band, and observatory)
-            if len(parts) < 9:
+            if len(parts) <9:
                 return None, None
             
             # Extract designation (first field, may contain discovery asterisk)
@@ -987,14 +987,14 @@ class Digest2GUI:
             mag = None
             band = 'V'
             
-            if len(parts) > = 11:
+            if len(parts) >= 11:
                 # Check if 11th field is magnitude (may contain band)
                 mag_field = parts[10]
                 # First check if pure numeric magnitude (no letters)
-                if mag_field.replace('.', '', 1).isdigit() and mag_field.count('.') < = 1:
+                if mag_field.replace('.', '', 1).isdigit() and mag_field.count('.') <= 1:
                     # Pure numeric magnitude
                     mag = float(mag_field)
-                    if len(parts) > = 12:
+                    if len(parts) >= 12:
                         # Check if 12th field is band (single letter or format like g1, i1)
                         if len(parts[11]) == 1 and parts[11].isalpha():
                             band = parts[11].upper()
@@ -1111,7 +1111,7 @@ class Digest2GUI:
 
         try:
             # Detect input format
-            is_ades_xml = input_data.startswith('< ?xml') or input_data.startswith('< ades') or '< optical' in input_data[:1000]
+            is_ades_xml = input_data.startswith('<?xml') or input_data.startswith('< ades') or '< optical' in input_data[:1000]
             
             # Detect ADES PSV format
             # PSV format characteristics:
@@ -1133,7 +1133,7 @@ class Digest2GUI:
                     break
                 
                 # Check if data line (contains multiple |)
-                if stripped_line.count('|') > = 2:
+                if stripped_line.count('|') >= 2:
                     has_data_with_pipes = True
                     # Extra check: | not only at column 13 (MPC80 format program code position)
                     if len(stripped_line) > 12 and stripped_line[12] == '|':
@@ -1237,7 +1237,7 @@ class Digest2GUI:
                         self._desig_map[id(result)] = desig
                         results.append(result)
                     except Exception as e:
-                        if "need > =2 obs with motion and time span" in str(e):
+                        if "need >=2 obs with motion and time span" in str(e):
                             skipped_tracklets.append(desig)
                         else:
                             raise
@@ -1307,7 +1307,7 @@ class Digest2GUI:
                           'precTime', 'precRA', 'precDec', 'notes', 'remarks']
                 row_dict = {}
                 for i, part in enumerate(parts):
-                    if i < len(headers):
+                    if i <len(headers):
                         row_dict[headers[i]] = part
 
                 # Parse observation data
@@ -1347,7 +1347,7 @@ class Digest2GUI:
                     self._desig_map[id(result)] = desig
                     results.append(result)
                 except Exception as e:
-                    if "need > =2 obs with motion and time span" in str(e):
+                    if "need >=2 obs with motion and time span" in str(e):
                         skipped_tracklets.append(desig)
                     else:
                         raise
@@ -1412,7 +1412,7 @@ class Digest2GUI:
                     self._desig_map[id(result)] = desig
                     results.append(result)
                 except Exception as e:
-                    if "need > =2 obs with motion and time span" in str(e):
+                    if "need >=2 obs with motion and time span" in str(e):
                         skipped_tracklets.append(desig)
                     else:
                         raise  # Re-raise other exceptions
@@ -1495,9 +1495,9 @@ class Digest2GUI:
             else:
                 desig = r.designation
 
-            # Determine if highlighting needed (NEO score > = 65)
+            # Determine if highlighting needed (NEO score >= 65)
             tags = ()
-            if scores.NEO > = 65:
+            if scores.NEO >= 65:
                 tags = ('neo_highlight', 'neo_bold')
 
             self.tree.insert('', tk.END, values=(
