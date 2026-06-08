@@ -271,6 +271,8 @@ class Digest2GUI:
         )
         # 为树形视图添加右键菜单（支持复制）
         self.tree.bind('<Button-3>', self.show_tree_context_menu)
+        # 绑定左键点击事件，实现点击切换选中
+        self.tree.bind('<Button-1>', self.on_tree_click)
 
         # 配置标签样式：NEO高亮（黄色背景）和加粗
         self.tree.tag_configure('neo_highlight', background='#FFD700')
@@ -332,10 +334,10 @@ class Digest2GUI:
         style.configure('Treeview.Heading', 
                        background='#f5f5f5', 
                        foreground='#333333',
-                       font=('微软雅黑', 11, 'bold'))
+                       font=('微软雅黑', 10, 'bold'))
         style.map('Treeview',
                   background=[('selected', '#e8f0fe'), ('active', '#f0f0f0')],
-                  foreground=[('selected', '#1a73e8')])
+                  foreground=[('selected', '#333333')])
         
         # 创建主框架
         main_frame = ttk.Frame(desc_frame)
@@ -355,7 +357,7 @@ class Digest2GUI:
         
         # 创建树形视图表格
         columns = ('abbr', 'fullname', 'chinese', 'definition')
-        tree = ttk.Treeview(table_frame, columns=columns, show='headings', style='Treeview')
+        tree = ttk.Treeview(table_frame, columns=columns, show='headings', style='Treeview', selectmode='extended')
         
         # 设置列标题
         tree.heading('abbr', text='缩写')
@@ -418,30 +420,13 @@ class Digest2GUI:
         about_frame = ttk.Frame(self.notebook, borderwidth=0)
         self.notebook.add(about_frame, text='关于')
         
-        # 创建滚动容器
-        canvas = tk.Canvas(about_frame, bg='#f5f5f5', borderwidth=0, highlightthickness=0)
-        scrollbar = ttk.Scrollbar(about_frame, orient="vertical", command=canvas.yview)
-        scrollable_frame = ttk.Frame(canvas, borderwidth=0)
-        
-        def update_scrollregion(event):
-            canvas.configure(scrollregion=canvas.bbox("all"))
-        
-        def resize_frame(event):
-            canvas.itemconfig("scrollable_frame", width=event.width)
-        
-        scrollable_frame.bind("<Configure>", update_scrollregion)
-        canvas.bind("<Configure>", resize_frame)
-        
-        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw", tags="scrollable_frame")
-        canvas.configure(yscrollcommand=scrollbar.set)
-        
-        canvas.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
-        
-        # 创建内容容器
-        content_frame = ttk.Frame(scrollable_frame, padding=(25, 20))
-        content_frame.pack(fill=tk.X, expand=True)
+        # 创建内容容器 - 简化布局
+        content_frame = ttk.Frame(about_frame, padding=(15, 15))
+        content_frame.pack(fill=tk.BOTH, expand=True)
         content_frame.configure(style='Transparent.TFrame')
+        
+        # 设置背景色
+        about_frame.configure(style='Transparent.TFrame')
         
         # 添加标题
         title_label = ttk.Label(content_frame, text="关于", font=('微软雅黑', 14, 'bold'), foreground='#333')
@@ -451,11 +436,14 @@ class Digest2GUI:
         title_line = ttk.Frame(content_frame, height=2, style='TitleLine.TFrame')
         title_line.pack(anchor=tk.W, fill=tk.X, pady=(0, 15))
         
-        # 添加声明信息（合并版权和声明）
-        about_label = ttk.Label(content_frame, text="本应用由星空下的守望者基于小行星中心（MPC）官方开源的Digest2源代码构建，非MPC官方项目。Digest2源代码作者：Sonia Keys、Carl Hergenrother、Robert McNaught、David Asher，源代码中的ADES支持由 Richard Cloete 和 Peter Vereš添加。", 
-                               font=('微软雅黑', 11), foreground='#333', style='Transparent.TLabel', 
-                               wraplength=1150)
-        about_label.pack(anchor=tk.W, pady=(0, 15))
+        # 添加声明信息（合并版权和声明）- 使用Text控件确保正确换行
+        about_text_widget = tk.Text(content_frame, wrap=tk.WORD, height=2, 
+                                  font=('微软雅黑', 11), bg='#f5f5f5', relief='flat',
+                                  foreground='#333', spacing1=3, spacing2=2, spacing3=3,
+                                  borderwidth=0, highlightthickness=0)
+        about_text_widget.pack(fill=tk.X, anchor=tk.W, pady=(0, 15))
+        about_text_widget.insert(tk.END, "本应用由星空下的守望者基于小行星中心（MPC）官方开源的Digest2源代码构建，非MPC官方项目。Digest2源代码作者：Sonia Keys、Carl Hergenrother、Robert McNaught、David Asher，源代码中的ADES支持由 Richard Cloete 和 Peter Vereš添加。")
+        about_text_widget.config(state=tk.DISABLED)
         
         # 添加支持的数据格式
         data_format_label = ttk.Label(content_frame, text="支持的数据格式：MPC 80列、ADES XML、ADES PSV", 
@@ -570,29 +558,67 @@ class Digest2GUI:
         """处理分析结果表格的点击事件，实现点击切换选中"""
         # 获取点击的行
         item = self.tree.identify_row(event.y)
-        if item:
-            # 检查该行是否已被选中
+        if not item:
+            return
+        
+        # 获取修饰键状态
+        ctrl_pressed = (event.state & 0x4) != 0  # Ctrl键
+        shift_pressed = (event.state & 0x1) != 0  # Shift键
+        
+        if ctrl_pressed:
+            # Ctrl+单击：切换单个选中状态
             if item in self.tree.selection():
-                # 已选中，则取消选中
                 self.tree.selection_remove(item)
             else:
-                # 未选中，则添加到选中
                 self.tree.selection_add(item)
-        return 'break'  # 阻止默认的选中行为
+            return 'break'  # 阻止默认的选中行为
+        elif shift_pressed:
+            # Shift+单击：让Treeview处理默认的范围选择
+            return
+        else:
+            # 普通单击
+            selected = self.tree.selection()
+            if item in selected:
+                # 如果点击的行已经被选中，则取消选中这一行
+                self.tree.selection_remove(item)
+                return 'break'
+            else:
+                # 如果点击的行未被选中，则只选中这一行，取消其他所有选中
+                self.tree.selection_set(item)
+                return 'break'
 
     def on_desc_tree_click(self, event):
         """处理类型说明表格的点击事件，实现点击切换选中"""
         # 获取点击的行
         item = self.desc_tree.identify_row(event.y)
-        if item:
-            # 检查该行是否已被选中
+        if not item:
+            return
+        
+        # 获取修饰键状态
+        ctrl_pressed = (event.state & 0x4) != 0  # Ctrl键
+        shift_pressed = (event.state & 0x1) != 0  # Shift键
+        
+        if ctrl_pressed:
+            # Ctrl+单击：切换单个选中状态
             if item in self.desc_tree.selection():
-                # 已选中，则取消选中
                 self.desc_tree.selection_remove(item)
             else:
-                # 未选中，则添加到选中
                 self.desc_tree.selection_add(item)
-        return 'break'  # 阻止默认的选中行为
+            return 'break'  # 阻止默认的选中行为
+        elif shift_pressed:
+            # Shift+单击：让Treeview处理默认的范围选择
+            return
+        else:
+            # 普通单击
+            selected = self.desc_tree.selection()
+            if item in selected:
+                # 如果点击的行已经被选中，则取消选中这一行
+                self.desc_tree.selection_remove(item)
+                return 'break'
+            else:
+                # 如果点击的行未被选中，则只选中这一行，取消其他所有选中
+                self.desc_tree.selection_set(item)
+                return 'break'
 
     def copy_desc_selected(self):
         """复制类型说明表格中选中的行"""

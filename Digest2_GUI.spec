@@ -1,18 +1,46 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-import os
-from PyInstaller.utils.hooks import collect_data_files
+from PyInstaller.utils.hooks import collect_data_files, collect_submodules
 
-# Include digest2 package data and the GUI icon file
-datas = collect_data_files('digest2', include_py_files=False)
-datas.append(('digest2_icon.ico', '.'))
+# 收集所有digest2的文件
+datas = [
+    ('digest2_icon.ico', '.'),
+]
+datas += collect_data_files('digest2', include_py_files=True)
+
+# 收集所有digest2的子模块
+hiddenimports = ['digest2'] + collect_submodules('digest2')
+
+# 添加docx相关
+hiddenimports += [
+    'docx',
+    'docx.api',
+    'docx.document',
+    'docx.table',
+    'docx.oxml',
+    'docx.oxml.table',
+    'docx.oxml.text',
+    'docx.image',
+    'docx.package',
+    'docx.opc',
+    'docx.dml',
+    'docx.drawing',
+    'docx.enum',
+    'docx.shape',
+    'docx.section',
+    'docx.settings',
+    'docx.types',
+    'docx.shared',
+    'docx.blkcntnr',
+    'docx.comments',
+]
 
 a = Analysis(
     ['digest2_gui.py'],
     pathex=[],
     binaries=[],
     datas=datas,
-    hiddenimports=[],
+    hiddenimports=hiddenimports,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -28,7 +56,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='Digest2_GUI',
+    name='Asterorbit_GUI',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
