@@ -447,6 +447,24 @@ class Digest2GUI:
                                       font=('Segoe UI', 10), foreground='#666', style='Transparent.TLabel')
         file_format_label.pack(anchor=tk.W, pady=(0, 10))
         
+        # Add web version link
+        web_label_container = ttk.Frame(content_frame, style='Transparent.TFrame')
+        web_label_container.pack(anchor=tk.W, pady=(0, 10))
+        
+        web_text_label = ttk.Label(web_label_container, text="Web version: ", 
+                                   font=('Segoe UI', 10), foreground='#666', style='Transparent.TLabel')
+        web_text_label.pack(side=tk.LEFT)
+        
+        web_link_label = tk.Label(web_label_container, text="https://asterorbit-digest2.hf.space/en/", 
+                                  font=('Segoe UI', 10, 'underline'), fg='#1a73e8', cursor='hand2', 
+                                  bg='#f5f5f5')
+        web_link_label.pack(side=tk.LEFT)
+        
+        def open_web_link(event):
+            webbrowser.open("https://asterorbit-digest2.hf.space/en/")
+        
+        web_link_label.bind("<Button-1>", open_web_link)
+        
         # Add version info
         import digest2
         import importlib.metadata as metadata
