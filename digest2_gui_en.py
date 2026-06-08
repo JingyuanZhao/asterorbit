@@ -355,21 +355,21 @@ class Digest2GUI:
         
         # Orbit type descriptions (using Digest2 official definitions and standard astronomical parameters)
         orbit_types = [
-            ('Int', 'MPC Interesting', 'Meets any of: q <1.3 AU, Q > 10 AU, e >= 0.5, i >= 40°'),
-            ('NEO', 'Near-Earth Object', 'q <1.3 AU'),
-            ('N22', 'Intermediate-size Near-Earth Object', 'D > 140 m. q <1.3 AU, H < 22.5'),
-            ('N18', 'Large Near-Earth Object', 'D > 1.2 km. q <1.3 AU, H < 18.5'),
+            ('Int', 'MPC Interesting', 'Meets any of: q < 1.3 AU, Q > 10 AU, e ≥ 0.5, i ≥ 40°'),
+            ('NEO', 'Near-Earth Object', 'q < 1.3 AU'),
+            ('N22', 'Intermediate-size Near-Earth Object', 'D > 140 m. q < 1.3 AU, H < 22.5'),
+            ('N18', 'Large Near-Earth Object', 'D > 1.2 km. q < 1.3 AU, H < 18.5'),
             ('MC', 'Mars Crosser', 'Crosses Mars orbit. 1.3 AU < q < 1.67 AU, Q > 1.58 AU'),
-            ('Hun', 'Hungaria Group', 'Group represented by 434 Hungaria. 1.78 AU <a < 2 AU, e < 0.18, 16° < i < 34°'),
-            ('Pho', 'Phocaea Group', 'Group represented by 25 Phocaea. q > 1.5 AU, 2.2 AU <a < 2.45 AU, 20° < i < 27°'),
-            ('MB1', 'Inner Main Belt', 'q > 1.67 AU, 2.1 AU <a < 2.5 AU, i < ((a-2.1)/0.4)*10+7'),
+            ('Hun', 'Hungaria Group', 'Group represented by 434 Hungaria. 1.78 AU < a < 2 AU, e < 0.18, 16° < i < 34°'),
+            ('Pho', 'Phocaea Group', 'Group represented by 25 Phocaea. q > 1.5 AU, 2.2 AU < a < 2.45 AU, 20° < i < 27°'),
+            ('MB1', 'Inner Main Belt', 'q > 1.67 AU, 2.1 AU < a < 2.5 AU, i < ((a-2.1)/0.4)*10+7'),
             ('Pal', 'Pallas Group', 'Group represented by 2 Pallas. 2.5 AU < a < 2.8 AU, e < 0.35, 24° < i < 37°'),
             ('Han', 'Hansa Group', 'Group represented by 480 Hansa. 2.55 AU < a < 2.72 AU, e < 0.25, 20° < i < 23.5°'),
             ('MB2', 'Middle Main Belt', '2.5 AU < a < 2.8 AU, e < 0.45, i < 20°'),
             ('MB3', 'Outer Main Belt', '2.8 AU < a < 3.25 AU, e < 0.4, i < ((a-2.8)/0.45)*16+20'),
             ('Hil', 'Hilda Group', 'Group represented by 153 Hilda. 3.9 AU < a < 4.02 AU, e < 0.4, i < 18°'),
             ('JTr', 'Jupiter Trojan', 'Asteroids in Jupiter\'s L4/L5 Lagrange points. 5.05 AU < a < 5.35 AU, e < 0.22, i < 38°'),
-            ('JFC', 'Jupiter Family Comet', 'q > 1.3 AU, 2 <TJ < 3'),
+            ('JFC', 'Jupiter Family Comet', 'q > 1.3 AU, 2 < TJ < 3'),
         ]
         
         # Add header

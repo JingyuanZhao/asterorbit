@@ -363,21 +363,21 @@ class Digest2GUI:
         
         # 轨道类型说明（使用 Digest2 官方定义及标准天文学参数）
         orbit_types = [
-            ('Int', 'MPC Interesting', 'MPC关注天体', '满足以下任一条件：q <1.3 AU，Q > 10 AU，e ≥ 0.5，i ≥ 40°'),
-            ('NEO', 'Near-Earth Object', '近地天体', 'q <1.3 AU'),
-            ('N22', 'Intermediate-size Near-Earth Object', '中等大小近地天体', 'D > 140 m。q <1.3 AU，H < 22.5'),
-            ('N18', 'Large Near-Earth Object', '大型近地天体', 'D > 1.2 km。q <1.3 AU，H < 18.5'),
+            ('Int', 'MPC Interesting', 'MPC关注天体', '满足以下任一条件：q < 1.3 AU，Q > 10 AU，e ≥ 0.5，i ≥ 40°'),
+            ('NEO', 'Near-Earth Object', '近地天体', 'q < 1.3 AU'),
+            ('N22', 'Intermediate-size Near-Earth Object', '中等大小近地天体', 'D > 140 m。q < 1.3 AU，H < 22.5'),
+            ('N18', 'Large Near-Earth Object', '大型近地天体', 'D > 1.2 km。q < 1.3 AU，H < 18.5'),
             ('MC', 'Mars Crosser', '越火小天体', '穿越火星轨道。1.3 AU < q < 1.67 AU，Q > 1.58 AU'),
-            ('Hun', 'Hungaria Group', '匈牙利群', '以434号小行星匈牙利星为代表的小行星群。1.78 AU <a < 2 AU，e < 0.18，16° < i < 34°'),
-            ('Pho', 'Phocaea Group', '福后星群', '以25号小行星福后星为代表的小行星群。q > 1.5 AU，2.2 AU <a < 2.45 AU，20° < i < 27°'),
-            ('MB1', 'Inner Main Belt', '内主带', 'q > 1.67 AU，2.1 AU <a < 2.5 AU，i < ((a-2.1)/0.4)*10+7'),
+            ('Hun', 'Hungaria Group', '匈牙利群', '以434号小行星匈牙利星为代表的小行星群。1.78 AU < a < 2 AU，e < 0.18，16° < i < 34°'),
+            ('Pho', 'Phocaea Group', '福后星群', '以25号小行星福后星为代表的小行星群。q > 1.5 AU，2.2 AU < a < 2.45 AU，20° < i < 27°'),
+            ('MB1', 'Inner Main Belt', '内主带', 'q > 1.67 AU，2.1 AU < a < 2.5 AU，i < ((a-2.1)/0.4)*10+7'),
             ('Pal', 'Pallas Group', '智神星群', '以2号小行星智神星为代表的小行星群。2.5 AU < a < 2.8 AU，e < 0.35，24° < i < 37°'),
             ('Han', 'Hansa Group', '汉萨群', '以480号小行星汉萨星为代表的小行星群。2.55 AU < a < 2.72 AU，e < 0.25，20° < i < 23.5°'),
             ('MB2', 'Middle Main Belt', '中主带', '2.5 AU < a < 2.8 AU，e < 0.45，i < 20°'),
             ('MB3', 'Outer Main Belt', '外主带', '2.8 AU < a < 3.25 AU，e < 0.4，i < ((a-2.8)/0.45)*16+20'),
             ('Hil', 'Hilda Group', '希尔达群', '以153号小行星希尔达星为代表的小行星群。3.9 AU < a < 4.02 AU，e < 0.4，i < 18°'),
             ('JTr', 'Jupiter Trojan', '木星特洛伊群', '位于木星 L4、L5 拉格朗日点的小行星群，5.05 AU < a < 5.35 AU，e < 0.22，i < 38°'),
-            ('JFC', 'Jupiter Family Comet', '木星族彗星', 'q > 1.3 AU，2 <TJ < 3'),
+            ('JFC', 'Jupiter Family Comet', '木星族彗星', 'q > 1.3 AU，2 < TJ < 3'),
         ]
         
         # 添加表头
