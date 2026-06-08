@@ -473,7 +473,25 @@ class Digest2GUI:
         # 添加支持的文件格式
         file_format_label = ttk.Label(content_frame, text="支持的文件格式：obs、txt、dat、docx、doc、xml、psv", 
                                       font=('微软雅黑', 10), foreground='#666', style='Transparent.TLabel')
-        file_format_label.pack(anchor=tk.W, pady=(0, 20))
+        file_format_label.pack(anchor=tk.W, pady=(0, 10))
+        
+        # 添加网页版链接
+        web_label_container = ttk.Frame(content_frame, style='Transparent.TFrame')
+        web_label_container.pack(anchor=tk.W, pady=(0, 20))
+        
+        web_text_label = ttk.Label(web_label_container, text="网页版：", 
+                                   font=('微软雅黑', 10), foreground='#666', style='Transparent.TLabel')
+        web_text_label.pack(side=tk.LEFT)
+        
+        web_link_label = tk.Label(web_label_container, text="https://asterorbit-digest2.hf.space/", 
+                                  font=('微软雅黑', 10), fg='#1a73e8', cursor='hand2', 
+                                  bg='#f5f5f5', underline=True)
+        web_link_label.pack(side=tk.LEFT)
+        
+        def open_web_link(event):
+            webbrowser.open("https://asterorbit-digest2.hf.space/")
+        
+        web_link_label.bind("<Button-1>", open_web_link)
         
         # 添加参考资料标题
         ref_title_label = ttk.Label(content_frame, text="参考资料", font=('微软雅黑', 11, 'bold'), foreground='#333')
