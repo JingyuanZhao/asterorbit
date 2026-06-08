@@ -484,7 +484,7 @@ class Digest2GUI:
         ref_container.pack(fill=tk.X, padx=10, pady=10)
         
         # 使用Text控件显示参考资料（支持超链接）
-        ref_text_widget = tk.Text(ref_container, wrap=tk.WORD, height=10, 
+        ref_text_widget = tk.Text(ref_container, wrap=tk.WORD, height=9, 
                                   font=('微软雅黑', 10), bg='#f5f5f5', relief='flat',
                                   foreground='#444', spacing1=5, spacing2=5, spacing3=10,
                                   borderwidth=0, highlightthickness=0)
