@@ -16,3 +16,7 @@ This project was developed by an individual based on the Digest2 source code off
 ## 项目网站
 
 🌐 https://asterorbit-digest2.hf.space/
+
+## Project Website
+
+🌐 https://asterorbit-digest2.hf.space/
