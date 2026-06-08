@@ -484,7 +484,7 @@ class Digest2GUI:
         ref_container.pack(fill=tk.X, padx=10, pady=10)
         
         # 使用Text控件显示参考资料（支持超链接）
-        ref_text_widget = tk.Text(ref_container, wrap=tk.WORD, height=8, 
+        ref_text_widget = tk.Text(ref_container, wrap=tk.WORD, height=10, 
                                   font=('微软雅黑', 10), bg='#f5f5f5', relief='flat',
                                   foreground='#444', spacing1=5, spacing2=5, spacing3=10,
                                   borderwidth=0, highlightthickness=0)
@@ -494,13 +494,16 @@ class Digest2GUI:
         ref_text_widget.insert(tk.END, "[1] KEYS S, VEREŠ P, PAYNE M J, et al. The digest2 NEO Classification Code[J]. Publications of the Astronomical Society of the Pacific, 2019, 131(1000): 1-18.\n")
         ref_text_widget.insert(tk.END, "[2] VEREŠ P, CLOETE R, WERYK R, et al. Improvement of Digest2 NEO Classification Code—utilizing the Astrometry Data Exchange Standard[J]. Publications of the Astronomical Society of the Pacific, 2023, 135(1052).\n")
         ref_text_widget.insert(tk.END, "[3] VEREŠ P, CLOETE R, PAYNE M J, et al. Improving the discovery of near-Earth objects with machine-learning methods[J]. Astronomy & Astrophysics, 2025, 698: A242.\n")
-        ref_text_widget.insert(tk.END, "[4] M. P. C. Staff. EDITORIAL NOTICE: digest2 population model update: M.P.E.C. 2026-K125[EB/OL]. Cambridge, MA: Minor Planet Center, 2026-05-29. ")
+        ref_text_widget.insert(tk.END, "[4] M. P. C. Staff. EDITORIAL NOTICE: M.P.E.C. 2026-E23[EB/OL]. Cambridge, MA: Minor Planet Center, 2026. ")
+        ref_text_widget.insert(tk.END, "https://www.minorplanetcenter.net/mpec/K26/K26E23.html", 'link')
+        ref_text_widget.insert(tk.END, "\n")
+        ref_text_widget.insert(tk.END, "[5] M. P. C. Staff. EDITORIAL NOTICE: digest2 population model update: M.P.E.C. 2026-K125[EB/OL]. Cambridge, MA: Minor Planet Center, 2026-05-29. ")
         ref_text_widget.insert(tk.END, "https://www.minorplanetcenter.net/mpec/K26/K26KC5.html", 'link')
         ref_text_widget.insert(tk.END, "\n")
-        ref_text_widget.insert(tk.END, "[5] GitHub. Digest2 source code[EB/OL]. ")
+        ref_text_widget.insert(tk.END, "[6] GitHub. Digest2 source code[EB/OL]. ")
         ref_text_widget.insert(tk.END, "https://github.com/Smithsonian/mpc-public/tree/main/digest2", 'link')
         ref_text_widget.insert(tk.END, "\n")
-        ref_text_widget.insert(tk.END, "[6] MPC Public Documentation Hub. Digest2 tutorials[EB/OL]. ")
+        ref_text_widget.insert(tk.END, "[7] MPC Public Documentation Hub. Digest2 tutorials[EB/OL]. ")
         ref_text_widget.insert(tk.END, "https://docs.minorplanetcenter.net/tutorials/iod_tutorials/?h=digest2", 'link')
         
         # 配置超链接样式
