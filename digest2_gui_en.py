@@ -352,21 +352,21 @@ class Digest2GUI:
         
         # Orbit type descriptions (using Digest2 official definitions and standard astronomical parameters)
         orbit_types = [
-            ('Int', 'MPC Interesting', 'Meets any of: perihelion q < 1.3 AU, aphelion Q > 10 AU, eccentricity e >= 0.5, inclination i >= 40°'),
-            ('NEO', 'Near-Earth Object', 'Perihelion q < 1.3 AU'),
-            ('N22', 'Intermediate-size Near-Earth Object', 'Diameter D > 140 m. Perihelion q < 1.3 AU, absolute magnitude H < 22.5'),
-            ('N18', 'Large Near-Earth Object', 'Diameter D > 1.2 km. Perihelion q < 1.3 AU, absolute magnitude H < 18.5'),
-            ('MC', 'Mars Crosser', 'Crosses Mars orbit. Perihelion q between 1.3 AU and 1.67 AU, aphelion Q > 1.58 AU'),
-            ('Hun', 'Hungaria Group', 'Group represented by 434 Hungaria. Semimajor axis a between 1.78 AU and 2 AU, e < 0.18, i between 16° and 34°'),
-            ('Pho', 'Phocaea Group', 'Group represented by 25 Phocaea. Perihelion q > 1.5 AU, a between 2.2 AU and 2.45 AU, i between 20° and 27°'),
-            ('MB1', 'Inner Main Belt', 'Perihelion q > 1.67 AU, a between 2.1 AU and 2.5 AU, i < ((a-2.1)/0.4)*10+7'),
+            ('Int', 'MPC Interesting', 'Meets any of: q < 1.3 AU, Q > 10 AU, e >= 0.5, i >= 40°'),
+            ('NEO', 'Near-Earth Object', 'q < 1.3 AU'),
+            ('N22', 'Intermediate-size Near-Earth Object', 'D > 140 m. q < 1.3 AU, H < 22.5'),
+            ('N18', 'Large Near-Earth Object', 'D > 1.2 km. q < 1.3 AU, H < 18.5'),
+            ('MC', 'Mars Crosser', 'Crosses Mars orbit. q between 1.3 AU and 1.67 AU, Q > 1.58 AU'),
+            ('Hun', 'Hungaria Group', 'Group represented by 434 Hungaria. a between 1.78 AU and 2 AU, e < 0.18, i between 16° and 34°'),
+            ('Pho', 'Phocaea Group', 'Group represented by 25 Phocaea. q > 1.5 AU, a between 2.2 AU and 2.45 AU, i between 20° and 27°'),
+            ('MB1', 'Inner Main Belt', 'q > 1.67 AU, a between 2.1 AU and 2.5 AU, i < ((a-2.1)/0.4)*10+7'),
             ('Pal', 'Pallas Group', 'Group represented by 2 Pallas. a between 2.5 AU and 2.8 AU, e < 0.35, i between 24° and 37°'),
             ('Han', 'Hansa Group', 'Group represented by 480 Hansa. a between 2.55 AU and 2.72 AU, e < 0.25, i between 20° and 23.5°'),
             ('MB2', 'Middle Main Belt', 'a between 2.5 AU and 2.8 AU, e < 0.45, i < 20°'),
             ('MB3', 'Outer Main Belt', 'a between 2.8 AU and 3.25 AU, e < 0.4, i < ((a-2.8)/0.45)*16+20'),
             ('Hil', 'Hilda Group', 'Group represented by 153 Hilda. a between 3.9 AU and 4.02 AU, e < 0.4, i < 18°'),
             ('JTr', 'Jupiter Trojan', 'Asteroids in Jupiter\'s L4/L5 Lagrange points. a between 5.05 AU and 5.35 AU, e < 0.22, i < 38°'),
-            ('JFC', 'Jupiter Family Comet', 'Perihelion q > 1.3 AU, Tisserand parameter TJ between 2 and 3'),
+            ('JFC', 'Jupiter Family Comet', 'q > 1.3 AU, TJ between 2 and 3'),
         ]
         
         # Add header

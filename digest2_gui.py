@@ -360,21 +360,21 @@ class Digest2GUI:
         
         # 轨道类型说明（使用 Digest2 官方定义及标准天文学参数）
         orbit_types = [
-            ('Int', 'MPC Interesting', 'MPC关注天体', '满足以下任一条件：近日点 q < 1.3 AU，远日点 Q > 10 AU，偏心率 e ≥ 0.5，倾角 i ≥ 40°'),
-            ('NEO', 'Near-Earth Object', '近地天体', '近日点 q < 1.3 AU'),
-            ('N22', 'Intermediate-size Near-Earth Object', '中等大小近地天体', '直径 D > 140 m。近日点 q < 1.3 AU，绝对星等 H < 22.5'),
-            ('N18', 'Large Near-Earth Object', '大型近地天体', '直径 D > 1.2 km。近日点 q < 1.3 AU，绝对星等 H < 18.5'),
-            ('MC', 'Mars Crosser', '越火小天体', '穿越火星轨道。近日点 q 在 1.3 AU 和 1.67 AU 之间，远日点 Q > 1.58 AU'),
-            ('Hun', 'Hungaria Group', '匈牙利群', '以434号小行星匈牙利星为代表的小行星群。半长轴 a 在 1.78 AU 和 2 AU之间，偏心率 e < 0.18，倾角 i 在 16° 和 34° 之间'),
-            ('Pho', 'Phocaea Group', '福后星群', '以25号小行星福后星为代表的小行星群。近日点 q > 1.5 AU，半长轴 a 在 2.2 AU 和 2.45 AU 之间，倾角 i 在 20° 和 27° 之间'),
-            ('MB1', 'Inner Main Belt', '内主带', '近日点 q > 1.67 AU，半长轴 a 在 2.1 AU 和 2.5 AU 之间，倾角 i < ((a-2.1)/0.4)*10+7'),
-            ('Pal', 'Pallas Group', '智神星群', '以2号小行星智神星为代表的小行星群。半长轴 a 在 2.5 AU 和 2.8 AU之间，偏心率 e < 0.35，倾角 i 在 24° 和 37° 之间'),
-            ('Han', 'Hansa Group', '汉萨群', '以480号小行星汉萨星为代表的小行星群。半长轴 a 在 2.55 AU 和 2.72 AU之间，偏心率 e < 0.25，倾角 i 在 20° 和 23.5° 之间'),
-            ('MB2', 'Middle Main Belt', '中主带', '半长轴 a 在 2.5 AU 和 2.8 AU 之间，偏心率 e < 0.45，倾角 i < 20°'),
-            ('MB3', 'Outer Main Belt', '外主带', '半长轴 a 在 2.8 AU 和 3.25 AU 之间，偏心率 e < 0.4，倾角 i < ((a-2.8)/0.45)*16+20'),
-            ('Hil', 'Hilda Group', '希尔达群', '以153号小行星希尔达星为代表的小行星群。半长轴 a 在 3.9 AU 和 4.02 AU 之间，偏心率 e < 0.4，倾角 i < 18°'),
-            ('JTr', 'Jupiter Trojan', '木星特洛伊群', '位于木星 L4、L5 拉格朗日点的小行星群，a 在 5.05 AU 和 5.35 AU 之间，偏心率 e < 0.22，倾角 i < 38°'),
-            ('JFC', 'Jupiter Family Comet', '木星族彗星', '近日点 q > 1.3 AU，蒂塞朗参数 TJ 在 2 和 3 之间'),
+            ('Int', 'MPC Interesting', 'MPC关注天体', '满足以下任一条件：q < 1.3 AU，Q > 10 AU，e ≥ 0.5，i ≥ 40°'),
+            ('NEO', 'Near-Earth Object', '近地天体', 'q < 1.3 AU'),
+            ('N22', 'Intermediate-size Near-Earth Object', '中等大小近地天体', 'D > 140 m。q < 1.3 AU，H < 22.5'),
+            ('N18', 'Large Near-Earth Object', '大型近地天体', 'D > 1.2 km。q < 1.3 AU，H < 18.5'),
+            ('MC', 'Mars Crosser', '越火小天体', '穿越火星轨道。q 在 1.3 AU 和 1.67 AU 之间，Q > 1.58 AU'),
+            ('Hun', 'Hungaria Group', '匈牙利群', '以434号小行星匈牙利星为代表的小行星群。a 在 1.78 AU 和 2 AU之间，e < 0.18，i 在 16° 和 34° 之间'),
+            ('Pho', 'Phocaea Group', '福后星群', '以25号小行星福后星为代表的小行星群。q > 1.5 AU，a 在 2.2 AU 和 2.45 AU 之间，i 在 20° 和 27° 之间'),
+            ('MB1', 'Inner Main Belt', '内主带', 'q > 1.67 AU，a 在 2.1 AU 和 2.5 AU 之间，i < ((a-2.1)/0.4)*10+7'),
+            ('Pal', 'Pallas Group', '智神星群', '以2号小行星智神星为代表的小行星群。a 在 2.5 AU 和 2.8 AU之间，e < 0.35，i 在 24° 和 37° 之间'),
+            ('Han', 'Hansa Group', '汉萨群', '以480号小行星汉萨星为代表的小行星群。a 在 2.55 AU 和 2.72 AU之间，e < 0.25，i 在 20° 和 23.5° 之间'),
+            ('MB2', 'Middle Main Belt', '中主带', 'a 在 2.5 AU 和 2.8 AU 之间，e < 0.45，i < 20°'),
+            ('MB3', 'Outer Main Belt', '外主带', 'a 在 2.8 AU 和 3.25 AU 之间，e < 0.4，i < ((a-2.8)/0.45)*16+20'),
+            ('Hil', 'Hilda Group', '希尔达群', '以153号小行星希尔达星为代表的小行星群。a 在 3.9 AU 和 4.02 AU 之间，e < 0.4，i < 18°'),
+            ('JTr', 'Jupiter Trojan', '木星特洛伊群', '位于木星 L4、L5 拉格朗日点的小行星群，a 在 5.05 AU 和 5.35 AU 之间，e < 0.22，i < 38°'),
+            ('JFC', 'Jupiter Family Comet', '木星族彗星', 'q > 1.3 AU，TJ 在 2 和 3 之间'),
         ]
         
         # 添加表头
