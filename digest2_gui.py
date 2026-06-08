@@ -353,7 +353,7 @@ class Digest2GUI:
         
         # 配置标签样式
         text_widget.tag_config('header', font=('微软雅黑', 10, 'bold'), background='#f5f5f5')
-        text_widget.tag_config('abbrev', font=('微软雅黑', 10, 'bold'))
+        text_widget.tag_config('abbrev', font=('微软雅黑', 10))
         text_widget.tag_config('fullname', font=('微软雅黑', 10))
         text_widget.tag_config('chinese', font=('微软雅黑', 10))
         text_widget.tag_config('definition', font=('微软雅黑', 10))

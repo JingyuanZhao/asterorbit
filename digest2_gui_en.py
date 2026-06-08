@@ -346,7 +346,7 @@ class Digest2GUI:
         
         # Configure tag styles
         text_widget.tag_config('header', font=('Segoe UI', 10, 'bold'), background='#f5f5f5')
-        text_widget.tag_config('abbrev', font=('Segoe UI', 10, 'bold'))
+        text_widget.tag_config('abbrev', font=('Segoe UI', 10))
         text_widget.tag_config('fullname', font=('Segoe UI', 10))
         text_widget.tag_config('definition', font=('Segoe UI', 10))
         text_widget.tag_config('italic', font=('Segoe UI', 10, 'italic'))
