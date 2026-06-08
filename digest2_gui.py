@@ -497,7 +497,7 @@ class Digest2GUI:
         ref_text_widget.insert(tk.END, "[4] M. P. C. Staff. EDITORIAL NOTICE: M.P.E.C. 2026-E23[EB/OL]. Cambridge, MA: Minor Planet Center, 2026. ")
         ref_text_widget.insert(tk.END, "https://www.minorplanetcenter.net/mpec/K26/K26E23.html", 'link')
         ref_text_widget.insert(tk.END, "\n")
-        ref_text_widget.insert(tk.END, "[5] M. P. C. Staff. EDITORIAL NOTICE: digest2 population model update: M.P.E.C. 2026-K125[EB/OL]. Cambridge, MA: Minor Planet Center, 2026-05-29. ")
+        ref_text_widget.insert(tk.END, "[5] M. P. C. Staff. EDITORIAL NOTICE: M.P.E.C. 2026-K125[EB/OL]. Cambridge, MA: Minor Planet Center, 2026-05-29. ")
         ref_text_widget.insert(tk.END, "https://www.minorplanetcenter.net/mpec/K26/K26KC5.html", 'link')
         ref_text_widget.insert(tk.END, "\n")
         ref_text_widget.insert(tk.END, "[6] GitHub. Digest2 source code[EB/OL]. ")
