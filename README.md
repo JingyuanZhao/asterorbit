@@ -13,10 +13,6 @@ short_description: Asteroid orbit classification evaluation tool
 
 This project was developed by an individual based on the Digest2 source code officially released by the Minor Planet Center (MPC), and is not an official MPC project.
 
-## 项目网站
-
-🌐 https://asterorbit-digest2.hf.space/
-
-## Project Website
+## 项目网站（Project Website）
 
 🌐 https://asterorbit-digest2.hf.space/
