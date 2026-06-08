@@ -342,7 +342,7 @@ class Digest2GUI:
         text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         
         # Set tab stops for column alignment
-        text_widget.config(tabs=('3c', '10c'))
+        text_widget.config(tabs=('3c', '12c'))
         
         # Configure tag styles
         text_widget.tag_config('header', font=('Segoe UI', 11, 'bold'), background='#f5f5f5')
