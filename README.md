@@ -1,5 +1,5 @@
 ---
-title: Digest2 小行星轨道分类评估工具
+title: Asterorbit 小行星轨道分类评估工具
 emoji: ☄️
 colorFrom: blue
 colorTo: purple
