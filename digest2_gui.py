@@ -452,19 +452,6 @@ class Digest2GUI:
                                wraplength=1150)
         about_label.pack(anchor=tk.W, pady=(0, 15))
         
-        # 添加版本信息
-        import digest2
-        import importlib.metadata as metadata
-        digest2_version = '未知版本'
-        try:
-            digest2_version = metadata.version('digest2')
-        except metadata.PackageNotFoundError:
-            digest2_version = getattr(digest2, '__version__', getattr(digest2, 'VERSION', '未知版本'))
-        
-        version_label = ttk.Label(content_frame, text=f"Digest2 版本：{digest2_version}", 
-                         font=('微软雅黑', 10), foreground='#666', style='Transparent.TLabel')
-        version_label.pack(anchor=tk.W, pady=(0, 10))
-        
         # 添加支持的数据格式
         data_format_label = ttk.Label(content_frame, text="支持的数据格式：MPC 80列、ADES XML、ADES PSV", 
                                       font=('微软雅黑', 10), foreground='#666', style='Transparent.TLabel')
@@ -477,7 +464,7 @@ class Digest2GUI:
         
         # 添加网页版链接
         web_label_container = ttk.Frame(content_frame, style='Transparent.TFrame')
-        web_label_container.pack(anchor=tk.W, pady=(0, 20))
+        web_label_container.pack(anchor=tk.W, pady=(0, 10))
         
         web_text_label = ttk.Label(web_label_container, text="网页版：", 
                                    font=('微软雅黑', 10), foreground='#666', style='Transparent.TLabel')
@@ -492,6 +479,19 @@ class Digest2GUI:
             webbrowser.open("https://asterorbit-digest2.hf.space/")
         
         web_link_label.bind("<Button-1>", open_web_link)
+        
+        # 添加版本信息
+        import digest2
+        import importlib.metadata as metadata
+        digest2_version = '未知版本'
+        try:
+            digest2_version = metadata.version('digest2')
+        except metadata.PackageNotFoundError:
+            digest2_version = getattr(digest2, '__version__', getattr(digest2, 'VERSION', '未知版本'))
+        
+        version_label = ttk.Label(content_frame, text=f"Digest2 版本：{digest2_version}", 
+                         font=('微软雅黑', 10), foreground='#666', style='Transparent.TLabel')
+        version_label.pack(anchor=tk.W, pady=(0, 20))
         
         # 添加参考资料标题
         ref_title_label = ttk.Label(content_frame, text="参考资料", font=('微软雅黑', 11, 'bold'), foreground='#333')
