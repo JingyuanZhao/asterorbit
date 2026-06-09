@@ -495,7 +495,7 @@ class Digest2GUI:
                                   font=('微软雅黑', 11), bg='#f5f5f5', relief='flat',
                                   foreground='#333', spacing1=3, spacing2=2, spacing3=3,
                                   borderwidth=0, highlightthickness=0,
-                                  insertofftime=0, insertontime=0)
+                                  insertwidth=0)
         about_text_widget.pack(fill=tk.X, anchor=tk.W, pady=(0, 15))
         about_text_widget.insert(tk.END, "本应用由赵经远基于小行星中心（MPC）官方开源的Digest2源代码构建，非MPC官方项目。Digest2源代码作者：Sonia Keys、Carl Hergenrother、Robert McNaught、David Asher，源代码中的ADES支持由 Richard Cloete 和 Peter Vereš添加。")
         
@@ -557,7 +557,7 @@ class Digest2GUI:
                                   foreground='#444', spacing1=5, spacing2=5, spacing3=10,
                                   borderwidth=0, highlightthickness=0,
                                   cursor='xterm',
-                                  insertofftime=0, insertontime=0)
+                                  insertwidth=0)
         ref_text_widget.pack(fill=tk.X, padx=10, pady=10)
         
         # 添加参考资料内容（带超链接）
