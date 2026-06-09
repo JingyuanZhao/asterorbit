@@ -106,6 +106,7 @@ class Digest2GUI:
         self.style.configure('TButton', font=('Segoe UI', 10))
         self.style.configure('TLabel', font=('Segoe UI', 10))
         self.style.configure('Header.TLabel', font=('Segoe UI', 12, 'bold'))
+        self.style.configure('Bold.TLabelframe.Label', font=('Segoe UI', 10, 'bold'))
         
         # Store results and designation mapping (since ClassificationResult is frozen)
         self._desig_map = {}
@@ -191,7 +192,7 @@ class Digest2GUI:
         desc_label.grid(row=0, column=0, columnspan=3, pady=(10, 10), sticky=tk.W)
         
         # File selection area
-        file_frame = ttk.LabelFrame(eval_frame, text="File Selection", padding="10")
+        file_frame = ttk.LabelFrame(eval_frame, text="File Selection", padding="10", style='Bold.TLabelframe')
         file_frame.grid(row=1, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
         file_frame.columnconfigure(1, weight=1)
         
@@ -205,7 +206,7 @@ class Digest2GUI:
         self.browse_btn.grid(row=0, column=2, padx=5)
         
         # Manual input area
-        input_frame = ttk.LabelFrame(eval_frame, text="Observation Data", padding="10")
+        input_frame = ttk.LabelFrame(eval_frame, text="Observation Data", padding="10", style='Bold.TLabelframe')
         input_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         input_frame.columnconfigure(0, weight=1)
         input_frame.rowconfigure(1, weight=1)
@@ -252,7 +253,7 @@ class Digest2GUI:
         self.download_obscode_btn.pack(side=tk.LEFT, padx=5)
         
         # Result display area (row=4)
-        result_frame = ttk.LabelFrame(eval_frame, text="Analysis Results", padding="10")
+        result_frame = ttk.LabelFrame(eval_frame, text="Analysis Results", padding="10", style='Bold.TLabelframe')
         result_frame.grid(row=4, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         result_frame.columnconfigure(0, weight=1)
         result_frame.rowconfigure(0, weight=1)

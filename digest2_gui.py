@@ -112,6 +112,7 @@ class Digest2GUI:
         self.style.configure('TButton', font=('微软雅黑', 10))
         self.style.configure('TLabel', font=('微软雅黑', 10))
         self.style.configure('Header.TLabel', font=('微软雅黑', 12, 'bold'))
+        self.style.configure('Bold.TLabelframe.Label', font=('微软雅黑', 10, 'bold'))
         
         # 用于存储结果和天体名称的映射（因为 ClassificationResult 是 frozen 的）
         self._desig_map = {}
@@ -198,7 +199,7 @@ class Digest2GUI:
         desc_label.grid(row=0, column=0, columnspan=3, pady=(10, 10), sticky=tk.W)
         
         # 文件选择区域
-        file_frame = ttk.LabelFrame(eval_frame, text="文件选择", padding="10")
+        file_frame = ttk.LabelFrame(eval_frame, text="文件选择", padding="10", style='Bold.TLabelframe')
         file_frame.grid(row=1, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
         file_frame.columnconfigure(1, weight=1)
         
@@ -212,7 +213,7 @@ class Digest2GUI:
         self.browse_btn.grid(row=0, column=2, padx=5)
         
         # 手动输入区域
-        input_frame = ttk.LabelFrame(eval_frame, text="观测数据", padding="10")
+        input_frame = ttk.LabelFrame(eval_frame, text="观测数据", padding="10", style='Bold.TLabelframe')
         input_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         input_frame.columnconfigure(0, weight=1)
         input_frame.rowconfigure(1, weight=1)
@@ -259,7 +260,7 @@ class Digest2GUI:
         self.download_obscode_btn.pack(side=tk.LEFT, padx=5)
         
         # 结果显示区域（row=4）
-        result_frame = ttk.LabelFrame(eval_frame, text="分析结果", padding="10")
+        result_frame = ttk.LabelFrame(eval_frame, text="分析结果", padding="10", style='Bold.TLabelframe')
         result_frame.grid(row=4, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         result_frame.columnconfigure(0, weight=1)
         result_frame.rowconfigure(0, weight=1)
