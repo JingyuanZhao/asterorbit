@@ -431,9 +431,9 @@ class Digest2GUI:
         left_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         
         left_params = [
-            ('𝑞', 'Perihelion distance (AU)'),
-            ('𝑄', 'Aphelion distance (AU)'),
-            ('𝑎', 'Semi-major axis (AU)'),
+            ('𝑞', 'Perihelion distance'),
+            ('𝑄', 'Aphelion distance'),
+            ('𝑎', 'Semi-major axis'),
             ('𝑒', 'Orbital eccentricity'),
         ]
         
@@ -448,10 +448,10 @@ class Digest2GUI:
         right_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(20, 0))
         
         right_params = [
-            ('𝑖', 'Orbital inclination (°)'),
+            ('𝑖', 'Orbital inclination'),
             ('𝐻', 'Absolute magnitude'),
             ('𝑇𝐽', 'Tisserand parameter relative to Jupiter'),
-            ('𝐷', 'Diameter (km)'),
+            ('𝐷', 'Diameter'),
         ]
         
         for symbol, meaning in right_params:
