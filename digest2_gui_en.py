@@ -97,7 +97,7 @@ except ImportError:
 class Digest2GUI:
     def __init__(self, root):
         self.root = root
-        self.root.title("Asterorbit - Asteroid Orbit Classification Tool")
+        self.root.title("Asterorbit: Asteroid Orbit Classification Tool")
         self.root.minsize(800, 600)
         self.set_window_icon()
         
