@@ -565,6 +565,9 @@ class Digest2GUI:
         # Configure hyperlink styles
         ref_text_widget.tag_config('link', foreground='#1a73e8', underline=True)
         
+        # Configure selected link style (white text on blue background)
+        ref_text_widget.tag_config('link_sel', foreground='#ffffff', background='#1a73e8', underline=True)
+        
         # Hyperlink click event handler
         def open_link(event):
             text = ref_text_widget.get('current linestart', 'current lineend')
@@ -581,8 +584,22 @@ class Digest2GUI:
             else:
                 ref_text_widget.config(cursor='')
         
+        # Update link style when selection changes
+        def on_select(event):
+            # Clear previous selection style
+            ref_text_widget.tag_remove('link_sel', '1.0', tk.END)
+            # Get selection range
+            try:
+                sel_start = ref_text_widget.index(tk.SEL_FIRST)
+                sel_end = ref_text_widget.index(tk.SEL_LAST)
+                # Apply selected style to links in selection
+                ref_text_widget.tag_add('link_sel', sel_start, sel_end)
+            except tk.TclError:
+                pass  # No selected text
+        
         ref_text_widget.tag_bind('link', '<Button-1>', open_link)
         ref_text_widget.bind('<Motion>', on_mouse_move)
+        ref_text_widget.bind('<<Selection>>', on_select)
         ref_text_widget.config(state=tk.DISABLED)
         
         # Configure styles

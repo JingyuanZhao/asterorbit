@@ -574,6 +574,9 @@ class Digest2GUI:
         # 配置超链接样式
         ref_text_widget.tag_config('link', foreground='#1a73e8', underline=True)
         
+        # 配置选中超链接时的样式（白色文字，蓝色背景）
+        ref_text_widget.tag_config('link_sel', foreground='#ffffff', background='#1a73e8', underline=True)
+        
         # 超链接点击事件处理
         def open_link(event):
             text = ref_text_widget.get('current linestart', 'current lineend')
@@ -590,8 +593,22 @@ class Digest2GUI:
             else:
                 ref_text_widget.config(cursor='')
         
+        # 选中内容变化时更新链接样式
+        def on_select(event):
+            # 清除之前的选中样式
+            ref_text_widget.tag_remove('link_sel', '1.0', tk.END)
+            # 获取选中范围
+            try:
+                sel_start = ref_text_widget.index(tk.SEL_FIRST)
+                sel_end = ref_text_widget.index(tk.SEL_LAST)
+                # 为选中区域内的链接添加选中样式
+                ref_text_widget.tag_add('link_sel', sel_start, sel_end)
+            except tk.TclError:
+                pass  # 没有选中的文本
+        
         ref_text_widget.tag_bind('link', '<Button-1>', open_link)
         ref_text_widget.bind('<Motion>', on_mouse_move)
+        ref_text_widget.bind('<<Selection>>', on_select)
         ref_text_widget.config(state=tk.DISABLED)
         
         # 配置样式
