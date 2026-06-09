@@ -56,7 +56,7 @@ def show_error_with_link(title, message, link_text=None, link_url=None):
     if link_text and link_url:
         link_label = ttk.Label(frame, text=link_text, foreground='#1a73e8', cursor='hand2')
         link_label.pack(pady=(0, 15))
-        link_label.bind('<Button-1> ', lambda e: webbrowser.open(link_url))
+        link_label.bind('<Button-1>', lambda e: webbrowser.open(link_url))
     
     # 确定按钮
     ok_btn = ttk.Button(frame, text="确定", command=lambda: (root.destroy(), sys.exit(1)))
@@ -225,7 +225,7 @@ class Digest2GUI:
         )
         self.input_text.grid(row=1, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         # 为观测数据输入框添加右键菜单
-        self.input_text.bind('<Button-3> ', self.show_text_context_menu)
+        self.input_text.bind('<Button-3>', self.show_text_context_menu)
         
         # 按钮区域
         btn_frame = ttk.Frame(eval_frame)
@@ -272,9 +272,9 @@ class Digest2GUI:
             selectmode='extended'
         )
         # 为树形视图添加右键菜单（支持复制）
-        self.tree.bind('<Button-3> ', self.show_tree_context_menu)
+        self.tree.bind('<Button-3>', self.show_tree_context_menu)
         # 绑定左键点击事件，实现点击切换选中
-        self.tree.bind('<Button-1> ', self.on_tree_click)
+        self.tree.bind('<Button-1>', self.on_tree_click)
 
         # 配置标签样式：NEO高亮（黄色背景）和加粗
         self.tree.tag_configure('neo_highlight', background='#FFD700')
@@ -344,7 +344,7 @@ class Digest2GUI:
         
         # 创建Text组件
         text_widget = tk.Text(text_frame, wrap=tk.WORD, font=('微软雅黑', 10), 
-                             bg='#ffffff', relief='flat', spacing1=2, spacing2=1, spacing3=2,
+                             bg='#ffffff', relief='flat', spacing1=6, spacing2=4, spacing3=6,
                              borderwidth=0, highlightthickness=0)
         text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         
@@ -352,17 +352,14 @@ class Digest2GUI:
         text_widget.config(tabs=('2c', '9c', '13c'))
         
         # 配置标签样式
-        text_widget.tag_config('header', font=('微软雅黑', 10, 'bold'))
+        text_widget.tag_config('header', font=('微软雅黑', 10, 'bold'), background='#f5f5f5')
         text_widget.tag_config('abbrev', font=('微软雅黑', 10))
         text_widget.tag_config('fullname', font=('微软雅黑', 10))
         text_widget.tag_config('chinese', font=('微软雅黑', 10))
         text_widget.tag_config('definition', font=('微软雅黑', 10))
         text_widget.tag_config('italic', font=('微软雅黑', 10, 'italic'))
-        # 设置选择文本的样式，确保能看清
-        text_widget.tag_config('sel', background='#0078d4', foreground='#ffffff')
-        # 设置分隔线标签（选择时不显示）
-        text_widget.tag_config('solid_sep', foreground='#000000', selectbackground='#ffffff', selectforeground='#ffffff')
-        text_widget.tag_config('dashed_sep', foreground='#999999', selectbackground='#ffffff', selectforeground='#ffffff')
+        text_widget.tag_config('row_bg1', background='#ffffff')
+        text_widget.tag_config('row_bg2', background='#f9f9f9')
         
         # 轨道类型说明（使用 Digest2 官方定义及标准天文学参数）
         orbit_types = [
@@ -384,27 +381,22 @@ class Digest2GUI:
         ]
         
         # 添加表头
-        text_widget.insert(tk.END, '  缩写\t', 'header')
-        text_widget.insert(tk.END, '英文全称\t', 'header')
-        text_widget.insert(tk.END, '中文含义\t', 'header')
-        text_widget.insert(tk.END, 'Digest2定义\n', 'header')
-        
-        # 添加表头下方的实线分隔
-        text_widget.insert(tk.END, '-' * 150 + '\n', 'solid_sep')
+        text_widget.insert(tk.END, '  缩写\t', ('header', 'row_bg1'))
+        text_widget.insert(tk.END, '英文全称\t', ('header', 'row_bg1'))
+        text_widget.insert(tk.END, '中文含义\t', ('header', 'row_bg1'))
+        text_widget.insert(tk.END, 'Digest2定义\n', ('header', 'row_bg1'))
         
         # 添加数据行
         for i, (abbrev, fullname, chinese, definition) in enumerate(orbit_types):
-            text_widget.insert(tk.END, f'  {abbrev}\t', 'abbrev')
-            text_widget.insert(tk.END, f'{fullname}\t', 'fullname')
-            text_widget.insert(tk.END, f'{chinese}\t', 'chinese')
+            bg_tag = 'row_bg1' if i % 2 == 0 else 'row_bg2'
+            
+            text_widget.insert(tk.END, f'  {abbrev}\t', ('abbrev', bg_tag))
+            text_widget.insert(tk.END, f'{fullname}\t', ('fullname', bg_tag))
+            text_widget.insert(tk.END, f'{chinese}\t', ('chinese', bg_tag))
             
             # 插入定义并标记需要斜体的部分
-            self.insert_definition_with_italic(text_widget, definition, None)
+            self.insert_definition_with_italic(text_widget, definition, bg_tag)
             text_widget.insert(tk.END, '\n')
-            
-            # 如果不是最后一行，添加虚线分隔
-            if i < len(orbit_types) - 1:
-                text_widget.insert(tk.END, '-' * 150 + '\n', 'dashed_sep')
         
         text_widget.config(state=tk.DISABLED)
         
@@ -418,7 +410,7 @@ class Digest2GUI:
     def insert_definition_with_italic(self, text_widget, definition, bg_tag):
         """插入定义文本，使用数学斜体符号"""
         import re
-        # 字母替换为数学斜体符号 - 只替换单独出现的字母
+        # 字母替换为数学斜体符号 - 先处理TJ，再处理单个字母
         italic_map = {
             'TJ': '𝑇𝐽',
             'q': '𝑞', 'a': '𝑎', 'i': '𝑖', 'e': '𝑒',
@@ -430,7 +422,7 @@ class Digest2GUI:
             # 使用正则表达式只替换单独出现的字母（单词边界）
             result = re.sub(r'\b' + re.escape(normal) + r'\b', italic, result)
         
-        text_widget.insert(tk.END, result, 'definition')
+        text_widget.insert(tk.END, result, ('definition', bg_tag))
     
     def create_about_tab(self):
         """创建关于页面"""
@@ -488,7 +480,7 @@ class Digest2GUI:
         def open_web_link(event):
             webbrowser.open("https://asterorbit-digest2.hf.space/")
         
-        web_link_label.bind("<Button-1> ", open_web_link)
+        web_link_label.bind("<Button-1>", open_web_link)
         
         # 添加版本信息
         import digest2
@@ -553,8 +545,8 @@ class Digest2GUI:
             else:
                 ref_text_widget.config(cursor='')
         
-        ref_text_widget.tag_bind('link', '<Button-1> ', open_link)
-        ref_text_widget.bind('<Motion> ', on_mouse_move)
+        ref_text_widget.tag_bind('link', '<Button-1>', open_link)
+        ref_text_widget.bind('<Motion>', on_mouse_move)
         ref_text_widget.config(state=tk.DISABLED)
         
         # 配置样式
@@ -651,7 +643,7 @@ class Digest2GUI:
                 content = f.read()
 
         # 检测是否为 ADES XML 格式
-        if content.strip().startswith('<?xml') or content.strip().startswith('< ades> '):
+        if content.strip().startswith('<?xml') or content.strip().startswith('<ades>'):
             # 是 XML 格式，调用 XML 加载方法
             self._load_ades_xml_content(filename)
             return
@@ -734,7 +726,7 @@ class Digest2GUI:
     def _try_extract_designation(self, line):
         """尝试从行中提取天体名称，返回 None 如果不是 MPC80 格式"""
         # MPC80 格式：天体名称在前 12 列
-        if len(line) <12:
+        if len(line) < 12:
             return None
 
         # 提取前 12 列作为天体名称
@@ -777,7 +769,7 @@ class Digest2GUI:
         content = '\n'.join(text_lines)
 
         # 检测是否为 ADES XML 格式
-        if content.strip().startswith('<?xml') or content.strip().startswith('< ades> '):
+        if content.strip().startswith('<?xml') or content.strip().startswith('<ades>'):
             # 是 XML 格式，保存到临时文件并调用 XML 加载方法
             import tempfile
             import os
@@ -967,7 +959,7 @@ class Digest2GUI:
             # 分割字段
             parts = line_clean.split()
             # 接受至少10个字段（缺少星等和波段）或9个字段（缺少星等、波段和观测站）
-            if len(parts) <9:
+            if len(parts) < 9:
                 return None, None
             
             # 提取天体名称（第一个字段，可能包含发现标记）
@@ -1133,7 +1125,7 @@ class Digest2GUI:
 
         try:
             # 检测输入格式
-            is_ades_xml = input_data.startswith('<?xml') or input_data.startswith('< ades> ') or '<optical> ' in input_data[:1000]
+            is_ades_xml = input_data.startswith('<?xml') or input_data.startswith('<ades>') or '<optical>' in input_data[:1000]
             
             # 检测 ADES PSV 格式
             # PSV 格式的特征：
@@ -1329,7 +1321,7 @@ class Digest2GUI:
                           'precTime', 'precRA', 'precDec', 'notes', 'remarks']
                 row_dict = {}
                 for i, part in enumerate(parts):
-                    if i <len(headers):
+                    if i < len(headers):
                         row_dict[headers[i]] = part
 
                 # 解析观测数据

@@ -56,7 +56,7 @@ def show_error_with_link(title, message, link_text=None, link_url=None):
     if link_text and link_url:
         link_label = ttk.Label(frame, text=link_text, foreground='#1a73e8', cursor='hand2')
         link_label.pack(pady=(0, 15))
-        link_label.bind('<Button-1> ', lambda e: webbrowser.open(link_url))
+        link_label.bind('<Button-1>', lambda e: webbrowser.open(link_url))
     
     # OK button
     ok_btn = ttk.Button(frame, text="OK", command=lambda: (root.destroy(), sys.exit(1)))
@@ -214,11 +214,11 @@ class Digest2GUI:
             wrap=tk.NONE,
             width=80,
             height=8,
-            font=('Segoe UI', 10)
+            font=('Segoe UI', 11)
         )
         self.input_text.grid(row=1, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         # Add right-click menu for input text
-        self.input_text.bind('<Button-3> ', self.show_text_context_menu)
+        self.input_text.bind('<Button-3>', self.show_text_context_menu)
         
         # Button area
         btn_frame = ttk.Frame(eval_frame)
@@ -265,9 +265,9 @@ class Digest2GUI:
             selectmode='extended'
         )
         # Add right-click menu for treeview (supports copying)
-        self.tree.bind('<Button-3> ', self.show_tree_context_menu)
+        self.tree.bind('<Button-3>', self.show_tree_context_menu)
         # Bind left-click event to toggle selection
-        self.tree.bind('<Button-1> ', self.on_tree_click)
+        self.tree.bind('<Button-1>', self.on_tree_click)
 
         # Configure tag styles: NEO highlight (yellow background) and bold
         self.tree.tag_configure('neo_highlight', background='#FFD700')
@@ -337,7 +337,7 @@ class Digest2GUI:
         
         # Create Text widget
         text_widget = tk.Text(text_frame, wrap=tk.WORD, font=('Segoe UI', 11), 
-                             bg='#ffffff', relief='flat', spacing1=2, spacing2=1, spacing3=2,
+                             bg='#ffffff', relief='flat', spacing1=6, spacing2=4, spacing3=6,
                              borderwidth=0, highlightthickness=0)
         text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         
@@ -345,16 +345,13 @@ class Digest2GUI:
         text_widget.config(tabs=('3c', '12c'))
         
         # Configure tag styles
-        text_widget.tag_config('header', font=('Segoe UI', 11, 'bold'))
+        text_widget.tag_config('header', font=('Segoe UI', 11, 'bold'), background='#f5f5f5')
         text_widget.tag_config('abbrev', font=('Segoe UI', 11))
         text_widget.tag_config('fullname', font=('Segoe UI', 11))
         text_widget.tag_config('definition', font=('Segoe UI', 11))
         text_widget.tag_config('italic', font=('Segoe UI', 11, 'italic'))
-        # Set selected text style for better visibility
-        text_widget.tag_config('sel', background='#0078d4', foreground='#ffffff')
-        # Set separator tags (not visible when selected)
-        text_widget.tag_config('solid_sep', foreground='#000000', selectbackground='#ffffff', selectforeground='#ffffff')
-        text_widget.tag_config('dashed_sep', foreground='#999999', selectbackground='#ffffff', selectforeground='#ffffff')
+        text_widget.tag_config('row_bg1', background='#ffffff')
+        text_widget.tag_config('row_bg2', background='#f9f9f9')
         
         # Orbit type descriptions (using Digest2 official definitions and standard astronomical parameters)
         orbit_types = [
@@ -376,25 +373,20 @@ class Digest2GUI:
         ]
         
         # Add header
-        text_widget.insert(tk.END, '  Abbr\t', 'header')
-        text_widget.insert(tk.END, 'Full Name\t', 'header')
-        text_widget.insert(tk.END, 'Digest2 Definition\n', 'header')
-        
-        # Add solid separator below header
-        text_widget.insert(tk.END, '-' * 150 + '\n', 'solid_sep')
+        text_widget.insert(tk.END, '  Abbr\t', ('header', 'row_bg1'))
+        text_widget.insert(tk.END, 'Full Name\t', ('header', 'row_bg1'))
+        text_widget.insert(tk.END, 'Digest2 Definition\n', ('header', 'row_bg1'))
         
         # Add data rows
         for i, (abbrev, fullname, definition) in enumerate(orbit_types):
-            text_widget.insert(tk.END, f'  {abbrev}\t', 'abbrev')
-            text_widget.insert(tk.END, f'{fullname}\t', 'fullname')
+            bg_tag = 'row_bg1' if i % 2 == 0 else 'row_bg2'
+            
+            text_widget.insert(tk.END, f'  {abbrev}\t', ('abbrev', bg_tag))
+            text_widget.insert(tk.END, f'{fullname}\t', ('fullname', bg_tag))
             
             # Insert definition and mark italic parts
-            self.insert_definition_with_italic(text_widget, definition, None)
+            self.insert_definition_with_italic(text_widget, definition, bg_tag)
             text_widget.insert(tk.END, '\n')
-            
-            # If not last line, add dashed separator
-            if i < len(orbit_types) - 1:
-                text_widget.insert(tk.END, '-' * 150 + '\n', 'dashed_sep')
         
         text_widget.config(state=tk.DISABLED)
         
@@ -408,7 +400,7 @@ class Digest2GUI:
     def insert_definition_with_italic(self, text_widget, definition, bg_tag):
         """Insert definition text, use mathematical italic symbols"""
         import re
-        # Replace letters with mathematical italic symbols - only when they are standalone
+        # Replace letters with mathematical italic symbols - handle TJ first
         italic_map = {
             'TJ': '𝑇𝐽',
             'q': '𝑞', 'a': '𝑎', 'i': '𝑖', 'e': '𝑒',
@@ -420,7 +412,7 @@ class Digest2GUI:
             # Use regex to only replace standalone letters (word boundaries)
             result = re.sub(r'\b' + re.escape(normal) + r'\b', italic, result)
         
-        text_widget.insert(tk.END, result, 'definition')
+        text_widget.insert(tk.END, result, ('definition', bg_tag))
     
     def create_about_tab(self):
         """Create about tab"""
@@ -445,7 +437,7 @@ class Digest2GUI:
         
         # Add disclaimer information (merge copyright and disclaimer) - use Text widget to ensure proper wrapping
         about_text_widget = tk.Text(content_frame, wrap=tk.WORD, height=2, 
-                                  font=('Segoe UI', 10), bg='#f5f5f5', relief='flat',
+                                  font=('Segoe UI', 11), bg='#f5f5f5', relief='flat',
                                   foreground='#333', spacing1=3, spacing2=2, spacing3=3,
                                   borderwidth=0, highlightthickness=0)
         about_text_widget.pack(fill=tk.X, anchor=tk.W, pady=(0, 15))
@@ -478,7 +470,7 @@ class Digest2GUI:
         def open_web_link(event):
             webbrowser.open("https://asterorbit-digest2.hf.space/en/")
         
-        web_link_label.bind("<Button-1> ", open_web_link)
+        web_link_label.bind("<Button-1>", open_web_link)
         
         # Add version info
         import digest2
@@ -543,8 +535,8 @@ class Digest2GUI:
             else:
                 ref_text_widget.config(cursor='')
         
-        ref_text_widget.tag_bind('link', '<Button-1> ', open_link)
-        ref_text_widget.bind('<Motion> ', on_mouse_move)
+        ref_text_widget.tag_bind('link', '<Button-1>', open_link)
+        ref_text_widget.bind('<Motion>', on_mouse_move)
         ref_text_widget.config(state=tk.DISABLED)
         
         # Configure styles
@@ -641,7 +633,7 @@ class Digest2GUI:
                 content = f.read()
 
         # Check if ADES XML format
-        if content.strip().startswith('<?xml') or content.strip().startswith('< ades'):
+        if content.strip().startswith('<?xml') or content.strip().startswith('<ades'):
             # XML format, call XML loading method
             self._load_ades_xml_content(filename)
             return
@@ -724,7 +716,7 @@ class Digest2GUI:
     def _try_extract_designation(self, line):
         """Try to extract designation from line, return None if not MPC80 format"""
         # MPC80 format: designation in first 12 columns
-        if len(line) <12:
+        if len(line) < 12:
             return None
 
         # Extract first 12 columns as designation
@@ -767,7 +759,7 @@ class Digest2GUI:
         content = '\n'.join(text_lines)
 
         # Check if ADES XML format
-        if content.strip().startswith('<?xml') or content.strip().startswith('< ades'):
+        if content.strip().startswith('<?xml') or content.strip().startswith('<ades'):
             # XML format, save to temp file and call XML loading method
             import tempfile
             import os
@@ -957,7 +949,7 @@ class Digest2GUI:
             # Split fields
             parts = line_clean.split()
             # Accept at least 10 fields (missing magnitude and band) or 9 fields (missing magnitude, band, and observatory)
-            if len(parts) <9:
+            if len(parts) < 9:
                 return None, None
             
             # Extract designation (first field, may contain discovery asterisk)
@@ -1123,7 +1115,7 @@ class Digest2GUI:
 
         try:
             # Detect input format
-            is_ades_xml = input_data.startswith('<?xml') or input_data.startswith('< ades') or '< optical' in input_data[:1000]
+            is_ades_xml = input_data.startswith('<?xml') or input_data.startswith('<ades') or '<optical' in input_data[:1000]
             
             # Detect ADES PSV format
             # PSV format characteristics:
@@ -1319,7 +1311,7 @@ class Digest2GUI:
                           'precTime', 'precRA', 'precDec', 'notes', 'remarks']
                 row_dict = {}
                 for i, part in enumerate(parts):
-                    if i <len(headers):
+                    if i < len(headers):
                         row_dict[headers[i]] = part
 
                 # Parse observation data
