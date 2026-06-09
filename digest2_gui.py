@@ -244,7 +244,7 @@ class Digest2GUI:
 
         self.clear_data_btn = ttk.Button(
             btn_frame,
-            text="清空观测数据",
+            text="清空数据",
             command=self.clear_input_data,
             width=20
         )
