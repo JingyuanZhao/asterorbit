@@ -543,7 +543,8 @@ class Digest2GUI:
         ref_text_widget = tk.Text(ref_container, wrap=tk.WORD, height=9, 
                                   font=('Segoe UI', 10), bg='#f5f5f5', relief='flat',
                                   foreground='#444', spacing1=5, spacing2=5, spacing3=10,
-                                  borderwidth=0, highlightthickness=0)
+                                  borderwidth=0, highlightthickness=0,
+                                  cursor='xterm')
         ref_text_widget.pack(fill=tk.X, padx=10, pady=10)
         
         # Add references content (with hyperlinks)
@@ -576,13 +577,13 @@ class Digest2GUI:
             if urls:
                 webbrowser.open(urls[0])
         
-        # Show hand cursor on mouse hover
+        # Show hand cursor on hover over links, I-beam cursor over text
         def on_mouse_move(event):
             tags = ref_text_widget.tag_names(tk.CURRENT)
             if 'link' in tags:
                 ref_text_widget.config(cursor='hand2')
             else:
-                ref_text_widget.config(cursor='')
+                ref_text_widget.config(cursor='xterm')
         
         # Update link style when selection changes
         def on_select(event):

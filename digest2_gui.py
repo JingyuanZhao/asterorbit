@@ -552,7 +552,8 @@ class Digest2GUI:
         ref_text_widget = tk.Text(ref_container, wrap=tk.WORD, height=9, 
                                   font=('微软雅黑', 10), bg='#f5f5f5', relief='flat',
                                   foreground='#444', spacing1=5, spacing2=5, spacing3=10,
-                                  borderwidth=0, highlightthickness=0)
+                                  borderwidth=0, highlightthickness=0,
+                                  cursor='xterm')
         ref_text_widget.pack(fill=tk.X, padx=10, pady=10)
         
         # 添加参考资料内容（带超链接）
@@ -585,13 +586,13 @@ class Digest2GUI:
             if urls:
                 webbrowser.open(urls[0])
         
-        # 鼠标悬停时显示手型光标
+        # 鼠标悬停时显示手型光标（链接上）或I型光标（文字上）
         def on_mouse_move(event):
             tags = ref_text_widget.tag_names(tk.CURRENT)
             if 'link' in tags:
                 ref_text_widget.config(cursor='hand2')
             else:
-                ref_text_widget.config(cursor='')
+                ref_text_widget.config(cursor='xterm')
         
         # 选中内容变化时更新链接样式
         def on_select(event):
