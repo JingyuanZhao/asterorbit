@@ -352,7 +352,7 @@ class Digest2GUI:
         text_widget.config(tabs=('2c', '9c', '13c'))
         
         # 配置标签样式
-        text_widget.tag_config('header', font=('微软雅黑', 10, 'bold'), background='#f5f5f5')
+        text_widget.tag_config('header', font=('微软雅黑', 10, 'bold'))
         text_widget.tag_config('abbrev', font=('微软雅黑', 10))
         text_widget.tag_config('fullname', font=('微软雅黑', 10))
         text_widget.tag_config('chinese', font=('微软雅黑', 10))
@@ -360,6 +360,8 @@ class Digest2GUI:
         text_widget.tag_config('italic', font=('微软雅黑', 10, 'italic'))
         text_widget.tag_config('row_bg1', background='#ffffff')
         text_widget.tag_config('row_bg2', background='#f9f9f9')
+        # 设置选择文本的样式，确保能看清
+        text_widget.tag_config('sel', background='#0078d4', foreground='#ffffff')
         
         # 轨道类型说明（使用 Digest2 官方定义及标准天文学参数）
         orbit_types = [

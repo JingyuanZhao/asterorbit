@@ -345,13 +345,15 @@ class Digest2GUI:
         text_widget.config(tabs=('3c', '12c'))
         
         # Configure tag styles
-        text_widget.tag_config('header', font=('Segoe UI', 11, 'bold'), background='#f5f5f5')
+        text_widget.tag_config('header', font=('Segoe UI', 11, 'bold'))
         text_widget.tag_config('abbrev', font=('Segoe UI', 11))
         text_widget.tag_config('fullname', font=('Segoe UI', 11))
         text_widget.tag_config('definition', font=('Segoe UI', 11))
         text_widget.tag_config('italic', font=('Segoe UI', 11, 'italic'))
         text_widget.tag_config('row_bg1', background='#ffffff')
         text_widget.tag_config('row_bg2', background='#f9f9f9')
+        # Set selected text style for better visibility
+        text_widget.tag_config('sel', background='#0078d4', foreground='#ffffff')
         
         # Orbit type descriptions (using Digest2 official definitions and standard astronomical parameters)
         orbit_types = [
