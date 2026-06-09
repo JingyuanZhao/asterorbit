@@ -347,7 +347,7 @@ class Digest2GUI:
         
         # Create Treeview container
         tree_frame = ttk.Frame(main_frame, relief='solid', borderwidth=1)
-        tree_frame.pack(fill=tk.BOTH, expand=True)
+        tree_frame.pack(fill=tk.X, expand=False)
         
         # Create Treeview widget
         columns = ('abbrev', 'fullname', 'definition')

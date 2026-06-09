@@ -354,7 +354,7 @@ class Digest2GUI:
         
         # 创建Treeview容器
         tree_frame = ttk.Frame(main_frame, relief='solid', borderwidth=1)
-        tree_frame.pack(fill=tk.BOTH, expand=True)
+        tree_frame.pack(fill=tk.X, expand=False)
         
         # 创建Treeview组件
         columns = ('abbrev', 'fullname', 'chinese', 'definition')
