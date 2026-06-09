@@ -186,29 +186,12 @@ class Digest2GUI:
         
         # 配置网格权重
         eval_frame.columnconfigure(0, weight=1)
-        eval_frame.rowconfigure(3, weight=1)  # 输入框区域可扩展
-        eval_frame.rowconfigure(5, weight=1)  # 结果显示区域可扩展
-        
-        # 标题
-        title_label = ttk.Label(
-            eval_frame, 
-            text="Asterorbit 小行星轨道分类评估工具", 
-            style='Header.TLabel',
-            font=('微软雅黑', 16, 'bold')
-        )
-        title_label.grid(row=0, column=0, columnspan=3, pady=(10, 10))
-        
-        # 说明文字
-        desc_label = ttk.Label(
-            eval_frame,
-            text="选择文件或输入 MPC 80列、ADES 格式的观测数据，程序将自动分析并评估轨道类型。",
-            wraplength=800
-        )
-        desc_label.grid(row=1, column=0, columnspan=3, pady=(0, 15), sticky=tk.W)
+        eval_frame.rowconfigure(2, weight=1)  # 输入框区域可扩展
+        eval_frame.rowconfigure(4, weight=1)  # 结果显示区域可扩展
         
         # 文件选择区域
         file_frame = ttk.LabelFrame(eval_frame, text="文件选择", padding="10")
-        file_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
+        file_frame.grid(row=0, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
         file_frame.columnconfigure(1, weight=1)
         
         ttk.Label(file_frame, text="观测文件：").grid(row=0, column=0, sticky=tk.W)
@@ -222,7 +205,7 @@ class Digest2GUI:
         
         # 手动输入区域
         input_frame = ttk.LabelFrame(eval_frame, text="观测数据", padding="10")
-        input_frame.grid(row=3, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        input_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         input_frame.columnconfigure(0, weight=1)
         input_frame.rowconfigure(1, weight=1)
         
@@ -232,7 +215,7 @@ class Digest2GUI:
             input_frame,
             wrap=tk.NONE,
             width=80,
-            height=8,
+            height=10,
             font=('宋体', 11)
         )
         self.input_text.grid(row=1, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
@@ -267,9 +250,9 @@ class Digest2GUI:
         )
         self.download_obscode_btn.pack(side=tk.LEFT, padx=5)
         
-        # 结果显示区域（row=5）
+        # 结果显示区域（row=4）
         result_frame = ttk.LabelFrame(eval_frame, text="分析结果", padding="10")
-        result_frame.grid(row=5, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        result_frame.grid(row=4, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         result_frame.columnconfigure(0, weight=1)
         result_frame.rowconfigure(0, weight=1)
         
