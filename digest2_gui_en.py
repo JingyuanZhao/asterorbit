@@ -514,6 +514,13 @@ class Digest2GUI:
         info_text.insert(tk.END, "https://asterorbit-digest2.hf.space/en/", 'link')
         info_text.insert(tk.END, f"\nDigest2 Version: {digest2_version}")
         info_text.tag_config('link', foreground='#1a73e8', underline=True)
+        
+        # Configure selected link style (white text on blue background, keep underline)
+        info_text.tag_config('link_sel', foreground='#ffffff', background='#1a73e8', underline=True)
+        
+        # Configure default selection style (no underline)
+        info_text.tag_config('sel', foreground='white', background='#0078d4', underline=False)
+        
         info_text.bind('<Button-3>', lambda e: self.show_about_context_menu(e, info_text))
         
         def open_web_link(event):
@@ -528,6 +535,27 @@ class Digest2GUI:
             else:
                 info_text.config(cursor='xterm')
         info_text.bind('<Motion>', on_info_mouse_move)
+        
+        # Update link style when selection changes
+        def on_info_select(event):
+            # Clear previous selection style
+            info_text.tag_remove('link_sel', '1.0', tk.END)
+            # Get selection range
+            try:
+                sel_start = info_text.index(tk.SEL_FIRST)
+                sel_end = info_text.index(tk.SEL_LAST)
+                # Only apply selected style to links that overlap with selection
+                for link_start, link_end in zip(
+                    info_text.tag_ranges('link')[0::2],
+                    info_text.tag_ranges('link')[1::2]
+                ):
+                    if info_text.compare(link_start, '<', sel_end) and \
+                       info_text.compare(link_end, '>', sel_start):
+                        info_text.tag_add('link_sel', link_start, link_end)
+            except tk.TclError:
+                pass  # No selected text
+        
+        info_text.bind('<<Selection>>', on_info_select)
         
         # Add references title
         ref_title_label = ttk.Label(content_frame, text="References", font=('Segoe UI', 11, 'bold'), foreground='#333')
@@ -626,6 +654,7 @@ class Digest2GUI:
         def clear_text_selection(event):
             about_text_widget.tag_remove(tk.SEL, '1.0', tk.END)
             info_text.tag_remove(tk.SEL, '1.0', tk.END)
+            info_text.tag_remove('link_sel', '1.0', tk.END)
             ref_text_widget.tag_remove(tk.SEL, '1.0', tk.END)
             ref_text_widget.tag_remove('link_sel', '1.0', tk.END)
         
