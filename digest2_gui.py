@@ -364,6 +364,7 @@ class Digest2GUI:
             style='DescTreeview.Treeview',
             selectmode='extended'
         )
+        self.drag_start = None  # 拖拽起始行
         
         # 移除交替背景色
         
@@ -411,6 +412,9 @@ class Digest2GUI:
         scrollbar_y.grid(row=0, column=1, sticky=(tk.N, tk.S))
         scrollbar_x.grid(row=1, column=0, sticky=(tk.W, tk.E))
         
+        # 绑定拖拽选择事件
+        self.desc_tree.bind('<Button-1>', self.on_desc_tree_press)
+        self.desc_tree.bind('<B1-Motion>', self.on_desc_tree_drag)
         # 绑定右键菜单到类型说明表格
         self.desc_tree.bind('<Button-3>', self.show_desc_tree_context_menu)
         
@@ -599,38 +603,34 @@ class Digest2GUI:
                 self.tree.selection_set(item)
                 return 'break'
     
-    def on_desc_tree_click(self, event):
-        """处理类型说明表格的点击事件，实现点击切换选中"""
-        # 获取点击的行
+    def on_desc_tree_press(self, event):
+        """处理类型说明表格的鼠标按下事件，记录拖拽起始位置"""
         item = self.desc_tree.identify_row(event.y)
-        if not item:
-            return
-        
-        # 获取修饰键状态
-        ctrl_pressed = (event.state & 0x4) != 0  # Ctrl键
-        shift_pressed = (event.state & 0x1) != 0  # Shift键
-        
-        if ctrl_pressed:
-            # Ctrl+单击：切换单个选中状态
-            if item in self.desc_tree.selection():
-                self.desc_tree.selection_remove(item)
-            else:
-                self.desc_tree.selection_add(item)
-            return 'break'  # 阻止默认的选中行为
-        elif shift_pressed:
-            # Shift+单击：让Treeview处理默认的范围选择
-            return
+        if item:
+            self.drag_start = item
+            # 选中起始行
+            self.desc_tree.selection_set(item)
         else:
-            # 普通单击
-            selected = self.desc_tree.selection()
-            if item in selected:
-                # 如果点击的行已经被选中，则取消选中这一行
-                self.desc_tree.selection_remove(item)
-                return 'break'
-            else:
-                # 如果点击的行未被选中，则只选中这一行，取消其他所有选中
-                self.desc_tree.selection_set(item)
-                return 'break'
+            self.drag_start = None
+    
+    def on_desc_tree_drag(self, event):
+        """处理类型说明表格的鼠标拖拽事件，实现拖拽多选"""
+        if self.drag_start is None:
+            return
+        
+        current_item = self.desc_tree.identify_row(event.y)
+        if current_item:
+            # 获取所有行
+            all_items = self.desc_tree.get_children()
+            start_index = all_items.index(self.drag_start)
+            current_index = all_items.index(current_item)
+            
+            # 确定选择范围
+            min_index = min(start_index, current_index)
+            max_index = max(start_index, current_index)
+            
+            # 选中范围内的所有行
+            self.desc_tree.selection_set(all_items[min_index:max_index+1])
     
     def show_desc_tree_context_menu(self, event):
         """显示类型说明表格的右键菜单"""
