@@ -353,7 +353,8 @@ class Digest2GUI:
             columns=columns,
             show='headings',
             height=15,
-            style='DescTreeview.Treeview'
+            style='DescTreeview.Treeview',
+            selectmode='extended'
         )
         
         # Remove alternating background colors
@@ -400,8 +401,6 @@ class Digest2GUI:
         scrollbar_y.grid(row=0, column=1, sticky=(tk.N, tk.S))
         scrollbar_x.grid(row=1, column=0, sticky=(tk.W, tk.E))
         
-        # Bind click event to description tree
-        self.desc_tree.bind('<Button-1>', self.on_desc_tree_click)
         # Bind right-click menu to description tree
         self.desc_tree.bind('<Button-3>', self.show_desc_tree_context_menu)
         
