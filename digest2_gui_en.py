@@ -180,7 +180,7 @@ class Digest2GUI:
         # Configure grid weights
         eval_frame.columnconfigure(0, weight=1)
         eval_frame.rowconfigure(2, weight=1)  # Input area can expand
-        eval_frame.rowconfigure(5, weight=1)  # Result display area can expand
+        eval_frame.rowconfigure(4, weight=1)  # Result display area can expand
         
         # Description text
         desc_label = ttk.Label(
@@ -206,7 +206,7 @@ class Digest2GUI:
         
         # Manual input area
         input_frame = ttk.LabelFrame(eval_frame, text="Observation Data", padding="10")
-        input_frame.grid(row=3, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        input_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         input_frame.columnconfigure(0, weight=1)
         input_frame.rowconfigure(1, weight=1)
         
@@ -225,7 +225,7 @@ class Digest2GUI:
         
         # Button area
         btn_frame = ttk.Frame(eval_frame)
-        btn_frame.grid(row=4, column=0, columnspan=3, pady=10)
+        btn_frame.grid(row=3, column=0, columnspan=3, pady=10)
         
         self.analyze_btn = ttk.Button(
             btn_frame,
@@ -251,9 +251,9 @@ class Digest2GUI:
         )
         self.download_obscode_btn.pack(side=tk.LEFT, padx=5)
         
-        # Result display area (row=5)
+        # Result display area (row=4)
         result_frame = ttk.LabelFrame(eval_frame, text="Analysis Results", padding="10")
-        result_frame.grid(row=5, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        result_frame.grid(row=4, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         result_frame.columnconfigure(0, weight=1)
         result_frame.rowconfigure(0, weight=1)
         
