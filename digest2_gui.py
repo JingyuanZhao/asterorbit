@@ -409,7 +409,8 @@ class Digest2GUI:
     
     def insert_definition_with_italic(self, text_widget, definition, bg_tag):
         """插入定义文本，使用数学斜体符号"""
-        # 字母替换为数学斜体符号
+        import re
+        # 字母替换为数学斜体符号 - 只替换单独出现的字母
         italic_map = {
             'q': '𝑞', 'a': '𝑎', 'i': '𝑖', 'e': '𝑒',
             'Q': '𝑄', 'H': '𝐻', 'D': '𝐷', 'T': '𝑇', 'J': '𝐽'
@@ -417,7 +418,8 @@ class Digest2GUI:
         
         result = definition
         for normal, italic in italic_map.items():
-            result = result.replace(normal, italic)
+            # 使用正则表达式只替换单独出现的字母（单词边界）
+            result = re.sub(r'\b' + re.escape(normal) + r'\b', italic, result)
         
         text_widget.insert(tk.END, result, ('definition', bg_tag))
     

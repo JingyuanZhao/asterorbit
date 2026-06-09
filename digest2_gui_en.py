@@ -399,7 +399,8 @@ class Digest2GUI:
     
     def insert_definition_with_italic(self, text_widget, definition, bg_tag):
         """Insert definition text, use mathematical italic symbols"""
-        # Replace letters with mathematical italic symbols
+        import re
+        # Replace letters with mathematical italic symbols - only when they are standalone
         italic_map = {
             'q': '𝑞', 'a': '𝑎', 'i': '𝑖', 'e': '𝑒',
             'Q': '𝑄', 'H': '𝐻', 'D': '𝐷', 'T': '𝑇', 'J': '𝐽'
@@ -407,7 +408,8 @@ class Digest2GUI:
         
         result = definition
         for normal, italic in italic_map.items():
-            result = result.replace(normal, italic)
+            # Use regex to only replace standalone letters (word boundaries)
+            result = re.sub(r'\b' + re.escape(normal) + r'\b', italic, result)
         
         text_widget.insert(tk.END, result, ('definition', bg_tag))
     
