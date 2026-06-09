@@ -344,7 +344,7 @@ class Digest2GUI:
         
         # 创建Text组件
         text_widget = tk.Text(text_frame, wrap=tk.WORD, font=('微软雅黑', 10), 
-                             bg='#ffffff', relief='flat', spacing1=6, spacing2=4, spacing3=6,
+                             bg='#ffffff', relief='flat', spacing1=2, spacing2=1, spacing3=2,
                              borderwidth=0, highlightthickness=0)
         text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         
@@ -360,9 +360,9 @@ class Digest2GUI:
         text_widget.tag_config('italic', font=('微软雅黑', 10, 'italic'))
         # 设置选择文本的样式，确保能看清
         text_widget.tag_config('sel', background='#0078d4', foreground='#ffffff')
-        # 设置分隔线标签
-        text_widget.tag_config('solid_sep', foreground='#000000')
-        text_widget.tag_config('dashed_sep', foreground='#999999')
+        # 设置分隔线标签（选择时不显示）
+        text_widget.tag_config('solid_sep', foreground='#000000', selectbackground='#ffffff', selectforeground='#ffffff')
+        text_widget.tag_config('dashed_sep', foreground='#999999', selectbackground='#ffffff', selectforeground='#ffffff')
         
         # 轨道类型说明（使用 Digest2 官方定义及标准天文学参数）
         orbit_types = [

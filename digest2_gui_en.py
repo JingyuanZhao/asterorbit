@@ -337,7 +337,7 @@ class Digest2GUI:
         
         # Create Text widget
         text_widget = tk.Text(text_frame, wrap=tk.WORD, font=('Segoe UI', 11), 
-                             bg='#ffffff', relief='flat', spacing1=6, spacing2=4, spacing3=6,
+                             bg='#ffffff', relief='flat', spacing1=2, spacing2=1, spacing3=2,
                              borderwidth=0, highlightthickness=0)
         text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         
@@ -352,9 +352,9 @@ class Digest2GUI:
         text_widget.tag_config('italic', font=('Segoe UI', 11, 'italic'))
         # Set selected text style for better visibility
         text_widget.tag_config('sel', background='#0078d4', foreground='#ffffff')
-        # Set separator tags
-        text_widget.tag_config('solid_sep', foreground='#000000')
-        text_widget.tag_config('dashed_sep', foreground='#999999')
+        # Set separator tags (not visible when selected)
+        text_widget.tag_config('solid_sep', foreground='#000000', selectbackground='#ffffff', selectforeground='#ffffff')
+        text_widget.tag_config('dashed_sep', foreground='#999999', selectbackground='#ffffff', selectforeground='#ffffff')
         
         # Orbit type descriptions (using Digest2 official definitions and standard astronomical parameters)
         orbit_types = [
