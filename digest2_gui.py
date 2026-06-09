@@ -614,9 +614,14 @@ class Digest2GUI:
         """处理分析结果表格的鼠标按下事件，记录拖拽起始位置"""
         item = self.tree.identify_row(event.y)
         if item:
-            self.result_drag_start = item
-            # 选中起始行
-            self.tree.selection_set(item)
+            # 如果点击已选中的行，则取消选中
+            if item in self.tree.selection():
+                self.tree.selection_remove(item)
+                self.result_drag_start = None
+            else:
+                self.result_drag_start = item
+                # 选中起始行
+                self.tree.selection_set(item)
         else:
             self.result_drag_start = None
     
