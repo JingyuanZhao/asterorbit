@@ -505,7 +505,7 @@ class Digest2GUI:
                                   foreground='#333', spacing1=3, spacing2=2, spacing3=3,
                                   borderwidth=0, highlightthickness=0)
         about_text_widget.pack(fill=tk.X, anchor=tk.W, pady=(0, 15))
-        about_text_widget.insert(tk.END, "本应用由星空下的守望者基于小行星中心（MPC）官方开源的Digest2源代码构建，非MPC官方项目。Digest2源代码作者：Sonia Keys、Carl Hergenrother、Robert McNaught、David Asher，源代码中的ADES支持由 Richard Cloete 和 Peter Vereš添加。")
+        about_text_widget.insert(tk.END, "本应用由赵经远基于小行星中心（MPC）官方开源的Digest2源代码构建，非MPC官方项目。Digest2源代码作者：Sonia Keys、Carl Hergenrother、Robert McNaught、David Asher，源代码中的ADES支持由 Richard Cloete 和 Peter Vereš添加。")
         about_text_widget.config(state=tk.DISABLED)
         
         # 添加支持的数据格式
