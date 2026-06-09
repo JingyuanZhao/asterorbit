@@ -179,29 +179,12 @@ class Digest2GUI:
         
         # Configure grid weights
         eval_frame.columnconfigure(0, weight=1)
-        eval_frame.rowconfigure(3, weight=1)  # Input area can expand
-        eval_frame.rowconfigure(5, weight=1)  # Result display area can expand
-        
-        # Title
-        title_label = ttk.Label(
-            eval_frame, 
-            text="Asterorbit - Asteroid Orbit Classification Tool", 
-            style='Header.TLabel',
-            font=('Segoe UI', 16, 'bold')
-        )
-        title_label.grid(row=0, column=0, columnspan=3, pady=(10, 10))
-        
-        # Description text
-        desc_label = ttk.Label(
-            eval_frame,
-            text="Select a file or enter observation data in MPC 80-column or ADES format, and the program will automatically analyze and evaluate orbit types.",
-            wraplength=1100
-        )
-        desc_label.grid(row=1, column=0, columnspan=3, pady=(0, 15), sticky=tk.W)
+        eval_frame.rowconfigure(2, weight=1)  # Input area can expand
+        eval_frame.rowconfigure(4, weight=1)  # Result display area can expand
         
         # File selection area
         file_frame = ttk.LabelFrame(eval_frame, text="File Selection", padding="10")
-        file_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
+        file_frame.grid(row=0, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
         file_frame.columnconfigure(1, weight=1)
         
         ttk.Label(file_frame, text="Observation File:").grid(row=0, column=0, sticky=tk.W)
@@ -215,7 +198,7 @@ class Digest2GUI:
         
         # Manual input area
         input_frame = ttk.LabelFrame(eval_frame, text="Observation Data", padding="10")
-        input_frame.grid(row=3, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        input_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         input_frame.columnconfigure(0, weight=1)
         input_frame.rowconfigure(1, weight=1)
         
@@ -225,7 +208,7 @@ class Digest2GUI:
             input_frame,
             wrap=tk.NONE,
             width=80,
-            height=8,
+            height=10,
             font=('Segoe UI', 11)
         )
         self.input_text.grid(row=1, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
@@ -260,9 +243,9 @@ class Digest2GUI:
         )
         self.download_obscode_btn.pack(side=tk.LEFT, padx=5)
         
-        # Result display area (row=5)
+        # Result display area (row=4)
         result_frame = ttk.LabelFrame(eval_frame, text="Analysis Results", padding="10")
-        result_frame.grid(row=5, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        result_frame.grid(row=4, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         result_frame.columnconfigure(0, weight=1)
         result_frame.rowconfigure(0, weight=1)
         
