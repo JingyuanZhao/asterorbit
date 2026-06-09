@@ -150,11 +150,11 @@ class Digest2GUI:
         
         # 类型说明表格样式（更大字体）
         style.configure('DescTreeview.Treeview',
-                       font=('宋体', 12))
+                       font=('宋体', 11))
         style.configure('DescTreeview.Treeview.Heading', 
                        background='#f5f5f5', 
                        foreground='#333333',
-                       font=('微软雅黑', 12, 'bold'))
+                       font=('微软雅黑', 11, 'bold'))
         style.map('DescTreeview.Treeview',
                   foreground=[('selected', '#333333')],
                   background=[('selected', '#e8f0fe'), ('active', '#f0f0f0')])
