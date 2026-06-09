@@ -422,43 +422,35 @@ class Digest2GUI:
                                 font=('Segoe UI', 10, 'bold'))
         legend_title.pack(anchor=tk.W, pady=(0, 5))
         
-        # Two columns layout
+        # Four columns layout
         legend_columns = ttk.Frame(legend_frame)
         legend_columns.pack(fill=tk.X)
         
-        # Left column
-        left_col = ttk.Frame(legend_columns)
-        left_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        
-        left_params = [
+        all_params = [
             ('𝑞', 'Perihelion distance'),
             ('𝑄', 'Aphelion distance'),
             ('𝑎', 'Semi-major axis'),
             ('𝑒', 'Orbital eccentricity'),
-        ]
-        
-        for symbol, meaning in left_params:
-            row = ttk.Frame(left_col)
-            row.pack(fill=tk.X, pady=1)
-            ttk.Label(row, text=symbol, font=('Segoe UI', 10), width=3).pack(side=tk.LEFT)
-            ttk.Label(row, text='= ' + meaning, font=('Segoe UI', 10)).pack(side=tk.LEFT)
-        
-        # Right column
-        right_col = ttk.Frame(legend_columns)
-        right_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(20, 0))
-        
-        right_params = [
             ('𝑖', 'Orbital inclination'),
             ('𝐻', 'Absolute magnitude'),
             ('𝑇𝐽', 'Tisserand parameter relative to Jupiter'),
             ('𝐷', 'Diameter'),
         ]
         
-        for symbol, meaning in right_params:
-            row = ttk.Frame(right_col)
-            row.pack(fill=tk.X, pady=1)
-            ttk.Label(row, text=symbol, font=('Segoe UI', 10), width=3).pack(side=tk.LEFT)
-            ttk.Label(row, text='= ' + meaning, font=('Segoe UI', 10)).pack(side=tk.LEFT)
+        # Create 4 columns, 2 rows
+        for i in range(4):
+            col_frame = ttk.Frame(legend_columns)
+            col_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0 if i == 0 else 10, 0))
+            
+            # Add 2 items per column
+            for j in range(2):
+                idx = i * 2 + j
+                if idx < len(all_params):
+                    symbol, meaning = all_params[idx]
+                    row = ttk.Frame(col_frame)
+                    row.pack(fill=tk.X, pady=1)
+                    ttk.Label(row, text=symbol, font=('Segoe UI', 10), width=3).pack(side=tk.LEFT)
+                    ttk.Label(row, text='= ' + meaning, font=('Segoe UI', 10)).pack(side=tk.LEFT)
     
     def insert_definition_with_italic(self, text_widget, definition, bg_tag):
         """Insert definition text, use mathematical italic symbols"""
