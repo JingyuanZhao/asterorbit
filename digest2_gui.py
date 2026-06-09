@@ -358,10 +358,11 @@ class Digest2GUI:
         text_widget.tag_config('chinese', font=('微软雅黑', 10))
         text_widget.tag_config('definition', font=('微软雅黑', 10))
         text_widget.tag_config('italic', font=('微软雅黑', 10, 'italic'))
-        text_widget.tag_config('row_bg1', background='#ffffff')
-        text_widget.tag_config('row_bg2', background='#f9f9f9')
         # 设置选择文本的样式，确保能看清
         text_widget.tag_config('sel', background='#0078d4', foreground='#ffffff')
+        # 设置分隔线标签
+        text_widget.tag_config('solid_sep', foreground='#000000')
+        text_widget.tag_config('dashed_sep', foreground='#999999')
         
         # 轨道类型说明（使用 Digest2 官方定义及标准天文学参数）
         orbit_types = [
@@ -383,27 +384,27 @@ class Digest2GUI:
         ]
         
         # 添加表头
-        text_widget.insert(tk.END, '  缩写\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, '英文全称\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, '中文含义\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, 'Digest2定义', ('header', 'row_bg1'))
-        # 添加少量空格填充背景色
-        text_widget.insert(tk.END, ' ' * 20, ('header', 'row_bg1'))
-        text_widget.insert(tk.END, '\n')
+        text_widget.insert(tk.END, '  缩写\t', 'header')
+        text_widget.insert(tk.END, '英文全称\t', 'header')
+        text_widget.insert(tk.END, '中文含义\t', 'header')
+        text_widget.insert(tk.END, 'Digest2定义\n', 'header')
+        
+        # 添加表头下方的实线分隔
+        text_widget.insert(tk.END, '-' * 150 + '\n', 'solid_sep')
         
         # 添加数据行
         for i, (abbrev, fullname, chinese, definition) in enumerate(orbit_types):
-            bg_tag = 'row_bg2' if i % 2 == 0 else 'row_bg1'
-            
-            text_widget.insert(tk.END, f'  {abbrev}\t', ('abbrev', bg_tag))
-            text_widget.insert(tk.END, f'{fullname}\t', ('fullname', bg_tag))
-            text_widget.insert(tk.END, f'{chinese}\t', ('chinese', bg_tag))
+            text_widget.insert(tk.END, f'  {abbrev}\t', 'abbrev')
+            text_widget.insert(tk.END, f'{fullname}\t', 'fullname')
+            text_widget.insert(tk.END, f'{chinese}\t', 'chinese')
             
             # 插入定义并标记需要斜体的部分
-            self.insert_definition_with_italic(text_widget, definition, bg_tag)
-            # 添加少量空格填充背景色
-            text_widget.insert(tk.END, ' ' * 20, (bg_tag))
+            self.insert_definition_with_italic(text_widget, definition, None)
             text_widget.insert(tk.END, '\n')
+            
+            # 如果不是最后一行，添加虚线分隔
+            if i < len(orbit_types) - 1:
+                text_widget.insert(tk.END, '-' * 150 + '\n', 'dashed_sep')
         
         text_widget.config(state=tk.DISABLED)
         
@@ -429,7 +430,7 @@ class Digest2GUI:
             # 使用正则表达式只替换单独出现的字母（单词边界）
             result = re.sub(r'\b' + re.escape(normal) + r'\b', italic, result)
         
-        text_widget.insert(tk.END, result, ('definition', bg_tag))
+        text_widget.insert(tk.END, result, 'definition')
     
     def create_about_tab(self):
         """创建关于页面"""

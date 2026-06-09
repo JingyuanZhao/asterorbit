@@ -350,10 +350,11 @@ class Digest2GUI:
         text_widget.tag_config('fullname', font=('Segoe UI', 11))
         text_widget.tag_config('definition', font=('Segoe UI', 11))
         text_widget.tag_config('italic', font=('Segoe UI', 11, 'italic'))
-        text_widget.tag_config('row_bg1', background='#ffffff')
-        text_widget.tag_config('row_bg2', background='#f9f9f9')
         # Set selected text style for better visibility
         text_widget.tag_config('sel', background='#0078d4', foreground='#ffffff')
+        # Set separator tags
+        text_widget.tag_config('solid_sep', foreground='#000000')
+        text_widget.tag_config('dashed_sep', foreground='#999999')
         
         # Orbit type descriptions (using Digest2 official definitions and standard astronomical parameters)
         orbit_types = [
@@ -375,25 +376,25 @@ class Digest2GUI:
         ]
         
         # Add header
-        text_widget.insert(tk.END, '  Abbr\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, 'Full Name\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, 'Digest2 Definition', ('header', 'row_bg1'))
-        # Add small number of spaces for background color
-        text_widget.insert(tk.END, ' ' * 20, ('header', 'row_bg1'))
-        text_widget.insert(tk.END, '\n')
+        text_widget.insert(tk.END, '  Abbr\t', 'header')
+        text_widget.insert(tk.END, 'Full Name\t', 'header')
+        text_widget.insert(tk.END, 'Digest2 Definition\n', 'header')
+        
+        # Add solid separator below header
+        text_widget.insert(tk.END, '-' * 150 + '\n', 'solid_sep')
         
         # Add data rows
         for i, (abbrev, fullname, definition) in enumerate(orbit_types):
-            bg_tag = 'row_bg2' if i % 2 == 0 else 'row_bg1'
-            
-            text_widget.insert(tk.END, f'  {abbrev}\t', ('abbrev', bg_tag))
-            text_widget.insert(tk.END, f'{fullname}\t', ('fullname', bg_tag))
+            text_widget.insert(tk.END, f'  {abbrev}\t', 'abbrev')
+            text_widget.insert(tk.END, f'{fullname}\t', 'fullname')
             
             # Insert definition and mark italic parts
-            self.insert_definition_with_italic(text_widget, definition, bg_tag)
-            # Add small number of spaces for background color
-            text_widget.insert(tk.END, ' ' * 20, (bg_tag))
+            self.insert_definition_with_italic(text_widget, definition, None)
             text_widget.insert(tk.END, '\n')
+            
+            # If not last line, add dashed separator
+            if i < len(orbit_types) - 1:
+                text_widget.insert(tk.END, '-' * 150 + '\n', 'dashed_sep')
         
         text_widget.config(state=tk.DISABLED)
         
@@ -419,7 +420,7 @@ class Digest2GUI:
             # Use regex to only replace standalone letters (word boundaries)
             result = re.sub(r'\b' + re.escape(normal) + r'\b', italic, result)
         
-        text_widget.insert(tk.END, result, ('definition', bg_tag))
+        text_widget.insert(tk.END, result, 'definition')
     
     def create_about_tab(self):
         """Create about tab"""
