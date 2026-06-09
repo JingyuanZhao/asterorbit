@@ -370,17 +370,17 @@ class Digest2GUI:
         
         # 移除交替背景色
         
-        # 设置列标题（左对齐）
-        self.desc_tree.heading('abbrev', text='缩写', anchor='w')
-        self.desc_tree.heading('fullname', text='英文全称', anchor='w')
-        self.desc_tree.heading('chinese', text='中文含义', anchor='w')
-        self.desc_tree.heading('definition', text='Digest2定义', anchor='w')
+        # 设置列标题
+        self.desc_tree.heading('abbrev', text='缩写')
+        self.desc_tree.heading('fullname', text='英文全称')
+        self.desc_tree.heading('chinese', text='中文含义')
+        self.desc_tree.heading('definition', text='Digest2定义')
         
-        # 设置列宽和左对齐
-        self.desc_tree.column('abbrev', width=30, minwidth=30, anchor='w')
-        self.desc_tree.column('fullname', width=180, minwidth=180, anchor='w')
-        self.desc_tree.column('chinese', width=120, minwidth=100, anchor='w')
-        self.desc_tree.column('definition', width=700, minwidth=300, anchor='w')
+        # 设置列宽
+        self.desc_tree.column('abbrev', width=30, minwidth=30)
+        self.desc_tree.column('fullname', width=180, minwidth=180)
+        self.desc_tree.column('chinese', width=120, minwidth=100)
+        self.desc_tree.column('definition', width=700, minwidth=300)
         
         # 轨道类型说明（使用 Digest2 官方定义及标准天文学参数）
         orbit_types = [
