@@ -575,8 +575,11 @@ class Digest2GUI:
         # 配置超链接样式
         ref_text_widget.tag_config('link', foreground='#1a73e8', underline=True)
         
-        # 配置选中超链接时的样式（白色文字，蓝色背景）
-        ref_text_widget.tag_config('link_sel', foreground='#ffffff', background='#1a73e8', underline=True)
+        # 配置选中超链接时的样式（白色文字，蓝色背景，不加下划线）
+        ref_text_widget.tag_config('link_sel', foreground='#ffffff', background='#1a73e8', underline=False)
+        
+        # 配置默认选中样式（不加下划线）
+        ref_text_widget.tag_config('sel', foreground='white', background='#0078d4', underline=False)
         
         # 超链接点击事件处理
         def open_link(event):

@@ -566,8 +566,11 @@ class Digest2GUI:
         # Configure hyperlink styles
         ref_text_widget.tag_config('link', foreground='#1a73e8', underline=True)
         
-        # Configure selected link style (white text on blue background)
-        ref_text_widget.tag_config('link_sel', foreground='#ffffff', background='#1a73e8', underline=True)
+        # Configure selected link style (white text on blue background, no underline)
+        ref_text_widget.tag_config('link_sel', foreground='#ffffff', background='#1a73e8', underline=False)
+        
+        # Configure default selection style (no underline)
+        ref_text_widget.tag_config('sel', foreground='white', background='#0078d4', underline=False)
         
         # Hyperlink click event handler
         def open_link(event):
