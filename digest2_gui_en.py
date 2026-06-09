@@ -379,7 +379,7 @@ class Digest2GUI:
             ('MC', 'Mars Crosser', 'Crosses Mars orbit. 1.3 AU < 𝑞 < 1.67 AU, 𝑄 > 1.58 AU'),
             ('Hun', 'Hungaria Group', 'Group represented by 434 Hungaria. 1.78 AU < 𝑎 < 2 AU, 𝑒 < 0.18, 16° < 𝑖 < 34°'),
             ('Pho', 'Phocaea Group', 'Group represented by 25 Phocaea. 𝑞 > 1.5 AU, 2.2 AU < 𝑎 < 2.45 AU, 20° < 𝑖 < 27°'),
-            ('MB1', 'Inner Main Belt', '𝑞 > 1.67 AU, 2.1 AU < 𝑎 < 2.5 AU, 𝑖 < ((𝑎-2.1)/0.4)*10+7'),
+            ('MB1', 'Inner Main Belt', '𝑞 > 1.67 AU, 2.1 AU < 𝑎 < 2.5 AU, 𝑖 < 25a−45.5'),
             ('Pal', 'Pallas Group', 'Group represented by 2 Pallas. 2.5 AU < 𝑎 < 2.8 AU, 𝑒 < 0.35, 24° < 𝑖 < 37°'),
             ('Han', 'Hansa Group', 'Group represented by 480 Hansa. 2.55 AU < 𝑎 < 2.72 AU, 𝑒 < 0.25, 20° < 𝑖 < 23.5°'),
             ('MB2', 'Middle Main Belt', '2.5 AU < 𝑎 < 2.8 AU, 𝑒 < 0.45, 𝑖 < 20°'),
