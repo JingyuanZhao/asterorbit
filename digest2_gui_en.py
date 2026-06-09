@@ -375,29 +375,25 @@ class Digest2GUI:
         ]
         
         # Add header
-        line_start = text_widget.index(tk.END)
-        text_widget.insert(tk.END, '  Abbr\t', 'header')
-        text_widget.insert(tk.END, 'Full Name\t', 'header')
-        text_widget.insert(tk.END, 'Digest2 Definition', 'header')
+        text_widget.insert(tk.END, '  Abbr\t', ('header', 'row_bg1'))
+        text_widget.insert(tk.END, 'Full Name\t', ('header', 'row_bg1'))
+        text_widget.insert(tk.END, 'Digest2 Definition', ('header', 'row_bg1'))
+        # Add small number of spaces for background color
+        text_widget.insert(tk.END, ' ' * 20, ('header', 'row_bg1'))
         text_widget.insert(tk.END, '\n')
-        # Give whole line background color
-        text_widget.tag_add('row_bg1', line_start, tk.END)
-        text_widget.tag_add('header', line_start, tk.END)
         
         # Add data rows
         for i, (abbrev, fullname, definition) in enumerate(orbit_types):
             bg_tag = 'row_bg2' if i % 2 == 0 else 'row_bg1'
-            line_start = text_widget.index(tk.END)
             
-            text_widget.insert(tk.END, f'  {abbrev}\t', 'abbrev')
-            text_widget.insert(tk.END, f'{fullname}\t', 'fullname')
+            text_widget.insert(tk.END, f'  {abbrev}\t', ('abbrev', bg_tag))
+            text_widget.insert(tk.END, f'{fullname}\t', ('fullname', bg_tag))
             
             # Insert definition and mark italic parts
-            self.insert_definition_with_italic(text_widget, definition, None)
+            self.insert_definition_with_italic(text_widget, definition, bg_tag)
+            # Add small number of spaces for background color
+            text_widget.insert(tk.END, ' ' * 20, (bg_tag))
             text_widget.insert(tk.END, '\n')
-            
-            # Give whole line background color
-            text_widget.tag_add(bg_tag, line_start, tk.END)
         
         text_widget.config(state=tk.DISABLED)
         
@@ -423,10 +419,7 @@ class Digest2GUI:
             # Use regex to only replace standalone letters (word boundaries)
             result = re.sub(r'\b' + re.escape(normal) + r'\b', italic, result)
         
-        if bg_tag:
-            text_widget.insert(tk.END, result, ('definition', bg_tag))
-        else:
-            text_widget.insert(tk.END, result, 'definition')
+        text_widget.insert(tk.END, result, ('definition', bg_tag))
     
     def create_about_tab(self):
         """Create about tab"""
