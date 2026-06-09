@@ -485,7 +485,8 @@ class Digest2GUI:
         about_text_widget = tk.Text(content_frame, wrap=tk.WORD, height=2, 
                                   font=('Segoe UI', 11), bg='#f5f5f5', relief='flat',
                                   foreground='#333', spacing1=3, spacing2=2, spacing3=3,
-                                  borderwidth=0, highlightthickness=0)
+                                  borderwidth=0, highlightthickness=0,
+                                  insertofftime=0, insertontime=0)
         about_text_widget.pack(fill=tk.X, anchor=tk.W, pady=(0, 15))
         about_text_widget.insert(tk.END, "This application is built by Jingyuan Zhao based on the official open source Digest2 code from the Minor Planet Center, and is not an official MPC project. Digest2 source code authors: Sonia Keys, Carl Hergenrother, Robert McNaught, David Asher, with ADES support added by Richard Cloete and Peter Vereš.")
         
@@ -546,7 +547,8 @@ class Digest2GUI:
                                   font=('Segoe UI', 10), bg='#f5f5f5', relief='flat',
                                   foreground='#444', spacing1=5, spacing2=5, spacing3=10,
                                   borderwidth=0, highlightthickness=0,
-                                  cursor='xterm')
+                                  cursor='xterm',
+                                  insertofftime=0, insertontime=0)
         ref_text_widget.pack(fill=tk.X, padx=10, pady=10)
         
         # Add references content (with hyperlinks)
