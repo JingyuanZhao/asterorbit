@@ -422,6 +422,44 @@ class Digest2GUI:
         
         tree_frame.columnconfigure(0, weight=1)
         tree_frame.rowconfigure(0, weight=1)
+        
+        # 添加参数说明区域
+        legend_frame = ttk.Frame(main_frame)
+        legend_frame.pack(fill=tk.X, pady=(10, 0))
+        
+        legend_title = ttk.Label(legend_frame, text='参数说明：', 
+                                font=('微软雅黑', 10, 'bold'))
+        legend_title.pack(anchor=tk.W, pady=(0, 5))
+        
+        # 四列布局
+        legend_columns = ttk.Frame(legend_frame)
+        legend_columns.pack(fill=tk.X)
+        
+        all_params = [
+            ('𝑞', '近日距'),
+            ('𝑄', '远日距'),
+            ('𝑎', '半长轴'),
+            ('𝑒', '轨道偏心率'),
+            ('𝑖', '轨道倾角'),
+            ('𝐻', '绝对星等'),
+            ('𝑇𝐽', '相对于木星的蒂塞朗参数'),
+            ('𝐷', '直径'),
+        ]
+        
+        # 创建4列，每列2个
+        for i in range(4):
+            col_frame = ttk.Frame(legend_columns)
+            col_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0 if i == 0 else 10, 0))
+            
+            # 每列添加2个参数
+            for j in range(2):
+                idx = i * 2 + j
+                if idx < len(all_params):
+                    symbol, meaning = all_params[idx]
+                    row = ttk.Frame(col_frame)
+                    row.pack(fill=tk.X, pady=1)
+                    ttk.Label(row, text=symbol, font=('Segoe UI', 10), width=3).pack(side=tk.LEFT)
+                    ttk.Label(row, text='= ' + meaning, font=('微软雅黑', 10)).pack(side=tk.LEFT)
     
     def insert_definition_with_italic(self, text_widget, definition, bg_tag):
         """插入定义文本，使用数学斜体符号"""
