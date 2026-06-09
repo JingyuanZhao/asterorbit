@@ -27,4 +27,4 @@ Thumbs.db
 *.log
 
 # Spec files (PyInstaller)
-*.spec
+# *.spec  # 保留spec文件以便打包
