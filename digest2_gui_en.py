@@ -182,9 +182,17 @@ class Digest2GUI:
         eval_frame.rowconfigure(2, weight=1)  # Input area can expand
         eval_frame.rowconfigure(4, weight=1)  # Result display area can expand
         
+        # Description text
+        desc_label = ttk.Label(
+            eval_frame,
+            text="Select a file or enter observation data in MPC 80-column or ADES format, and the program will automatically analyze and evaluate orbit types.",
+            wraplength=1100
+        )
+        desc_label.grid(row=0, column=0, columnspan=3, pady=(0, 10), sticky=tk.W)
+        
         # File selection area
         file_frame = ttk.LabelFrame(eval_frame, text="File Selection", padding="10")
-        file_frame.grid(row=0, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
+        file_frame.grid(row=1, column=0, columnspan=3, sticky=(tk.W, tk.E), pady=(0, 10))
         file_frame.columnconfigure(1, weight=1)
         
         ttk.Label(file_frame, text="Observation File:").grid(row=0, column=0, sticky=tk.W)
@@ -198,7 +206,7 @@ class Digest2GUI:
         
         # Manual input area
         input_frame = ttk.LabelFrame(eval_frame, text="Observation Data", padding="10")
-        input_frame.grid(row=2, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        input_frame.grid(row=3, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         input_frame.columnconfigure(0, weight=1)
         input_frame.rowconfigure(1, weight=1)
         
@@ -208,7 +216,7 @@ class Digest2GUI:
             input_frame,
             wrap=tk.NONE,
             width=80,
-            height=10,
+            height=8,
             font=('Segoe UI', 11)
         )
         self.input_text.grid(row=1, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
