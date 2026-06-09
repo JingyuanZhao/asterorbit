@@ -635,6 +635,15 @@ class Digest2GUI:
         style.configure('Transparent.TFrame', background='#f5f5f5')
         style.configure('Transparent.TLabel', background='#f5f5f5')
         style.configure('RefContainer.TFrame', background='#f5f5f5', bordercolor='#e0e0e0')
+        
+        # 点击关于页面任意位置时清除文本选中状态
+        def clear_text_selection(event):
+            about_text_widget.tag_remove(tk.SEL, '1.0', tk.END)
+            ref_text_widget.tag_remove(tk.SEL, '1.0', tk.END)
+            ref_text_widget.tag_remove('link_sel', '1.0', tk.END)
+        
+        about_frame.bind('<Button-1>', clear_text_selection)
+        content_frame.bind('<Button-1>', clear_text_selection)
     
     def on_result_tree_press(self, event):
         """处理分析结果表格的鼠标按下事件，记录拖拽起始位置"""
