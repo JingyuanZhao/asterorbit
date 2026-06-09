@@ -411,7 +411,9 @@ class Digest2GUI:
         scrollbar_x.grid(row=1, column=0, sticky=(tk.W, tk.E))
         
         # 绑定点击事件到类型说明表格
-        self.desc_tree.bind('<Button-1>', self.on_desc_tree_click)
+        self.desc_tree.bind('&lt;Button-1&gt;', self.on_desc_tree_click)
+        # 绑定右键菜单到类型说明表格
+        self.desc_tree.bind('&lt;Button-3&gt;', self.show_desc_tree_context_menu)
         
         tree_frame.columnconfigure(0, weight=1)
         tree_frame.rowconfigure(0, weight=1)
@@ -630,6 +632,66 @@ class Digest2GUI:
                 # 如果点击的行未被选中，则只选中这一行，取消其他所有选中
                 self.desc_tree.selection_set(item)
                 return 'break'
+    
+    def show_desc_tree_context_menu(self, event):
+        """显示类型说明表格的右键菜单"""
+        # 获取鼠标所在的行
+        row_id = self.desc_tree.identify_row(event.y)
+        if row_id:
+            # 如果没有选中行，先选中鼠标所在的行
+            selected_items = self.desc_tree.selection()
+            if not selected_items or row_id not in selected_items:
+                self.desc_tree.selection_set(row_id)
+        
+        # 创建右键菜单
+        context_menu = tk.Menu(self.root, tearoff=0)
+        # 只有当有选中行时才显示"复制选中行"
+        if self.desc_tree.selection():
+            context_menu.add_command(label="复制选中行", command=self.copy_desc_tree_selected_item)
+        # 总是显示"复制全部数据"
+        context_menu.add_command(label="复制全部数据", command=self.copy_desc_tree_all_data)
+        
+        # 在鼠标位置显示菜单
+        context_menu.tk_popup(event.x_root, event.y_root)
+    
+    def copy_desc_tree_selected_item(self):
+        """复制类型说明表格选中行的数据到剪贴板"""
+        selected_items = self.desc_tree.selection()
+        if not selected_items:
+            return
+        
+        # 获取所有选中行的数据
+        rows = []
+        for item in selected_items:
+            values = self.desc_tree.item(item, 'values')
+            rows.append('\t'.join(str(v) for v in values))
+        
+        # 格式化数据（制表符分隔，便于粘贴到表格）
+        text = '\n'.join(rows)
+        
+        # 复制到剪贴板
+        self.root.clipboard_clear()
+        self.root.clipboard_append(text)
+    
+    def copy_desc_tree_all_data(self):
+        """复制类型说明表格所有数据到剪贴板"""
+        # 获取所有行数据
+        rows = []
+        # 添加表头
+        headers = ['缩写', '英文全称', '中文含义', 'Digest2定义']
+        rows.append('\t'.join(headers))
+        
+        # 添加数据行
+        for item in self.desc_tree.get_children():
+            values = self.desc_tree.item(item, 'values')
+            rows.append('\t'.join(str(v) for v in values))
+        
+        # 合并为文本
+        text = '\n'.join(rows)
+        
+        # 复制到剪贴板
+        self.root.clipboard_clear()
+        self.root.clipboard_append(text)
     
     def browse_file(self):
         filetypes = [

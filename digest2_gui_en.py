@@ -401,7 +401,9 @@ class Digest2GUI:
         scrollbar_x.grid(row=1, column=0, sticky=(tk.W, tk.E))
         
         # Bind click event to description tree
-        self.desc_tree.bind('<Button-1>', self.on_desc_tree_click)
+        self.desc_tree.bind('&lt;Button-1&gt;', self.on_desc_tree_click)
+        # Bind right-click menu to description tree
+        self.desc_tree.bind('&lt;Button-3&gt;', self.show_desc_tree_context_menu)
         
         tree_frame.columnconfigure(0, weight=1)
         tree_frame.rowconfigure(0, weight=1)
@@ -620,6 +622,66 @@ class Digest2GUI:
                 # If clicked row is not selected, select only this row, deselect all others
                 self.desc_tree.selection_set(item)
                 return 'break'
+    
+    def show_desc_tree_context_menu(self, event):
+        """Show right-click menu for description tree"""
+        # Get the row under the mouse
+        row_id = self.desc_tree.identify_row(event.y)
+        if row_id:
+            # If no row is selected, select the row under the mouse
+            selected_items = self.desc_tree.selection()
+            if not selected_items or row_id not in selected_items:
+                self.desc_tree.selection_set(row_id)
+        
+        # Create right-click menu
+        context_menu = tk.Menu(self.root, tearoff=0)
+        # Show "Copy Selected Rows" only when there are selected rows
+        if self.desc_tree.selection():
+            context_menu.add_command(label="Copy Selected Rows", command=self.copy_desc_tree_selected_item)
+        # Always show "Copy All Data"
+        context_menu.add_command(label="Copy All Data", command=self.copy_desc_tree_all_data)
+        
+        # Show menu at mouse position
+        context_menu.tk_popup(event.x_root, event.y_root)
+    
+    def copy_desc_tree_selected_item(self):
+        """Copy selected rows from description tree to clipboard"""
+        selected_items = self.desc_tree.selection()
+        if not selected_items:
+            return
+        
+        # Get all selected rows
+        rows = []
+        for item in selected_items:
+            values = self.desc_tree.item(item, 'values')
+            rows.append('\t'.join(str(v) for v in values))
+        
+        # Format data (tab-separated for easy pasting to spreadsheets)
+        text = '\n'.join(rows)
+        
+        # Copy to clipboard
+        self.root.clipboard_clear()
+        self.root.clipboard_append(text)
+    
+    def copy_desc_tree_all_data(self):
+        """Copy all data from description tree to clipboard"""
+        # Get all rows
+        rows = []
+        # Add header
+        headers = ['Abbr', 'Full Name', 'Digest2 Definition']
+        rows.append('\t'.join(headers))
+        
+        # Add data rows
+        for item in self.desc_tree.get_children():
+            values = self.desc_tree.item(item, 'values')
+            rows.append('\t'.join(str(v) for v in values))
+        
+        # Combine into text
+        text = '\n'.join(rows)
+        
+        # Copy to clipboard
+        self.root.clipboard_clear()
+        self.root.clipboard_append(text)
     
     def browse_file(self):
         filetypes = [
