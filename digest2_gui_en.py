@@ -386,7 +386,7 @@ class Digest2GUI:
             ('Pal', 'Pallas Group', 'Group represented by 2 Pallas. 2.5 AU < 𝑎 < 2.8 AU, 𝑒 < 0.35, 24° < 𝑖 < 37°'),
             ('Han', 'Hansa Group', 'Group represented by 480 Hansa. 2.55 AU < 𝑎 < 2.72 AU, 𝑒 < 0.25, 20° < 𝑖 < 23.5°'),
             ('MB2', 'Middle Main Belt', '2.5 AU < 𝑎 < 2.8 AU, 𝑒 < 0.45, 𝑖 < 20°'),
-            ('MB3', 'Outer Main Belt', '2.8 AU < 𝑎 < 3.25 AU, 𝑒 < 0.4, 𝑖 < ((𝑎-2.8)/0.45)*16+20'),
+            ('MB3', 'Outer Main Belt', '2.8 AU < 𝑎 < 3.25 AU, 𝑒 < 0.4, 𝑖 < (320𝑎-716)/9'),
             ('Hil', 'Hilda Group', 'Group represented by 153 Hilda. 3.9 AU < 𝑎 < 4.02 AU, 𝑒 < 0.4, 𝑖 < 18°'),
             ('JTr', 'Jupiter Trojan', 'Asteroids in Jupiter\'s L4/L5 Lagrange points. 5.05 AU < 𝑎 < 5.35 AU, 𝑒 < 0.22, 𝑖 < 38°'),
             ('JFC', 'Jupiter Family Comet', '𝑞 > 1.3 AU, 2 < 𝑇𝐽 < 3'),
