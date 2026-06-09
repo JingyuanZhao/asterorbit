@@ -634,9 +634,14 @@ class Digest2GUI:
         """Handle mouse press event for description table, record drag start position"""
         item = self.desc_tree.identify_row(event.y)
         if item:
-            self.drag_start = item
-            # Select the start row
-            self.desc_tree.selection_set(item)
+            # If clicking an already selected row, deselect it
+            if item in self.desc_tree.selection():
+                self.desc_tree.selection_remove(item)
+                self.drag_start = None
+            else:
+                self.drag_start = item
+                # Select the start row
+                self.desc_tree.selection_set(item)
         else:
             self.drag_start = None
     
