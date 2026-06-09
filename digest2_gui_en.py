@@ -362,10 +362,10 @@ class Digest2GUI:
         
         # Remove alternating background colors
         
-        # Set column headers
-        self.desc_tree.heading('abbrev', text='Abbr')
-        self.desc_tree.heading('fullname', text='Full Name')
-        self.desc_tree.heading('definition', text='Digest2 Definition')
+        # Set column headers (left align)
+        self.desc_tree.heading('abbrev', text='Abbr', anchor='w')
+        self.desc_tree.heading('fullname', text='Full Name', anchor='w')
+        self.desc_tree.heading('definition', text='Digest2 Definition', anchor='w')
         
         # Set column widths and left align
         self.desc_tree.column('abbrev', width=50, minwidth=40, anchor='w')

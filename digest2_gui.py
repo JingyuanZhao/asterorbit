@@ -370,11 +370,11 @@ class Digest2GUI:
         
         # 移除交替背景色
         
-        # 设置列标题
-        self.desc_tree.heading('abbrev', text='缩写')
-        self.desc_tree.heading('fullname', text='英文全称')
-        self.desc_tree.heading('chinese', text='中文含义')
-        self.desc_tree.heading('definition', text='Digest2定义')
+        # 设置列标题（左对齐）
+        self.desc_tree.heading('abbrev', text='缩写', anchor='w')
+        self.desc_tree.heading('fullname', text='英文全称', anchor='w')
+        self.desc_tree.heading('chinese', text='中文含义', anchor='w')
+        self.desc_tree.heading('definition', text='Digest2定义', anchor='w')
         
         # 设置列宽和左对齐
         self.desc_tree.column('abbrev', width=30, minwidth=30, anchor='w')
