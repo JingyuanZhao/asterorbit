@@ -1040,11 +1040,50 @@ class Digest2GUI:
             messagebox.showerror("Error", f"Cannot read ADES PSV file:\n{str(e)}")
             return
 
-        # Parse file to get statistics
+        # Parse file to get statistics (permID first, provID second)
         try:
-            tracklets = parse_ades_psv(filename)
-            total_obs = sum(len(obs_list) for obs_list in tracklets.values())
-            status_msg = f"Loaded ADES PSV file: {len(tracklets)} objects, {total_obs} observations - click 'Start Analysis' directly"
+            import csv
+            from io import StringIO
+
+            # Re-parse PSV file, count objects with permID priority
+            body_ids = set()
+            total_obs = 0
+            headers = None
+
+            for line in lines:
+                if line.startswith('!'):
+                    # Header line
+                    if headers is None:
+                        header_line = line[1:] if line.startswith('!') else line
+                        headers = [p.strip() for p in header_line.split('|')]
+                        if headers and headers[-1] == '':
+                            headers = headers[:-1]
+                    continue
+
+                if headers is None:
+                    continue
+
+                fields = [p.strip() for p in line.split('|')]
+                if fields and fields[-1] == '':
+                    fields = fields[:-1]
+                if len(fields) != len(headers):
+                    continue
+
+                row = dict(zip(headers, fields))
+                total_obs += 1
+
+                # Priority: permID first, then provID
+                perm_id = row.get('permID', '').strip()
+                prov_id = row.get('provID', '').strip()
+
+                if perm_id and perm_id != 'None':
+                    body_ids.add(perm_id)
+                elif prov_id and prov_id != 'None':
+                    body_ids.add(prov_id)
+                else:
+                    body_ids.add('unknown')
+
+            status_msg = f"Loaded ADES PSV file: {len(body_ids)} objects, {total_obs} observations - click 'Start Analysis' directly"
         except:
             status_msg = "Loaded ADES PSV file - click 'Start Analysis' directly"
 
@@ -1076,11 +1115,56 @@ class Digest2GUI:
         if raw_content is None:
             return
 
-        # Parse file to get statistics
+        # Parse file to get statistics (permID first, provID second)
         try:
-            tracklets = parse_ades_xml(filename)
-            total_obs = sum(len(obs_list) for obs_list in tracklets.values())
-            status_msg = f"Loaded ADES XML file: {len(tracklets)} objects, {total_obs} observations - click 'Start Analysis' directly"
+            from lxml import etree as ET
+
+            tree = ET.parse(filename)
+            root = tree.getroot()
+
+            # Handle namespaces
+            ns = ""
+            if root.tag.startswith("{"):
+                ns = root.tag.split("}")[0] + "}"
+
+            body_ids = set()
+            total_obs = 0
+
+            for obs_block in root.iter(f"{ns}obsBlock"):
+                for obs_data in obs_block.iter(f"{ns}obsData"):
+                    for optical in obs_data.iter(f"{ns}optical"):
+                        total_obs += 1
+                        permID_el = optical.find(f"{ns}permID")
+                        provID_el = optical.find(f"{ns}provID")
+
+                        perm_id = permID_el.text.strip() if permID_el is not None and permID_el.text else ""
+                        prov_id = provID_el.text.strip() if provID_el is not None and provID_el.text else ""
+
+                        if perm_id:
+                            body_ids.add(perm_id)
+                        elif prov_id:
+                            body_ids.add(prov_id)
+                        else:
+                            body_ids.add('unknown')
+
+            # Also check flat format
+            if not body_ids:
+                for optical in root.iter(f"{ns}optical"):
+                    total_obs += 1
+                    permID_el = optical.find(f"{ns}permID")
+                    provID_el = optical.find(f"{ns}provID")
+
+                    perm_id = permID_el.text.strip() if permID_el is not None and permID_el.text else ""
+                    prov_id = provID_el.text.strip() if provID_el is not None and provID_el.text else ""
+
+                    if perm_id:
+                        body_ids.add(perm_id)
+                    elif prov_id:
+                        body_ids.add(prov_id)
+                    else:
+                        body_ids.add('unknown')
+
+            status_msg = f"Loaded ADES XML file: {len(body_ids)} objects, {total_obs} observations - click 'Start Analysis' directly"
         except:
             status_msg = "Loaded ADES XML file - click 'Start Analysis' directly"
 
