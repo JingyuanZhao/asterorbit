@@ -275,10 +275,12 @@ class Digest2GUI:
             style='ResultTreeview.Treeview',
             selectmode='extended'
         )
+        self.result_drag_start = None  # Result table drag start row
         # Add right-click menu for treeview (supports copying)
         self.tree.bind('<Button-3>', self.show_tree_context_menu)
-        # Bind left-click event to toggle selection
-        self.tree.bind('<Button-1>', self.on_tree_click)
+        # Bind drag selection events
+        self.tree.bind('<Button-1>', self.on_result_tree_press)
+        self.tree.bind('<B1-Motion>', self.on_result_tree_drag)
 
         # Configure tag styles: NEO highlight (yellow background) and bold
         self.tree.tag_configure('neo_highlight', background='#FFD700')
@@ -560,38 +562,34 @@ class Digest2GUI:
         style.configure('Transparent.TLabel', background='#f5f5f5')
         style.configure('RefContainer.TFrame', background='#f5f5f5', bordercolor='#e0e0e0')
     
-    def on_tree_click(self, event):
-        """Handle click event for result table to toggle selection"""
-        # Get clicked row
+    def on_result_tree_press(self, event):
+        """Handle mouse press event for result table, record drag start position"""
         item = self.tree.identify_row(event.y)
-        if not item:
-            return
-        
-        # Get modifier key states
-        ctrl_pressed = (event.state & 0x4) != 0  # Ctrl key
-        shift_pressed = (event.state & 0x1) != 0  # Shift key
-        
-        if ctrl_pressed:
-            # Ctrl+Click: toggle individual selection
-            if item in self.tree.selection():
-                self.tree.selection_remove(item)
-            else:
-                self.tree.selection_add(item)
-            return 'break'  # Prevent default selection behavior
-        elif shift_pressed:
-            # Shift+Click: let Treeview handle default range selection
-            return
+        if item:
+            self.result_drag_start = item
+            # Select the start row
+            self.tree.selection_set(item)
         else:
-            # Normal click
-            selected = self.tree.selection()
-            if item in selected:
-                # If clicked row is already selected, deselect it
-                self.tree.selection_remove(item)
-                return 'break'
-            else:
-                # If clicked row is not selected, select only this row, deselect all others
-                self.tree.selection_set(item)
-                return 'break'
+            self.result_drag_start = None
+    
+    def on_result_tree_drag(self, event):
+        """Handle mouse drag event for result table, implement drag multi-selection"""
+        if self.result_drag_start is None:
+            return
+        
+        current_item = self.tree.identify_row(event.y)
+        if current_item:
+            # Get all rows
+            all_items = self.tree.get_children()
+            start_index = all_items.index(self.result_drag_start)
+            current_index = all_items.index(current_item)
+            
+            # Determine selection range
+            min_index = min(start_index, current_index)
+            max_index = max(start_index, current_index)
+            
+            # Select all rows in the range
+            self.tree.selection_set(all_items[min_index:max_index+1])
     
     def on_desc_tree_press(self, event):
         """Handle mouse press event for description table, record drag start position"""

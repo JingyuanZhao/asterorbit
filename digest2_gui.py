@@ -283,10 +283,12 @@ class Digest2GUI:
             style='ResultTreeview.Treeview',
             selectmode='extended'
         )
+        self.result_drag_start = None  # 分析结果表格拖拽起始行
         # 为树形视图添加右键菜单（支持复制）
         self.tree.bind('<Button-3>', self.show_tree_context_menu)
-        # 绑定左键点击事件，实现点击切换选中
-        self.tree.bind('<Button-1>', self.on_tree_click)
+        # 绑定拖拽选择事件
+        self.tree.bind('<Button-1>', self.on_result_tree_press)
+        self.tree.bind('<B1-Motion>', self.on_result_tree_drag)
 
         # 配置标签样式：NEO高亮（黄色背景）和加粗
         self.tree.tag_configure('neo_highlight', background='#FFD700')
@@ -570,38 +572,34 @@ class Digest2GUI:
         style.configure('Transparent.TLabel', background='#f5f5f5')
         style.configure('RefContainer.TFrame', background='#f5f5f5', bordercolor='#e0e0e0')
     
-    def on_tree_click(self, event):
-        """处理分析结果表格的点击事件，实现点击切换选中"""
-        # 获取点击的行
+    def on_result_tree_press(self, event):
+        """处理分析结果表格的鼠标按下事件，记录拖拽起始位置"""
         item = self.tree.identify_row(event.y)
-        if not item:
-            return
-        
-        # 获取修饰键状态
-        ctrl_pressed = (event.state & 0x4) != 0  # Ctrl键
-        shift_pressed = (event.state & 0x1) != 0  # Shift键
-        
-        if ctrl_pressed:
-            # Ctrl+单击：切换单个选中状态
-            if item in self.tree.selection():
-                self.tree.selection_remove(item)
-            else:
-                self.tree.selection_add(item)
-            return 'break'  # 阻止默认的选中行为
-        elif shift_pressed:
-            # Shift+单击：让Treeview处理默认的范围选择
-            return
+        if item:
+            self.result_drag_start = item
+            # 选中起始行
+            self.tree.selection_set(item)
         else:
-            # 普通单击
-            selected = self.tree.selection()
-            if item in selected:
-                # 如果点击的行已经被选中，则取消选中这一行
-                self.tree.selection_remove(item)
-                return 'break'
-            else:
-                # 如果点击的行未被选中，则只选中这一行，取消其他所有选中
-                self.tree.selection_set(item)
-                return 'break'
+            self.result_drag_start = None
+    
+    def on_result_tree_drag(self, event):
+        """处理分析结果表格的鼠标拖拽事件，实现拖拽多选"""
+        if self.result_drag_start is None:
+            return
+        
+        current_item = self.tree.identify_row(event.y)
+        if current_item:
+            # 获取所有行
+            all_items = self.tree.get_children()
+            start_index = all_items.index(self.result_drag_start)
+            current_index = all_items.index(current_item)
+            
+            # 确定选择范围
+            min_index = min(start_index, current_index)
+            max_index = max(start_index, current_index)
+            
+            # 选中范围内的所有行
+            self.tree.selection_set(all_items[min_index:max_index+1])
     
     def on_desc_tree_press(self, event):
         """处理类型说明表格的鼠标按下事件，记录拖拽起始位置"""
