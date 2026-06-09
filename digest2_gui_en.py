@@ -413,6 +413,52 @@ class Digest2GUI:
         
         tree_frame.columnconfigure(0, weight=1)
         tree_frame.rowconfigure(0, weight=1)
+        
+        # Add parameter legend below the table
+        legend_frame = ttk.Frame(main_frame)
+        legend_frame.pack(fill=tk.X, pady=(10, 0))
+        
+        legend_title = ttk.Label(legend_frame, text='Parameter Definitions:', 
+                                font=('Segoe UI', 10, 'bold'))
+        legend_title.pack(anchor=tk.W, pady=(0, 5))
+        
+        # Two columns layout
+        legend_columns = ttk.Frame(legend_frame)
+        legend_columns.pack(fill=tk.X)
+        
+        # Left column
+        left_col = ttk.Frame(legend_columns)
+        left_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        
+        left_params = [
+            ('𝑞', 'Perihelion distance (AU)'),
+            ('𝑄', 'Aphelion distance (AU)'),
+            ('𝑎', 'Semi-major axis (AU)'),
+            ('𝑒', 'Orbital eccentricity'),
+        ]
+        
+        for symbol, meaning in left_params:
+            row = ttk.Frame(left_col)
+            row.pack(fill=tk.X, pady=1)
+            ttk.Label(row, text=symbol, font=('Segoe UI', 10), width=3).pack(side=tk.LEFT)
+            ttk.Label(row, text='= ' + meaning, font=('Segoe UI', 10)).pack(side=tk.LEFT)
+        
+        # Right column
+        right_col = ttk.Frame(legend_columns)
+        right_col.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(20, 0))
+        
+        right_params = [
+            ('𝑖', 'Orbital inclination (°)'),
+            ('𝐻', 'Absolute magnitude'),
+            ('𝑇𝐽', 'Tisserand parameter relative to Jupiter'),
+            ('𝐷', 'Diameter (km)'),
+        ]
+        
+        for symbol, meaning in right_params:
+            row = ttk.Frame(right_col)
+            row.pack(fill=tk.X, pady=1)
+            ttk.Label(row, text=symbol, font=('Segoe UI', 10), width=3).pack(side=tk.LEFT)
+            ttk.Label(row, text='= ' + meaning, font=('Segoe UI', 10)).pack(side=tk.LEFT)
     
     def insert_definition_with_italic(self, text_widget, definition, bg_tag):
         """Insert definition text, use mathematical italic symbols"""
