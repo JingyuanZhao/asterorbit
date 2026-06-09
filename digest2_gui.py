@@ -502,52 +502,7 @@ class Digest2GUI:
         # 为about_text_widget添加右键菜单
         about_text_widget.bind('<Button-3>', lambda e: self.show_about_context_menu(e, about_text_widget))
         
-        # 添加支持的数据格式（使用Text控件以支持选中和复制）
-        data_format_text = tk.Text(content_frame, wrap=tk.WORD, height=1, 
-                                   font=('微软雅黑', 10), bg='#f5f5f5', relief='flat',
-                                   foreground='#666', spacing1=0, spacing2=0, spacing3=0,
-                                   borderwidth=0, highlightthickness=0,
-                                   insertwidth=0)
-        data_format_text.pack(anchor=tk.W, pady=(0, 10))
-        data_format_text.insert(tk.END, "支持的数据格式：MPC 80列、ADES XML、ADES PSV")
-        data_format_text.bind('<Button-3>', lambda e: self.show_about_context_menu(e, data_format_text))
-        
-        # 添加支持的文件格式（使用Text控件以支持选中和复制）
-        file_format_text = tk.Text(content_frame, wrap=tk.WORD, height=1, 
-                                   font=('微软雅黑', 10), bg='#f5f5f5', relief='flat',
-                                   foreground='#666', spacing1=0, spacing2=0, spacing3=0,
-                                   borderwidth=0, highlightthickness=0,
-                                   insertwidth=0)
-        file_format_text.pack(anchor=tk.W, pady=(0, 10))
-        file_format_text.insert(tk.END, "支持的文件格式：obs、txt、dat、docx、doc、xml、psv")
-        file_format_text.bind('<Button-3>', lambda e: self.show_about_context_menu(e, file_format_text))
-        
-        # 添加网页版链接（使用Text控件以支持选中和复制）
-        web_text = tk.Text(content_frame, wrap=tk.WORD, height=1, 
-                           font=('微软雅黑', 10), bg='#f5f5f5', relief='flat',
-                           foreground='#666', spacing1=0, spacing2=0, spacing3=0,
-                           borderwidth=0, highlightthickness=0,
-                           insertwidth=0)
-        web_text.pack(anchor=tk.W, pady=(0, 10))
-        web_text.insert(tk.END, "网页版：")
-        web_text.insert(tk.END, "https://asterorbit-digest2.hf.space/", 'link')
-        web_text.tag_config('link', foreground='#1a73e8', underline=True)
-        web_text.bind('<Button-3>', lambda e: self.show_about_context_menu(e, web_text))
-        
-        def open_web_link(event):
-            webbrowser.open("https://asterorbit-digest2.hf.space/")
-        web_text.tag_bind('link', '<Button-1>', open_web_link)
-        
-        # 鼠标悬停时显示手型光标（链接上）或I型光标（文字上）
-        def on_web_mouse_move(event):
-            tags = web_text.tag_names(tk.CURRENT)
-            if 'link' in tags:
-                web_text.config(cursor='hand2')
-            else:
-                web_text.config(cursor='xterm')
-        web_text.bind('<Motion>', on_web_mouse_move)
-        
-        # 添加版本信息（使用Text控件以支持选中和复制）
+        # 添加格式、网页版、版本信息（合并到一个Text控件）
         import digest2
         import importlib.metadata as metadata
         digest2_version = '未知版本'
@@ -556,14 +511,32 @@ class Digest2GUI:
         except metadata.PackageNotFoundError:
             digest2_version = getattr(digest2, '__version__', getattr(digest2, 'VERSION', '未知版本'))
         
-        version_text = tk.Text(content_frame, wrap=tk.WORD, height=1, 
-                               font=('微软雅黑', 10), bg='#f5f5f5', relief='flat',
-                               foreground='#666', spacing1=0, spacing2=0, spacing3=0,
-                               borderwidth=0, highlightthickness=0,
-                               insertwidth=0)
-        version_text.pack(anchor=tk.W, pady=(0, 20))
-        version_text.insert(tk.END, f"Digest2 版本：{digest2_version}")
-        version_text.bind('<Button-3>', lambda e: self.show_about_context_menu(e, version_text))
+        info_text = tk.Text(content_frame, wrap=tk.WORD, height=4, 
+                            font=('微软雅黑', 10), bg='#f5f5f5', relief='flat',
+                            foreground='#666', spacing1=0, spacing2=0, spacing3=0,
+                            borderwidth=0, highlightthickness=0,
+                            insertwidth=0)
+        info_text.pack(anchor=tk.W, pady=(0, 20))
+        info_text.insert(tk.END, "支持的数据格式：MPC 80列、ADES XML、ADES PSV\n")
+        info_text.insert(tk.END, "支持的文件格式：obs、txt、dat、docx、doc、xml、psv\n")
+        info_text.insert(tk.END, "网页版：")
+        info_text.insert(tk.END, "https://asterorbit-digest2.hf.space/", 'link')
+        info_text.insert(tk.END, f"\nDigest2 版本：{digest2_version}")
+        info_text.tag_config('link', foreground='#1a73e8', underline=True)
+        info_text.bind('<Button-3>', lambda e: self.show_about_context_menu(e, info_text))
+        
+        def open_web_link(event):
+            webbrowser.open("https://asterorbit-digest2.hf.space/")
+        info_text.tag_bind('link', '<Button-1>', open_web_link)
+        
+        # 鼠标悬停时显示手型光标（链接上）或I型光标（文字上）
+        def on_info_mouse_move(event):
+            tags = info_text.tag_names(tk.CURRENT)
+            if 'link' in tags:
+                info_text.config(cursor='hand2')
+            else:
+                info_text.config(cursor='xterm')
+        info_text.bind('<Motion>', on_info_mouse_move)
         
         # 添加参考资料标题
         ref_title_label = ttk.Label(content_frame, text="参考资料", font=('微软雅黑', 11, 'bold'), foreground='#333')
@@ -661,10 +634,7 @@ class Digest2GUI:
         # 点击关于页面任意位置时清除文本选中状态
         def clear_text_selection(event):
             about_text_widget.tag_remove(tk.SEL, '1.0', tk.END)
-            data_format_text.tag_remove(tk.SEL, '1.0', tk.END)
-            file_format_text.tag_remove(tk.SEL, '1.0', tk.END)
-            web_text.tag_remove(tk.SEL, '1.0', tk.END)
-            version_text.tag_remove(tk.SEL, '1.0', tk.END)
+            info_text.tag_remove(tk.SEL, '1.0', tk.END)
             ref_text_widget.tag_remove(tk.SEL, '1.0', tk.END)
             ref_text_widget.tag_remove('link_sel', '1.0', tk.END)
         
