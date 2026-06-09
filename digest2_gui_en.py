@@ -185,7 +185,7 @@ class Digest2GUI:
         # Description text
         desc_label = ttk.Label(
             eval_frame,
-            text="Select a file or enter observation data in MPC 80-column or ADES format, and the program will automatically analyze and evaluate orbit types.",
+            text="Select a file or enter short-arc observation data for asteroids in MPC 80-column or ADES format, click \"Start Analysis\", and the program will automatically evaluate orbit types.",
             wraplength=1100
         )
         desc_label.grid(row=0, column=0, columnspan=3, pady=(0, 10), sticky=tk.W)
