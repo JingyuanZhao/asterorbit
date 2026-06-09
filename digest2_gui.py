@@ -187,7 +187,7 @@ class Digest2GUI:
         # 配置网格权重
         eval_frame.columnconfigure(0, weight=1)
         eval_frame.rowconfigure(2, weight=1)  # 输入框区域可扩展
-        eval_frame.rowconfigure(4, weight=1)  # 结果显示区域可扩展
+        eval_frame.rowconfigure(5, weight=1)  # 结果显示区域可扩展
         
         # 说明文字
         desc_label = ttk.Label(
@@ -258,9 +258,9 @@ class Digest2GUI:
         )
         self.download_obscode_btn.pack(side=tk.LEFT, padx=5)
         
-        # 结果显示区域（row=4）
+        # 结果显示区域（row=5）
         result_frame = ttk.LabelFrame(eval_frame, text="分析结果", padding="10")
-        result_frame.grid(row=4, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        result_frame.grid(row=5, column=0, columnspan=3, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         result_frame.columnconfigure(0, weight=1)
         result_frame.rowconfigure(0, weight=1)
         
