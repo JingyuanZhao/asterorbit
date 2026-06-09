@@ -150,7 +150,8 @@ class Digest2GUI:
         
         # 类型说明表格样式（更大字体）
         style.configure('DescTreeview.Treeview',
-                       font=('黑体', 11))
+                       font=('黑体', 11),
+                       rowheight=24)
         style.configure('DescTreeview.Treeview.Heading', 
                        background='#f5f5f5', 
                        foreground='#333333',
