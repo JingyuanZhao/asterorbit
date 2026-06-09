@@ -896,14 +896,14 @@ class Digest2GUI:
             return
 
         # 解析并过滤 MPC80 数据
-        filtered_lines = self._filter_mpc80_data(content)
+        filtered_lines, num_objects = self._filter_mpc80_data(content)
 
         self.input_text.delete(1.0, tk.END)
         self.input_text.insert(1.0, '\n'.join(filtered_lines))
-        self.status_var.set(f"已加载 {len(filtered_lines)} 行有效 MPC80 数据")
+        self.status_var.set(f"已加载 {num_objects} 个天体，共 {len(filtered_lines)} 行有效 MPC80 数据")
 
     def _filter_mpc80_data(self, content):
-        """过滤 MPC80 数据，只保留至少有两条观测的天体"""
+        """过滤 MPC80 数据，只保留至少有两条观测的天体，返回 (filtered_lines, num_objects)"""
         lines = content.split('\n')
 
         # 收集所有行的天体名称（去重：相同数据只保留一条）
@@ -927,11 +927,13 @@ class Digest2GUI:
 
         # 只保留至少有两条观测的天体
         filtered = []
+        num_objects = 0
         for desig, obs_lines in tracklets.items():
             if len(obs_lines) >= 2:
                 filtered.extend(obs_lines)
+                num_objects += 1
 
-        return filtered
+        return filtered, num_objects
 
     def _try_extract_designation(self, line):
         """尝试从行中提取天体名称，返回 None 如果不是 MPC80 格式"""
@@ -1013,11 +1015,11 @@ class Digest2GUI:
                 return
 
         # 过滤 MPC80 数据
-        filtered_lines = self._filter_mpc80_data(content)
+        filtered_lines, num_objects = self._filter_mpc80_data(content)
 
         self.input_text.delete(1.0, tk.END)
         self.input_text.insert(1.0, '\n'.join(filtered_lines))
-        self.status_var.set(f"已从 Word 文档提取 {len(filtered_lines)} 行有效 MPC80 数据")
+        self.status_var.set(f"已从 Word 文档提取 {num_objects} 个天体，共 {len(filtered_lines)} 行有效 MPC80 数据")
 
     def _load_ades_psv_content(self, filename):
         """从 ADES PSV 文件中读取表格内容（跳过注释和元数据）"""

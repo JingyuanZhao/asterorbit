@@ -887,14 +887,14 @@ class Digest2GUI:
             return
 
         # Parse and filter MPC80 data
-        filtered_lines = self._filter_mpc80_data(content)
+        filtered_lines, num_objects = self._filter_mpc80_data(content)
 
         self.input_text.delete(1.0, tk.END)
         self.input_text.insert(1.0, '\n'.join(filtered_lines))
-        self.status_var.set(f"Loaded {len(filtered_lines)} valid MPC80 lines")
+        self.status_var.set(f"Loaded {num_objects} objects, {len(filtered_lines)} valid MPC80 lines")
 
     def _filter_mpc80_data(self, content):
-        """Filter MPC80 data, keeping only objects with at least 2 observations"""
+        """Filter MPC80 data, keeping only objects with at least 2 observations, returns (filtered_lines, num_objects)"""
         lines = content.split('\n')
 
         # Collect all line designations (deduplicate: keep only one identical line)
@@ -918,11 +918,13 @@ class Digest2GUI:
 
         # Keep only objects with at least 2 observations
         filtered = []
+        num_objects = 0
         for desig, obs_lines in tracklets.items():
             if len(obs_lines) >= 2:
                 filtered.extend(obs_lines)
+                num_objects += 1
 
-        return filtered
+        return filtered, num_objects
 
     def _try_extract_designation(self, line):
         """Try to extract designation from line, return None if not MPC80 format"""
@@ -1004,11 +1006,11 @@ class Digest2GUI:
                 return
 
         # Filter MPC80 data
-        filtered_lines = self._filter_mpc80_data(content)
+        filtered_lines, num_objects = self._filter_mpc80_data(content)
 
         self.input_text.delete(1.0, tk.END)
         self.input_text.insert(1.0, '\n'.join(filtered_lines))
-        self.status_var.set(f"Extracted {len(filtered_lines)} valid MPC80 lines from Word document")
+        self.status_var.set(f"Extracted {num_objects} objects, {len(filtered_lines)} valid MPC80 lines from Word document")
 
     def _load_ades_psv_content(self, filename):
         """Read table content from ADES PSV file (skip comments and metadata)"""
