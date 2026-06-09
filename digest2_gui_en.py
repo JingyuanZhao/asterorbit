@@ -140,6 +140,17 @@ class Digest2GUI:
         style.map('ResultTreeview.Treeview',
                  foreground=[('selected', '#333333')],
                  background=[('selected', '#e8f0fe'), ('active', '#f0f0f0')])
+        
+        # Create orbit types table style (larger font)
+        style.configure('DescTreeview.Treeview',
+                       font=('Segoe UI', 12))
+        style.configure('DescTreeview.Treeview.Heading', 
+                       background='#f5f5f5', 
+                       foreground='#333333',
+                       font=('Segoe UI', 12, 'bold'))
+        style.map('DescTreeview.Treeview',
+                 foreground=[('selected', '#333333')],
+                 background=[('selected', '#e8f0fe'), ('active', '#f0f0f0')])
         self.notebook = ttk.Notebook(main_frame)
         self.notebook.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         
@@ -342,7 +353,7 @@ class Digest2GUI:
             columns=columns,
             show='headings',
             height=15,
-            style='ResultTreeview.Treeview'
+            style='DescTreeview.Treeview'
         )
         
         # Configure row tags for alternating background colors

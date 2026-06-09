@@ -147,6 +147,17 @@ class Digest2GUI:
         style.map('ResultTreeview.Treeview',
                   foreground=[('selected', '#333333')],
                   background=[('selected', '#e8f0fe'), ('active', '#f0f0f0')])
+        
+        # 类型说明表格样式（更大字体）
+        style.configure('DescTreeview.Treeview',
+                       font=('宋体', 12))
+        style.configure('DescTreeview.Treeview.Heading', 
+                       background='#f5f5f5', 
+                       foreground='#333333',
+                       font=('微软雅黑', 12, 'bold'))
+        style.map('DescTreeview.Treeview',
+                  foreground=[('selected', '#333333')],
+                  background=[('selected', '#e8f0fe'), ('active', '#f0f0f0')])
         self.notebook = ttk.Notebook(main_frame)
         self.notebook.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         
@@ -349,7 +360,7 @@ class Digest2GUI:
             columns=columns,
             show='headings',
             height=15,
-            style='ResultTreeview.Treeview'
+            style='DescTreeview.Treeview'
         )
         
         # 配置行标签，用于交替背景色
