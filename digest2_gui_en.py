@@ -355,7 +355,7 @@ class Digest2GUI:
             tree_frame,
             columns=columns,
             show='headings',
-            height=12,
+            height=15,
             style='DescTreeview.Treeview',
             selectmode='extended'
         )
