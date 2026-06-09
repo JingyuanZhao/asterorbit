@@ -356,9 +356,7 @@ class Digest2GUI:
             style='DescTreeview.Treeview'
         )
         
-        # Configure row tags for alternating background colors
-        self.desc_tree.tag_configure('row_bg1', background='#ffffff')
-        self.desc_tree.tag_configure('row_bg2', background='#f9f9f9')
+        # Remove alternating background colors
         
         # Set column headers
         self.desc_tree.heading('abbrev', text='Abbr')
@@ -391,8 +389,7 @@ class Digest2GUI:
         
         # Add data rows
         for i, (abbrev, fullname, definition) in enumerate(orbit_types):
-            bg_tag = 'row_bg1' if i % 2 == 0 else 'row_bg2'
-            self.desc_tree.insert('', tk.END, values=(abbrev, fullname, definition), tags=(bg_tag,))
+            self.desc_tree.insert('', tk.END, values=(abbrev, fullname, definition))
         
         # Scrollbars
         scrollbar_y = ttk.Scrollbar(tree_frame, orient=tk.VERTICAL, command=self.desc_tree.yview)
@@ -402,6 +399,9 @@ class Digest2GUI:
         self.desc_tree.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         scrollbar_y.grid(row=0, column=1, sticky=(tk.N, tk.S))
         scrollbar_x.grid(row=1, column=0, sticky=(tk.W, tk.E))
+        
+        # Bind click event to description tree
+        self.desc_tree.bind('&lt;Button-1&gt;', self.on_desc_tree_click)
         
         tree_frame.columnconfigure(0, weight=1)
         tree_frame.rowconfigure(0, weight=1)
@@ -586,6 +586,39 @@ class Digest2GUI:
             else:
                 # If clicked row is not selected, select only this row, deselect all others
                 self.tree.selection_set(item)
+                return 'break'
+    
+    def on_desc_tree_click(self, event):
+        """Handle click event for description table to toggle selection"""
+        # Get clicked row
+        item = self.desc_tree.identify_row(event.y)
+        if not item:
+            return
+        
+        # Get modifier key states
+        ctrl_pressed = (event.state &amp; 0x4) != 0  # Ctrl key
+        shift_pressed = (event.state &amp; 0x1) != 0  # Shift key
+        
+        if ctrl_pressed:
+            # Ctrl+Click: toggle individual selection
+            if item in self.desc_tree.selection():
+                self.desc_tree.selection_remove(item)
+            else:
+                self.desc_tree.selection_add(item)
+            return 'break'  # Prevent default selection behavior
+        elif shift_pressed:
+            # Shift+Click: let Treeview handle default range selection
+            return
+        else:
+            # Normal click
+            selected = self.desc_tree.selection()
+            if item in selected:
+                # If clicked row is already selected, deselect it
+                self.desc_tree.selection_remove(item)
+                return 'break'
+            else:
+                # If clicked row is not selected, select only this row, deselect all others
+                self.desc_tree.selection_set(item)
                 return 'break'
     
     def browse_file(self):

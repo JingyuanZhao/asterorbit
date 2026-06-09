@@ -364,9 +364,7 @@ class Digest2GUI:
             style='DescTreeview.Treeview'
         )
         
-        # 配置行标签，用于交替背景色
-        self.desc_tree.tag_configure('row_bg1', background='#ffffff')
-        self.desc_tree.tag_configure('row_bg2', background='#f9f9f9')
+        # 移除交替背景色
         
         # 设置列标题
         self.desc_tree.heading('abbrev', text='缩写')
@@ -401,8 +399,7 @@ class Digest2GUI:
         
         # 添加数据行
         for i, (abbrev, fullname, chinese, definition) in enumerate(orbit_types):
-            bg_tag = 'row_bg2' if i % 2 == 0 else 'row_bg1'
-            self.desc_tree.insert('', tk.END, values=(abbrev, fullname, chinese, definition), tags=(bg_tag,))
+            self.desc_tree.insert('', tk.END, values=(abbrev, fullname, chinese, definition))
         
         # 滚动条
         scrollbar_y = ttk.Scrollbar(tree_frame, orient=tk.VERTICAL, command=self.desc_tree.yview)
@@ -412,6 +409,9 @@ class Digest2GUI:
         self.desc_tree.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         scrollbar_y.grid(row=0, column=1, sticky=(tk.N, tk.S))
         scrollbar_x.grid(row=1, column=0, sticky=(tk.W, tk.E))
+        
+        # 绑定点击事件到类型说明表格
+        self.desc_tree.bind('&lt;Button-1&gt;', self.on_desc_tree_click)
         
         tree_frame.columnconfigure(0, weight=1)
         tree_frame.rowconfigure(0, weight=1)
@@ -596,6 +596,39 @@ class Digest2GUI:
             else:
                 # 如果点击的行未被选中，则只选中这一行，取消其他所有选中
                 self.tree.selection_set(item)
+                return 'break'
+    
+    def on_desc_tree_click(self, event):
+        """处理类型说明表格的点击事件，实现点击切换选中"""
+        # 获取点击的行
+        item = self.desc_tree.identify_row(event.y)
+        if not item:
+            return
+        
+        # 获取修饰键状态
+        ctrl_pressed = (event.state &amp; 0x4) != 0  # Ctrl键
+        shift_pressed = (event.state &amp; 0x1) != 0  # Shift键
+        
+        if ctrl_pressed:
+            # Ctrl+单击：切换单个选中状态
+            if item in self.desc_tree.selection():
+                self.desc_tree.selection_remove(item)
+            else:
+                self.desc_tree.selection_add(item)
+            return 'break'  # 阻止默认的选中行为
+        elif shift_pressed:
+            # Shift+单击：让Treeview处理默认的范围选择
+            return
+        else:
+            # 普通单击
+            selected = self.desc_tree.selection()
+            if item in selected:
+                # 如果点击的行已经被选中，则取消选中这一行
+                self.desc_tree.selection_remove(item)
+                return 'break'
+            else:
+                # 如果点击的行未被选中，则只选中这一行，取消其他所有选中
+                self.desc_tree.selection_set(item)
                 return 'break'
     
     def browse_file(self):
