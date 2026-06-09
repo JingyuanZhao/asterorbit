@@ -900,7 +900,7 @@ class Digest2GUI:
 
         self.input_text.delete(1.0, tk.END)
         self.input_text.insert(1.0, '\n'.join(filtered_lines))
-        self.status_var.set(f"已加载 {len(filtered_lines)} 行有效 MPC80 数据（至少2条观测的天体）")
+        self.status_var.set(f"已加载 {len(filtered_lines)} 行有效 MPC80 数据")
 
     def _filter_mpc80_data(self, content):
         """过滤 MPC80 数据，只保留至少有两条观测的天体"""
@@ -1017,7 +1017,7 @@ class Digest2GUI:
 
         self.input_text.delete(1.0, tk.END)
         self.input_text.insert(1.0, '\n'.join(filtered_lines))
-        self.status_var.set(f"已从 Word 文档提取 {len(filtered_lines)} 行有效 MPC80 数据（至少2条观测的天体）")
+        self.status_var.set(f"已从 Word 文档提取 {len(filtered_lines)} 行有效 MPC80 数据")
 
     def _load_ades_psv_content(self, filename):
         """从 ADES PSV 文件中读取表格内容（跳过注释和元数据）"""

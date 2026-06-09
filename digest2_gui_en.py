@@ -891,7 +891,7 @@ class Digest2GUI:
 
         self.input_text.delete(1.0, tk.END)
         self.input_text.insert(1.0, '\n'.join(filtered_lines))
-        self.status_var.set(f"Loaded {len(filtered_lines)} valid MPC80 lines (objects with at least 2 observations)")
+        self.status_var.set(f"Loaded {len(filtered_lines)} valid MPC80 lines")
 
     def _filter_mpc80_data(self, content):
         """Filter MPC80 data, keeping only objects with at least 2 observations"""
@@ -1008,7 +1008,7 @@ class Digest2GUI:
 
         self.input_text.delete(1.0, tk.END)
         self.input_text.insert(1.0, '\n'.join(filtered_lines))
-        self.status_var.set(f"Extracted {len(filtered_lines)} valid MPC80 lines from Word document (objects with at least 2 observations)")
+        self.status_var.set(f"Extracted {len(filtered_lines)} valid MPC80 lines from Word document")
 
     def _load_ades_psv_content(self, filename):
         """Read table content from ADES PSV file (skip comments and metadata)"""
