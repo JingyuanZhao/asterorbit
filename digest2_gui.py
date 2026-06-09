@@ -338,74 +338,71 @@ class Digest2GUI:
         title_line = ttk.Frame(main_frame, height=2, style='TitleLine.TFrame')
         title_line.pack(anchor=tk.W, fill=tk.X, pady=(0, 15))
         
-        # 创建文本容器（支持富文本）
-        text_frame = ttk.Frame(main_frame, relief='solid', borderwidth=1)
-        text_frame.pack(fill=tk.BOTH, expand=True)
+        # 创建Treeview容器
+        tree_frame = ttk.Frame(main_frame, relief='solid', borderwidth=1)
+        tree_frame.pack(fill=tk.BOTH, expand=True)
         
-        # 创建Text组件
-        text_widget = tk.Text(text_frame, wrap=tk.WORD, font=('微软雅黑', 10), 
-                             bg='#ffffff', relief='flat', spacing1=6, spacing2=4, spacing3=6,
-                             borderwidth=0, highlightthickness=0)
-        text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        # 创建Treeview组件
+        columns = ('abbrev', 'fullname', 'chinese', 'definition')
+        self.desc_tree = ttk.Treeview(
+            tree_frame,
+            columns=columns,
+            show='headings',
+            height=15,
+            style='ResultTreeview.Treeview'
+        )
         
-        # 设置制表符宽度，确保列对齐
-        text_widget.config(tabs=('2c', '9c', '13c'))
+        # 配置行标签，用于交替背景色
+        self.desc_tree.tag_configure('row_bg1', background='#ffffff')
+        self.desc_tree.tag_configure('row_bg2', background='#f9f9f9')
         
-        # 配置标签样式
-        text_widget.tag_config('header', font=('微软雅黑', 10, 'bold'), background='#f5f5f5')
-        text_widget.tag_config('abbrev', font=('微软雅黑', 10))
-        text_widget.tag_config('fullname', font=('微软雅黑', 10))
-        text_widget.tag_config('chinese', font=('微软雅黑', 10))
-        text_widget.tag_config('definition', font=('微软雅黑', 10))
-        text_widget.tag_config('italic', font=('微软雅黑', 10, 'italic'))
-        text_widget.tag_config('row_bg1', background='#ffffff')
-        text_widget.tag_config('row_bg2', background='#f9f9f9')
+        # 设置列标题
+        self.desc_tree.heading('abbrev', text='缩写')
+        self.desc_tree.heading('fullname', text='英文全称')
+        self.desc_tree.heading('chinese', text='中文含义')
+        self.desc_tree.heading('definition', text='Digest2定义')
+        
+        # 设置列宽
+        self.desc_tree.column('abbrev', width=80, minwidth=60)
+        self.desc_tree.column('fullname', width=200, minwidth=150)
+        self.desc_tree.column('chinese', width=150, minwidth=100)
+        self.desc_tree.column('definition', width=600, minwidth=300)
         
         # 轨道类型说明（使用 Digest2 官方定义及标准天文学参数）
         orbit_types = [
-            ('Int', 'MPC Interesting', 'MPC关注天体', '满足以下任一条件：q < 1.3 AU，Q > 10 AU，e ≥ 0.5，i ≥ 40°'),
-            ('NEO', 'Near-Earth Object', '近地天体', 'q < 1.3 AU'),
-            ('N22', 'Intermediate-size Near-Earth Object', '中等大小近地天体', 'D > 140 m。q < 1.3 AU，H < 22.5'),
-            ('N18', 'Large Near-Earth Object', '大型近地天体', 'D > 1.2 km。q < 1.3 AU，H < 18.5'),
-            ('MC', 'Mars Crosser', '越火小天体', '穿越火星轨道。1.3 AU < q < 1.67 AU，Q > 1.58 AU'),
-            ('Hun', 'Hungaria Group', '匈牙利群', '以434号小行星匈牙利星为代表的小行星群。1.78 AU < a < 2 AU，e < 0.18，16° < i < 34°'),
-            ('Pho', 'Phocaea Group', '福后星群', '以25号小行星福后星为代表的小行星群。q > 1.5 AU，2.2 AU < a < 2.45 AU，20° < i < 27°'),
-            ('MB1', 'Inner Main Belt', '内主带', 'q > 1.67 AU，2.1 AU < a < 2.5 AU，i < ((a-2.1)/0.4)*10+7'),
-            ('Pal', 'Pallas Group', '智神星群', '以2号小行星智神星为代表的小行星群。2.5 AU < a < 2.8 AU，e < 0.35，24° < i < 37°'),
-            ('Han', 'Hansa Group', '汉萨群', '以480号小行星汉萨星为代表的小行星群。2.55 AU < a < 2.72 AU，e < 0.25，20° < i < 23.5°'),
-            ('MB2', 'Middle Main Belt', '中主带', '2.5 AU < a < 2.8 AU，e < 0.45，i < 20°'),
-            ('MB3', 'Outer Main Belt', '外主带', '2.8 AU < a < 3.25 AU，e < 0.4，i < ((a-2.8)/0.45)*16+20'),
-            ('Hil', 'Hilda Group', '希尔达群', '以153号小行星希尔达星为代表的小行星群。3.9 AU < a < 4.02 AU，e < 0.4，i < 18°'),
-            ('JTr', 'Jupiter Trojan', '木星特洛伊群', '位于木星 L4、L5 拉格朗日点的小行星群，5.05 AU < a < 5.35 AU，e < 0.22，i < 38°'),
-            ('JFC', 'Jupiter Family Comet', '木星族彗星', 'q > 1.3 AU，2 < TJ < 3'),
+            ('Int', 'MPC Interesting', 'MPC关注天体', '满足以下任一条件：𝑞 < 1.3 AU，𝑄 > 10 AU，𝑒 ≥ 0.5，𝑖 ≥ 40°'),
+            ('NEO', 'Near-Earth Object', '近地天体', '𝑞 < 1.3 AU'),
+            ('N22', 'Intermediate-size Near-Earth Object', '中等大小近地天体', '𝐷 > 140 m。𝑞 < 1.3 AU，𝐻 < 22.5'),
+            ('N18', 'Large Near-Earth Object', '大型近地天体', '𝐷 > 1.2 km。𝑞 < 1.3 AU，𝐻 < 18.5'),
+            ('MC', 'Mars Crosser', '越火小天体', '穿越火星轨道。1.3 AU < 𝑞 < 1.67 AU，𝑄 > 1.58 AU'),
+            ('Hun', 'Hungaria Group', '匈牙利群', '以434号小行星匈牙利星为代表的小行星群。1.78 AU < 𝑎 < 2 AU，𝑒 < 0.18，16° < 𝑖 < 34°'),
+            ('Pho', 'Phocaea Group', '福后星群', '以25号小行星福后星为代表的小行星群。𝑞 > 1.5 AU，2.2 AU < 𝑎 < 2.45 AU，20° < 𝑖 < 27°'),
+            ('MB1', 'Inner Main Belt', '内主带', '𝑞 > 1.67 AU，2.1 AU < 𝑎 < 2.5 AU，𝑖 < ((𝑎-2.1)/0.4)*10+7'),
+            ('Pal', 'Pallas Group', '智神星群', '以2号小行星智神星为代表的小行星群。2.5 AU < 𝑎 < 2.8 AU，𝑒 < 0.35，24° < 𝑖 < 37°'),
+            ('Han', 'Hansa Group', '汉萨群', '以480号小行星汉萨星为代表的小行星群。2.55 AU < 𝑎 < 2.72 AU，𝑒 < 0.25，20° < 𝑖 < 23.5°'),
+            ('MB2', 'Middle Main Belt', '中主带', '2.5 AU < 𝑎 < 2.8 AU，𝑒 < 0.45，𝑖 < 20°'),
+            ('MB3', 'Outer Main Belt', '外主带', '2.8 AU < 𝑎 < 3.25 AU，𝑒 < 0.4，𝑖 < ((𝑎-2.8)/0.45)*16+20'),
+            ('Hil', 'Hilda Group', '希尔达群', '以153号小行星希尔达星为代表的小行星群。3.9 AU < 𝑎 < 4.02 AU，𝑒 < 0.4，𝑖 < 18°'),
+            ('JTr', 'Jupiter Trojan', '木星特洛伊群', '位于木星 L4、L5 拉格朗日点的小行星群，5.05 AU < 𝑎 < 5.35 AU，𝑒 < 0.22，𝑖 < 38°'),
+            ('JFC', 'Jupiter Family Comet', '木星族彗星', '𝑞 > 1.3 AU，2 < 𝑇𝐽 < 3'),
         ]
-        
-        # 添加表头
-        text_widget.insert(tk.END, '  缩写\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, '英文全称\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, '中文含义\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, 'Digest2定义\n', ('header', 'row_bg1'))
         
         # 添加数据行
         for i, (abbrev, fullname, chinese, definition) in enumerate(orbit_types):
             bg_tag = 'row_bg1' if i % 2 == 0 else 'row_bg2'
-            
-            text_widget.insert(tk.END, f'  {abbrev}\t', ('abbrev', bg_tag))
-            text_widget.insert(tk.END, f'{fullname}\t', ('fullname', bg_tag))
-            text_widget.insert(tk.END, f'{chinese}\t', ('chinese', bg_tag))
-            
-            # 插入定义并标记需要斜体的部分
-            self.insert_definition_with_italic(text_widget, definition, bg_tag)
-            text_widget.insert(tk.END, '\n')
+            self.desc_tree.insert('', tk.END, values=(abbrev, fullname, chinese, definition), tags=(bg_tag,))
         
-        text_widget.config(state=tk.DISABLED)
+        # 滚动条
+        scrollbar_y = ttk.Scrollbar(tree_frame, orient=tk.VERTICAL, command=self.desc_tree.yview)
+        scrollbar_x = ttk.Scrollbar(tree_frame, orient=tk.HORIZONTAL, command=self.desc_tree.xview)
+        self.desc_tree.configure(yscrollcommand=scrollbar_y.set, xscrollcommand=scrollbar_x.set)
         
-        # 添加滚动条
-        scrollbar_y = ttk.Scrollbar(text_frame, orient=tk.VERTICAL, command=text_widget.yview)
-        scrollbar_y.pack(side=tk.RIGHT, fill=tk.Y)
-        text_widget.configure(yscrollcommand=scrollbar_y.set)
+        self.desc_tree.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        scrollbar_y.grid(row=0, column=1, sticky=(tk.N, tk.S))
+        scrollbar_x.grid(row=1, column=0, sticky=(tk.W, tk.E))
         
-        self.desc_text = text_widget
+        tree_frame.columnconfigure(0, weight=1)
+        tree_frame.rowconfigure(0, weight=1)
     
     def insert_definition_with_italic(self, text_widget, definition, bg_tag):
         """插入定义文本，使用数学斜体符号"""

@@ -331,71 +331,69 @@ class Digest2GUI:
         title_line = ttk.Frame(main_frame, height=2, style='TitleLine.TFrame')
         title_line.pack(anchor=tk.W, fill=tk.X, pady=(0, 15))
         
-        # Create text container (supports rich text)
-        text_frame = ttk.Frame(main_frame, relief='solid', borderwidth=1)
-        text_frame.pack(fill=tk.BOTH, expand=True)
+        # Create Treeview container
+        tree_frame = ttk.Frame(main_frame, relief='solid', borderwidth=1)
+        tree_frame.pack(fill=tk.BOTH, expand=True)
         
-        # Create Text widget
-        text_widget = tk.Text(text_frame, wrap=tk.WORD, font=('Segoe UI', 11), 
-                             bg='#ffffff', relief='flat', spacing1=6, spacing2=4, spacing3=6,
-                             borderwidth=0, highlightthickness=0)
-        text_widget.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        # Create Treeview widget
+        columns = ('abbrev', 'fullname', 'definition')
+        self.desc_tree = ttk.Treeview(
+            tree_frame,
+            columns=columns,
+            show='headings',
+            height=15,
+            style='ResultTreeview.Treeview'
+        )
         
-        # Set tab stops for column alignment
-        text_widget.config(tabs=('3c', '12c'))
+        # Configure row tags for alternating background colors
+        self.desc_tree.tag_configure('row_bg1', background='#ffffff')
+        self.desc_tree.tag_configure('row_bg2', background='#f9f9f9')
         
-        # Configure tag styles
-        text_widget.tag_config('header', font=('Segoe UI', 11, 'bold'), background='#f5f5f5')
-        text_widget.tag_config('abbrev', font=('Segoe UI', 11))
-        text_widget.tag_config('fullname', font=('Segoe UI', 11))
-        text_widget.tag_config('definition', font=('Segoe UI', 11))
-        text_widget.tag_config('italic', font=('Segoe UI', 11, 'italic'))
-        text_widget.tag_config('row_bg1', background='#ffffff')
-        text_widget.tag_config('row_bg2', background='#f9f9f9')
+        # Set column headers
+        self.desc_tree.heading('abbrev', text='Abbr')
+        self.desc_tree.heading('fullname', text='Full Name')
+        self.desc_tree.heading('definition', text='Digest2 Definition')
+        
+        # Set column widths
+        self.desc_tree.column('abbrev', width=80, minwidth=60)
+        self.desc_tree.column('fullname', width=250, minwidth=200)
+        self.desc_tree.column('definition', width=650, minwidth=400)
         
         # Orbit type descriptions (using Digest2 official definitions and standard astronomical parameters)
         orbit_types = [
-            ('Int', 'MPC Interesting', 'Meets any of: q < 1.3 AU, Q > 10 AU, e ≥ 0.5, i ≥ 40°'),
-            ('NEO', 'Near-Earth Object', 'q < 1.3 AU'),
-            ('N22', 'Intermediate-size Near-Earth Object', 'D > 140 m. q < 1.3 AU, H < 22.5'),
-            ('N18', 'Large Near-Earth Object', 'D > 1.2 km. q < 1.3 AU, H < 18.5'),
-            ('MC', 'Mars Crosser', 'Crosses Mars orbit. 1.3 AU < q < 1.67 AU, Q > 1.58 AU'),
-            ('Hun', 'Hungaria Group', 'Group represented by 434 Hungaria. 1.78 AU < a < 2 AU, e < 0.18, 16° < i < 34°'),
-            ('Pho', 'Phocaea Group', 'Group represented by 25 Phocaea. q > 1.5 AU, 2.2 AU < a < 2.45 AU, 20° < i < 27°'),
-            ('MB1', 'Inner Main Belt', 'q > 1.67 AU, 2.1 AU < a < 2.5 AU, i < ((a-2.1)/0.4)*10+7'),
-            ('Pal', 'Pallas Group', 'Group represented by 2 Pallas. 2.5 AU < a < 2.8 AU, e < 0.35, 24° < i < 37°'),
-            ('Han', 'Hansa Group', 'Group represented by 480 Hansa. 2.55 AU < a < 2.72 AU, e < 0.25, 20° < i < 23.5°'),
-            ('MB2', 'Middle Main Belt', '2.5 AU < a < 2.8 AU, e < 0.45, i < 20°'),
-            ('MB3', 'Outer Main Belt', '2.8 AU < a < 3.25 AU, e < 0.4, i < ((a-2.8)/0.45)*16+20'),
-            ('Hil', 'Hilda Group', 'Group represented by 153 Hilda. 3.9 AU < a < 4.02 AU, e < 0.4, i < 18°'),
-            ('JTr', 'Jupiter Trojan', 'Asteroids in Jupiter\'s L4/L5 Lagrange points. 5.05 AU < a < 5.35 AU, e < 0.22, i < 38°'),
-            ('JFC', 'Jupiter Family Comet', 'q > 1.3 AU, 2 < TJ < 3'),
+            ('Int', 'MPC Interesting', 'Meets any of: 𝑞 < 1.3 AU, 𝑄 > 10 AU, 𝑒 ≥ 0.5, 𝑖 ≥ 40°'),
+            ('NEO', 'Near-Earth Object', '𝑞 < 1.3 AU'),
+            ('N22', 'Intermediate-size Near-Earth Object', '𝐷 > 140 m. 𝑞 < 1.3 AU, 𝐻 < 22.5'),
+            ('N18', 'Large Near-Earth Object', '𝐷 > 1.2 km. 𝑞 < 1.3 AU, 𝐻 < 18.5'),
+            ('MC', 'Mars Crosser', 'Crosses Mars orbit. 1.3 AU < 𝑞 < 1.67 AU, 𝑄 > 1.58 AU'),
+            ('Hun', 'Hungaria Group', 'Group represented by 434 Hungaria. 1.78 AU < 𝑎 < 2 AU, 𝑒 < 0.18, 16° < 𝑖 < 34°'),
+            ('Pho', 'Phocaea Group', 'Group represented by 25 Phocaea. 𝑞 > 1.5 AU, 2.2 AU < 𝑎 < 2.45 AU, 20° < 𝑖 < 27°'),
+            ('MB1', 'Inner Main Belt', '𝑞 > 1.67 AU, 2.1 AU < 𝑎 < 2.5 AU, 𝑖 < ((𝑎-2.1)/0.4)*10+7'),
+            ('Pal', 'Pallas Group', 'Group represented by 2 Pallas. 2.5 AU < 𝑎 < 2.8 AU, 𝑒 < 0.35, 24° < 𝑖 < 37°'),
+            ('Han', 'Hansa Group', 'Group represented by 480 Hansa. 2.55 AU < 𝑎 < 2.72 AU, 𝑒 < 0.25, 20° < 𝑖 < 23.5°'),
+            ('MB2', 'Middle Main Belt', '2.5 AU < 𝑎 < 2.8 AU, 𝑒 < 0.45, 𝑖 < 20°'),
+            ('MB3', 'Outer Main Belt', '2.8 AU < 𝑎 < 3.25 AU, 𝑒 < 0.4, 𝑖 < ((𝑎-2.8)/0.45)*16+20'),
+            ('Hil', 'Hilda Group', 'Group represented by 153 Hilda. 3.9 AU < 𝑎 < 4.02 AU, 𝑒 < 0.4, 𝑖 < 18°'),
+            ('JTr', 'Jupiter Trojan', 'Asteroids in Jupiter\'s L4/L5 Lagrange points. 5.05 AU < 𝑎 < 5.35 AU, 𝑒 < 0.22, 𝑖 < 38°'),
+            ('JFC', 'Jupiter Family Comet', '𝑞 > 1.3 AU, 2 < 𝑇𝐽 < 3'),
         ]
-        
-        # Add header
-        text_widget.insert(tk.END, '  Abbr\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, 'Full Name\t', ('header', 'row_bg1'))
-        text_widget.insert(tk.END, 'Digest2 Definition\n', ('header', 'row_bg1'))
         
         # Add data rows
         for i, (abbrev, fullname, definition) in enumerate(orbit_types):
             bg_tag = 'row_bg1' if i % 2 == 0 else 'row_bg2'
-            
-            text_widget.insert(tk.END, f'  {abbrev}\t', ('abbrev', bg_tag))
-            text_widget.insert(tk.END, f'{fullname}\t', ('fullname', bg_tag))
-            
-            # Insert definition and mark italic parts
-            self.insert_definition_with_italic(text_widget, definition, bg_tag)
-            text_widget.insert(tk.END, '\n')
+            self.desc_tree.insert('', tk.END, values=(abbrev, fullname, definition), tags=(bg_tag,))
         
-        text_widget.config(state=tk.DISABLED)
+        # Scrollbars
+        scrollbar_y = ttk.Scrollbar(tree_frame, orient=tk.VERTICAL, command=self.desc_tree.yview)
+        scrollbar_x = ttk.Scrollbar(tree_frame, orient=tk.HORIZONTAL, command=self.desc_tree.xview)
+        self.desc_tree.configure(yscrollcommand=scrollbar_y.set, xscrollcommand=scrollbar_x.set)
         
-        # Add scrollbar
-        scrollbar_y = ttk.Scrollbar(text_frame, orient=tk.VERTICAL, command=text_widget.yview)
-        scrollbar_y.pack(side=tk.RIGHT, fill=tk.Y)
-        text_widget.configure(yscrollcommand=scrollbar_y.set)
+        self.desc_tree.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        scrollbar_y.grid(row=0, column=1, sticky=(tk.N, tk.S))
+        scrollbar_x.grid(row=1, column=0, sticky=(tk.W, tk.E))
         
-        self.desc_text = text_widget
+        tree_frame.columnconfigure(0, weight=1)
+        tree_frame.rowconfigure(0, weight=1)
     
     def insert_definition_with_italic(self, text_widget, definition, bg_tag):
         """Insert definition text, use mathematical italic symbols"""
