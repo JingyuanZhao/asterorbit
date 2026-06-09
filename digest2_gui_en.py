@@ -175,7 +175,7 @@ class Digest2GUI:
     def create_evaluation_tab(self):
         """Create evaluation tab"""
         eval_frame = ttk.Frame(self.notebook)
-        self.notebook.add(eval_frame, text='Classification')
+        self.notebook.add(eval_frame, text='Rating')
         
         # Configure grid weights
         eval_frame.columnconfigure(0, weight=1)
