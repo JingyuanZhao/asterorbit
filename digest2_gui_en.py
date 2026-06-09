@@ -355,9 +355,9 @@ class Digest2GUI:
         self.desc_tree.heading('definition', text='Digest2 Definition')
         
         # Set column widths
-        self.desc_tree.column('abbrev', width=80, minwidth=60)
+        self.desc_tree.column('abbrev', width=50, minwidth=40)
         self.desc_tree.column('fullname', width=250, minwidth=200)
-        self.desc_tree.column('definition', width=650, minwidth=400)
+        self.desc_tree.column('definition', width=680, minwidth=400)
         
         # Orbit type descriptions (using Digest2 official definitions and standard astronomical parameters)
         orbit_types = [
