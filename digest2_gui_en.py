@@ -188,7 +188,7 @@ class Digest2GUI:
             text="Select a file or enter short-arc observation data for asteroids in MPC 80-column or ADES format, click \"Start Analysis\", and the program will automatically evaluate orbit types.",
             wraplength=1100
         )
-        desc_label.grid(row=0, column=0, columnspan=3, pady=(0, 10), sticky=tk.W)
+        desc_label.grid(row=0, column=0, columnspan=3, pady=(10, 10), sticky=tk.W)
         
         # File selection area
         file_frame = ttk.LabelFrame(eval_frame, text="File Selection", padding="10")

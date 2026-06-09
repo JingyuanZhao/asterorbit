@@ -195,7 +195,7 @@ class Digest2GUI:
             text="选择文件或输入小行星的 MPC 80列、ADES 格式短弧观测数据，点击\"开始分析\"，程序将自动评估轨道类型。",
             wraplength=800
         )
-        desc_label.grid(row=0, column=0, columnspan=3, pady=(0, 10), sticky=tk.W)
+        desc_label.grid(row=0, column=0, columnspan=3, pady=(10, 10), sticky=tk.W)
         
         # 文件选择区域
         file_frame = ttk.LabelFrame(eval_frame, text="文件选择", padding="10")
