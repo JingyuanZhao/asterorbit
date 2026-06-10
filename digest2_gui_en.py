@@ -186,7 +186,7 @@ class Digest2GUI:
         # Description text
         desc_label = ttk.Label(
             eval_frame,
-            text="Select a file or enter short-arc observation data for asteroids in MPC 80-column or ADES format, click \"Start Analysis\", and the program will automatically evaluate orbit types.\nYour data will be processed instantly but not stored, retained, or recorded in any form.",
+            text="Select a file or enter short-arc observation data for asteroids in MPC 80-column or ADES format, click \"Start Analysis\", and the program will automatically evaluate orbit types.\nYour data will not be stored, retained, or recorded in any form.",
             wraplength=0
         )
         desc_label.grid(row=0, column=0, columnspan=3, pady=(10, 5), sticky=(tk.W, tk.E))
@@ -489,7 +489,7 @@ class Digest2GUI:
                                   borderwidth=0, highlightthickness=0,
                                   insertwidth=0)
         about_text_widget.pack(fill=tk.X, anchor=tk.W, pady=(0, 15))
-        about_text_widget.insert(tk.END, "This application is built by Jingyuan Zhao based on the official open source Digest2 code from the Minor Planet Center (MPC), and is not an official MPC project. Digest2 source code authors: Sonia Keys, Carl Hergenrother, Robert McNaught, David Asher, with ADES support added by Richard Cloete and Peter Vereš.\n\nYour data will be processed instantly but not stored, retained, or recorded in any form.")
+        about_text_widget.insert(tk.END, "This application is built by Jingyuan Zhao based on the official open source Digest2 code from the Minor Planet Center (MPC), and is not an official MPC project. Digest2 source code authors: Sonia Keys, Carl Hergenrother, Robert McNaught, David Asher, with ADES support added by Richard Cloete and Peter Vereš.\n\nYour data will not be stored, retained, or recorded in any form.")
         
         # Add right-click menu for about_text_widget
         about_text_widget.bind('<Button-3>', lambda e: self.show_about_context_menu(e, about_text_widget))
