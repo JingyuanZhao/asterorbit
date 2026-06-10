@@ -186,10 +186,10 @@ class Digest2GUI:
         # Description text
         desc_label = ttk.Label(
             eval_frame,
-            text="Select a file or enter short-arc observation data for asteroids in MPC 80-column or ADES format, click \"Start Analysis\", and the program will automatically evaluate orbit types.",
-            wraplength=1100
+            text="Select a file or enter short-arc observation data for asteroids in MPC 80-column or ADES format, click \"Start Analysis\", and the program will automatically evaluate orbit types.\nYour data will be processed instantly but not stored, retained, or recorded in any form.",
+            wraplength=0
         )
-        desc_label.grid(row=0, column=0, columnspan=3, pady=(10, 10), sticky=tk.W)
+        desc_label.grid(row=0, column=0, columnspan=3, pady=(10, 5), sticky=(tk.W, tk.E))
         
         # File selection area
         file_frame = ttk.LabelFrame(eval_frame, text="File Selection", padding="10", style='Bold.TLabelframe')
@@ -483,13 +483,13 @@ class Digest2GUI:
         title_line.pack(anchor=tk.W, fill=tk.X, pady=(0, 15))
         
         # Add disclaimer information (merge copyright and disclaimer) - use Text widget to ensure proper wrapping
-        about_text_widget = tk.Text(content_frame, wrap=tk.WORD, height=2, 
+        about_text_widget = tk.Text(content_frame, wrap=tk.WORD, height=4, 
                                   font=('Segoe UI', 11), bg='#f5f5f5', relief='flat',
                                   foreground='#333', spacing1=3, spacing2=2, spacing3=3,
                                   borderwidth=0, highlightthickness=0,
                                   insertwidth=0)
         about_text_widget.pack(fill=tk.X, anchor=tk.W, pady=(0, 15))
-        about_text_widget.insert(tk.END, "This application is built by Jingyuan Zhao based on the official open source Digest2 code from the Minor Planet Center (MPC), and is not an official MPC project. Digest2 source code authors: Sonia Keys, Carl Hergenrother, Robert McNaught, David Asher, with ADES support added by Richard Cloete and Peter Vereš.")
+        about_text_widget.insert(tk.END, "This application is built by Jingyuan Zhao based on the official open source Digest2 code from the Minor Planet Center (MPC), and is not an official MPC project. Digest2 source code authors: Sonia Keys, Carl Hergenrother, Robert McNaught, David Asher, with ADES support added by Richard Cloete and Peter Vereš.\n\nYour data will be processed instantly but not stored, retained, or recorded in any form.")
         
         # Add right-click menu for about_text_widget
         about_text_widget.bind('<Button-3>', lambda e: self.show_about_context_menu(e, about_text_widget))

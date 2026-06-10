@@ -193,10 +193,10 @@ class Digest2GUI:
         # 说明文字
         desc_label = ttk.Label(
             eval_frame,
-            text="选择文件或输入小行星的 MPC 80列、ADES 格式短弧观测数据，点击\"开始分析\"，程序将自动评估轨道类型。",
-            wraplength=800
+            text="选择文件或输入小行星的 MPC 80列、ADES 格式短弧观测数据，点击\"开始分析\"，程序将自动评估轨道类型。您提交的数据仅用于即时处理，不会以任何形式存储、保留或记录。",
+            wraplength=0
         )
-        desc_label.grid(row=0, column=0, columnspan=3, pady=(10, 10), sticky=tk.W)
+        desc_label.grid(row=0, column=0, columnspan=3, pady=(10, 5), sticky=(tk.W, tk.E))
         
         # 文件选择区域
         file_frame = ttk.LabelFrame(eval_frame, text="文件选择", padding="10", style='Bold.TLabelframe')
@@ -492,13 +492,13 @@ class Digest2GUI:
         title_line.pack(anchor=tk.W, fill=tk.X, pady=(0, 15))
         
         # 添加声明信息（合并版权和声明）- 使用Text控件确保正确换行
-        about_text_widget = tk.Text(content_frame, wrap=tk.WORD, height=2, 
+        about_text_widget = tk.Text(content_frame, wrap=tk.WORD, height=4, 
                                   font=('微软雅黑', 11), bg='#f5f5f5', relief='flat',
                                   foreground='#333', spacing1=3, spacing2=2, spacing3=3,
                                   borderwidth=0, highlightthickness=0,
                                   insertwidth=0)
         about_text_widget.pack(fill=tk.X, anchor=tk.W, pady=(0, 15))
-        about_text_widget.insert(tk.END, "本应用由赵经远基于小行星中心（MPC）官方开源的Digest2源代码构建，非MPC官方项目。Digest2源代码作者：Sonia Keys、Carl Hergenrother、Robert McNaught、David Asher，源代码中的ADES支持由 Richard Cloete 和 Peter Vereš添加。")
+        about_text_widget.insert(tk.END, "本应用由赵经远基于小行星中心（MPC）官方开源的Digest2源代码构建，非MPC官方项目。Digest2源代码作者：Sonia Keys、Carl Hergenrother、Robert McNaught、David Asher，源代码中的ADES支持由 Richard Cloete 和 Peter Vereš添加。\n\n您提交的数据仅用于即时处理，不会以任何形式存储、保留或记录。")
         
         # 为about_text_widget添加右键菜单
         about_text_widget.bind('<Button-3>', lambda e: self.show_about_context_menu(e, about_text_widget))
