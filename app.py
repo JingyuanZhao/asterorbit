@@ -3,6 +3,8 @@
 
 import os
 import sys
+import secrets
+import stat
 from flask import Flask, render_template, request, jsonify
 import tempfile
 
@@ -27,6 +29,32 @@ except ImportError:
     HAS_DOCX = False
 
 app = Flask(__name__)
+
+# 禁用Flask默认的请求日志，避免记录请求体内容
+import logging
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
+
+def _secure_unlink(path):
+    """安全删除文件：先覆盖内容再删除，降低数据恢复风险"""
+    try:
+        if os.path.exists(path):
+            # 获取文件大小并覆盖为随机数据
+            size = os.path.getsize(path)
+            if size > 0:
+                # 多次覆盖以提高安全性
+                for _ in range(3):
+                    with open(path, 'wb') as f:
+                        f.write(secrets.token_bytes(min(size, 65536)))
+                        f.flush()
+                        os.fsync(f.fileno())
+            os.unlink(path)
+    except Exception:
+        # 即使覆盖失败也尝试删除
+        try:
+            os.unlink(path)
+        except Exception:
+            pass
 
 @app.route('/')
 def index():
@@ -165,11 +193,13 @@ def _analyze_ades_xml_input(input_data):
     results = []
     from digest2.observation import parse_ades_xml
     
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.xml', delete=False, encoding='utf-8') as f:
-        f.write(input_data)
-        temp_path = f.name
-    
+    fd, temp_path = tempfile.mkstemp(suffix='.xml')
     try:
+        with os.fdopen(fd, 'w', encoding='utf-8') as f:
+            f.write(input_data)
+        # 限制文件权限，仅所有者可读写
+        os.chmod(temp_path, stat.S_IRUSR | stat.S_IWUSR)
+        
         tracklets = parse_ades_xml(temp_path)
         
         for desig in tracklets:
@@ -184,21 +214,20 @@ def _analyze_ades_xml_input(input_data):
                     continue
     
     finally:
-        os.unlink(temp_path)
+        _secure_unlink(temp_path)
     
     return results
 
 def _analyze_ades_psv_input(input_data):
     results = []
     from digest2.observation import parse_ades_psv
-    import tempfile
-    import os
     
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.psv', delete=False, encoding='utf-8') as f:
-        f.write(input_data)
-        temp_path = f.name
-    
+    fd, temp_path = tempfile.mkstemp(suffix='.psv')
     try:
+        with os.fdopen(fd, 'w', encoding='utf-8') as f:
+            f.write(input_data)
+        os.chmod(temp_path, stat.S_IRUSR | stat.S_IWUSR)
+        
         tracklets = parse_ades_psv(temp_path)
         
         for desig in tracklets:
@@ -212,7 +241,7 @@ def _analyze_ades_psv_input(input_data):
                 except Exception:
                     continue
     finally:
-        os.unlink(temp_path)
+        _secure_unlink(temp_path)
     
     return results
 
@@ -497,12 +526,13 @@ def upload_docx():
         if ext not in ['docx', 'doc']:
             return jsonify({'success': False, 'error': '不支持的文件格式'}), 400
         
-        # 保存临时文件
-        with tempfile.NamedTemporaryFile(mode='wb', suffix='.docx', delete=False) as f:
-            file.save(f.name)
-            temp_path = f.name
-        
+        # 保存临时文件到安全目录
+        fd, temp_path = tempfile.mkstemp(suffix='.docx')
         try:
+            with os.fdopen(fd, 'wb') as f:
+                file.save(f.name)
+            os.chmod(temp_path, stat.S_IRUSR | stat.S_IWUSR)
+            
             # 读取docx内容
             doc = Document(temp_path)
             text_lines = []
@@ -515,7 +545,7 @@ def upload_docx():
             return jsonify({'success': True, 'content': filtered_content})
         
         finally:
-            os.unlink(temp_path)
+            _secure_unlink(temp_path)
     
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
