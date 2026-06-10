@@ -1614,8 +1614,13 @@ class Digest2GUI:
                 # Parse observation data
                 obs = _parse_ades_psv_row(row_dict)
                 if obs is not None:
-                    # Get designation
-                    desig = row_dict.get('provID', '') or row_dict.get('permID', '') or row_dict.get('trkSub', '')
+                    # Get designation: prefer permID, then provID, then trkSub
+                    desig = None
+                    for key in ('permID', 'provID', 'trkSub'):
+                        val = row_dict.get(key, '')
+                        if val and val != 'None':
+                            desig = val
+                            break
                     if desig:
                         if desig not in tracklets:
                             tracklets[desig] = []

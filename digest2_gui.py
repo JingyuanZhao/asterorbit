@@ -1623,8 +1623,13 @@ class Digest2GUI:
                 # 解析观测数据
                 obs = _parse_ades_psv_row(row_dict)
                 if obs is not None:
-                    # 获取天体名称
-                    desig = row_dict.get('provID', '') or row_dict.get('permID', '') or row_dict.get('trkSub', '')
+                    # 获取天体名称：优先 permID，其次 provID，最后 trkSub
+                    desig = None
+                    for key in ('permID', 'provID', 'trkSub'):
+                        val = row_dict.get(key, '')
+                        if val and val != 'None':
+                            desig = val
+                            break
                     if desig:
                         if desig not in tracklets:
                             tracklets[desig] = []
