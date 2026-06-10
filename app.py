@@ -163,18 +163,56 @@ def analyze():
 
 def _analyze_ades_xml_input(input_data):
     results = []
-    from digest2.observation import parse_ades_xml
-    
+    from digest2.observation import _parse_ades_optical
+    from lxml import etree as ET
+    import tempfile
+    import os
+
     with tempfile.NamedTemporaryFile(mode='w', suffix='.xml', delete=False, encoding='utf-8') as f:
         f.write(input_data)
         temp_path = f.name
-    
+
     try:
-        tracklets = parse_ades_xml(temp_path)
-        
+        tree = ET.parse(temp_path)
+        root = tree.getroot()
+
+        ns = ""
+        if root.tag.startswith("{"):
+            ns = root.tag.split("}")[0] + "}"
+
+        tracklets = {}
+
+        def _process_optical(optical):
+            obs = _parse_ades_optical(optical, ns)
+            if obs is None:
+                return
+
+            permID_el = optical.find(f"{ns}permID")
+            provID_el = optical.find(f"{ns}provID")
+
+            desig = None
+            if permID_el is not None and permID_el.text:
+                desig = permID_el.text.strip()
+            elif provID_el is not None and provID_el.text:
+                desig = provID_el.text.strip()
+
+            if desig:
+                if desig not in tracklets:
+                    tracklets[desig] = []
+                tracklets[desig].append(obs)
+
+        for obs_block in root.iter(f"{ns}obsBlock"):
+            for obs_data in obs_block.iter(f"{ns}obsData"):
+                for optical in obs_data.iter(f"{ns}optical"):
+                    _process_optical(optical)
+
+        if not tracklets:
+            for optical in root.iter(f"{ns}optical"):
+                _process_optical(optical)
+
         for desig in tracklets:
             tracklets[desig].sort(key=lambda o: o.mjd)
-        
+
         with Digest2() as d2:
             for desig, obs_list in tracklets.items():
                 try:
@@ -182,28 +220,68 @@ def _analyze_ades_xml_input(input_data):
                     results.append(_format_result(result, desig))
                 except Exception:
                     continue
-    
+
     finally:
         os.unlink(temp_path)
-    
+
     return results
 
 def _analyze_ades_psv_input(input_data):
     results = []
-    from digest2.observation import parse_ades_psv
+    from digest2.observation import _parse_ades_psv_row
     import tempfile
     import os
-    
+
     with tempfile.NamedTemporaryFile(mode='w', suffix='.psv', delete=False, encoding='utf-8') as f:
         f.write(input_data)
         temp_path = f.name
-    
+
     try:
-        tracklets = parse_ades_psv(temp_path)
-        
+        tracklets = {}
+        headers = None
+
+        with open(temp_path, 'r', encoding='utf-8') as f:
+            for raw_line in f:
+                line = raw_line.rstrip('\n')
+                if not line or line.startswith('#'):
+                    continue
+                if line.startswith('!') and '|' not in line:
+                    continue
+                if line.startswith('!'):
+                    line = line[1:]
+                if headers is None:
+                    headers = [p.strip() for p in line.split('|')]
+                    if headers and headers[-1] == '':
+                        headers = headers[:-1]
+                    continue
+
+                fields = [p.strip() for p in line.split('|')]
+                if fields and fields[-1] == '':
+                    fields = fields[:-1]
+                if len(fields) != len(headers):
+                    continue
+
+                row = dict(zip(headers, fields))
+
+                desig = None
+                for key in ('permID', 'provID', 'trkSub'):
+                    val = row.get(key, '')
+                    if val and val != 'None':
+                        desig = val
+                        break
+
+                if not desig:
+                    continue
+
+                obs = _parse_ades_psv_row(row)
+                if obs is not None:
+                    if desig not in tracklets:
+                        tracklets[desig] = []
+                    tracklets[desig].append(obs)
+
         for desig in tracklets:
             tracklets[desig].sort(key=lambda o: o.mjd)
-        
+
         with Digest2() as d2:
             for desig, obs_list in tracklets.items():
                 try:
@@ -213,7 +291,7 @@ def _analyze_ades_psv_input(input_data):
                     continue
     finally:
         os.unlink(temp_path)
-    
+
     return results
 
 def _date_to_mjd(year, month, day):
