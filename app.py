@@ -46,6 +46,10 @@ def index():
     
     return render_template('index.html', digest2_version=digest2_version)
 
+@app.route('/health')
+def health():
+    return jsonify({'status': 'ok'}), 200
+
 @app.route('/types')
 def types():
     return render_template('types.html')
