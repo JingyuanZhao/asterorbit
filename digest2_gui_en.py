@@ -371,7 +371,7 @@ class Digest2GUI:
             ('NEO', 'Near-Earth Object', '𝑞 < 1.3 AU'),
             ('N22', 'Intermediate-size Near-Earth Object', '𝐷 > 140 m. 𝑞 < 1.3 AU, 𝐻 < 22.5'),
             ('N18', 'Large Near-Earth Object', '𝐷 > 1.2 km. 𝑞 < 1.3 AU, 𝐻 < 18.5'),
-            ('MC', 'Mars Crosser', 'Crosses Mars orbit. 1.3 AU < 𝑞 < 1.67 AU, 𝑄 > 1.58 AU'),
+            ('MC', 'Mars Crosser', 'Crosses Mars orbit. 1.3 AU ≤ 𝑞 < 1.67 AU, 𝑄 > 1.58 AU'),
             ('Hun', 'Hungaria Group', 'Group represented by 434 Hungaria. 1.78 AU < 𝑎 < 2 AU, 𝑒 < 0.18, 16° < 𝑖 < 34°'),
             ('Pho', 'Phocaea Group', 'Group represented by 25 Phocaea. 𝑞 > 1.5 AU, 2.2 AU < 𝑎 < 2.45 AU, 20° < 𝑖 < 27°'),
             ('MB1', 'Inner Main Belt', '𝑞 > 1.67 AU, 2.1 AU < 𝑎 < 2.5 AU, 𝑖 < 25a−45.5'),
